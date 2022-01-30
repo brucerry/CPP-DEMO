@@ -9,5 +9,5 @@
 
 
 Here are some of the resources that I practice in and search for C++ doc
-<p><a href="https://structy.net/" target="_blank">structy.net</a>
-<p><a href="https://www.cplusplus.com/reference/" target="_blank">cplusplus.com/reference</a>
+<p><a href="https://structy.net/" target="_blank" rel="noopener noreferrer">structy.net</a>
+<p><a href="https://www.cplusplus.com/reference/" target="_blank" rel="noopener noreferrer">cplusplus.com/reference</a>
