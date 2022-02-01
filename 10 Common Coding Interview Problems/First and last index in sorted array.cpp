@@ -1,4 +1,6 @@
 /*
+  using Binary Search
+
   n = length of nums
   
   time: O(log(n))
