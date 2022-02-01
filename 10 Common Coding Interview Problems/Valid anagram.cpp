@@ -1,4 +1,6 @@
 /*
+  using HashMap comparison
+
   n1 = length of s1
   n2 = length of s2
 
