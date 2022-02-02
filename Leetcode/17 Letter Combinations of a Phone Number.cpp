@@ -19,20 +19,20 @@ public:
     {'9', {"w","x","y","z"}}
   };
 
-  vector<string> letterCombinations(string digits) {
-    if (digits.length() == 0) return {};
+  vector<string> letterCombinations(string digits, int idx) {
+    if (idx == digits.length()) return {};
 
-    vector<string> subCombinations = letterCombinations(digits.substr(1));
+    vector<string> subCombinations = letterCombinations(digits, idx + 1);
 
     vector<string> result;
     
     if (subCombinations.size() == 0) {
-      for (auto alphabet : mapping[digits[0]]) {
+      for (auto alphabet : mapping[digits[idx]]) {
         result.push_back(alphabet);
       }
     } else {
       for (auto combo : subCombinations) {
-        for (auto alphabet : mapping[digits[0]]) {
+        for (auto alphabet : mapping[digits[idx]]) {
           string str = alphabet + combo;
           result.push_back(str);
         }
@@ -41,6 +41,10 @@ public:
 
     return result;
   }
+
+   vector<string> letterCombinations(string digits) {
+     return letterCombinations(digits, 0);
+   }
 };
 
 
