@@ -13,15 +13,12 @@ public:
   int countOddLenPalin(string s) {
     int count = 0;
     for (int i = 0; i < s.length(); i++) {
-      int left = i - 1;
-      int right = i + 1;
-      while (left >= 0 && right < s.length()) {
-        if (s[left] == s[right]) {
-          count++;
-          left--;
-          right++;
-        }
-        else break;
+      int left = i;
+      int right = i;
+      while (left >= 0 && right < s.length() && s[left] == s[right]) {
+        count++;
+        left--;
+        right++;
       }
     }
     return count;
@@ -29,19 +26,13 @@ public:
   
   int countEvenLenPalin(string s) {
     int count = 0;
-    for (int i = 0, j = 1; j < s.length(); i++, j++) {
-      if (s[i] == s[j]) {
+    for (int i = 0; i < s.length(); i++) {
+      int left = i;
+      int right = i + 1;
+      while (left >= 0 && right < s.length() && s[left] == s[right]) {
         count++;
-        int left = i - 1;
-        int right = j + 1;
-        while (left >= 0 && right < s.length()) {
-          if (s[left] == s[right]) {
-            count++;
-            left--;
-            right++;
-          }
-          else break;
-        }
+        left--;
+        right++;
       }
     }
     return count;
@@ -51,7 +42,7 @@ public:
     int count = 0;
     count += countOddLenPalin(s);
     count += countEvenLenPalin(s);
-    return count + s.length();
+    return count;
   }
 };
 
