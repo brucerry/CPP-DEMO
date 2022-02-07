@@ -8,5 +8,5 @@
 ![5986024](https://user-images.githubusercontent.com/88369201/152857966-676dc147-b380-4cac-87d6-d752c3f19fcc.png)
 
 :pushpin: Here are some of the resources that I practice in and search for C++ doc
-<p><a href="https://structy.net/" target="_blank" rel="noopener noreferrer">structy.net</a>
-<p><a href="https://www.cplusplus.com/reference/" target="_blank" rel="noopener noreferrer">cplusplus.com/reference</a>
+- <a href="https://structy.net/" target="_blank" rel="noopener noreferrer">structy.net</a>
+- <a href="https://www.cplusplus.com/reference/" target="_blank" rel="noopener noreferrer">cplusplus.com/reference</a>
