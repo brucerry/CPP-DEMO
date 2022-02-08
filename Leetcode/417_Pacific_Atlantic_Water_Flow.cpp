@@ -11,10 +11,10 @@ private:
     if (visited[r][c]) return;
     visited[r][c] = true;
 
-    dfs(heights, r + 1, c, heights[r][c], visited);
-    dfs(heights, r, c + 1, heights[r][c], visited);
-    dfs(heights, r - 1, c, heights[r][c], visited);
-    dfs(heights, r, c - 1, heights[r][c], visited);
+    dfs(heights, r+1, c, heights[r][c], visited);
+    dfs(heights, r, c+1, heights[r][c], visited);
+    dfs(heights, r-1, c, heights[r][c], visited);
+    dfs(heights, r, c-1, heights[r][c], visited);
   }
 
 public:
