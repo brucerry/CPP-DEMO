@@ -12,4 +12,4 @@
   
 :pushpin: Resources sharing
 - learn data structures and algorithms - <a href="https://structy.net/">structy.net</a>
-- c++ doc - <a href="https://www.cplusplus.com/reference/">cplusplus.com/reference</a>
+- c++ docs - <a href="https://www.cplusplus.com/reference/">cplusplus.com/reference</a>
