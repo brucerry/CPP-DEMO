@@ -11,5 +11,5 @@
 - push practice code
   
 :pushpin: Resources sharing
-- <a href="https://structy.net/" target="_blank" rel="noopener noreferrer">structy.net</a>
-- <a href="https://www.cplusplus.com/reference/" target="_blank" rel="noopener noreferrer">cplusplus.com/reference</a>
+- learn data structures and algorithms - <a href="https://structy.net/">structy.net</a>
+- c++ doc - <a href="https://www.cplusplus.com/reference/">cplusplus.com/reference</a>
