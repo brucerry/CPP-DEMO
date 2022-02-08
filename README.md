@@ -10,6 +10,6 @@
 :pushpin: On going
 - push practice code
   
-:pushpin: Some of the resources that I practice in and search for C++ doc
+:pushpin: Resources sharing
 - <a href="https://structy.net/" target="_blank" rel="noopener noreferrer">structy.net</a>
 - <a href="https://www.cplusplus.com/reference/" target="_blank" rel="noopener noreferrer">cplusplus.com/reference</a>
