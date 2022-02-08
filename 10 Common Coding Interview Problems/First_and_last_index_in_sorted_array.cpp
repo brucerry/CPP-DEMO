@@ -1,17 +1,15 @@
-/*
-  using Binary Search
-
-  n = length of nums
-  
-  time: O(log(n))
-  space: O(1)
-*/
-
 #include <iostream>
 #include <vector>
 #include <tuple>
 using namespace std;
 
+
+/*
+  using Binary Search
+    
+  time: O(log(n))
+  space: O(1)
+*/
 int findFirst(vector<int> nums, int target) {
   if (nums.front() == target) return 0;
   int left = 0, right = nums.size() - 1;
