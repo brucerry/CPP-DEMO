@@ -29,7 +29,7 @@ int findKthLargestElement(vector<int> numbers, int k) {
 
 
 // time: O(n * log(n))
-// space: O(1)
+// space: O(log(n)) to O(n) for the extra space required by the sorting process
 // int findKthLargestElement(vector<int> numbers, int k) {
 //   sort(numbers.begin(), numbers.end());
 //   return numbers[numbers.size() - k];
