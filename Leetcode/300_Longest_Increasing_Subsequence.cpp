@@ -28,9 +28,26 @@ private:
 public:
   // int lengthOfLIS(vector<int>& nums) {
   //   unordered_map<string, int> memo;
-  //   return lengthOfLIS(nums, -10001, 0, memo);
+  //   return lengthOfLIS(nums, INT_MIN, 0, memo);
   // }
 
+  // time: O(n^2)
+  // space: O(n)
+  // int lengthOfLIS(vector<int>& nums) {
+  //   vector<int> dp (nums.size(), 1);
+  //   int maxlen = 1;
+  //   for (int i = dp.size() - 1; i >= 0; i--) {
+  //     for (int j = i + 1; j < dp.size(); j++) {
+  //       if (nums[i] < nums[j]) {
+  //         dp[i] = max(dp[i], 1 + dp[j]);
+  //       }
+  //     }
+  //     maxlen = max(maxlen, dp[i]);
+  //   }
+  //   return maxlen;
+  // }
+
+  // binary search
   // time: O(n * log(n))
   // space: O(n)
   int lengthOfLIS(vector<int>& nums) {
