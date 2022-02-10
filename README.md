@@ -12,4 +12,4 @@
   
 ## Resources Sharing
 - learn data structures and algorithms - <a href="https://structy.net/">structy.net</a>
-- c++ docs - <a href="https://www.cplusplus.com/reference/">cplusplus.com/reference</a>
+- c++ doc with examples - <a href="https://www.cplusplus.com/reference/">cplusplus.com/reference</a>
