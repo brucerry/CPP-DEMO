@@ -87,4 +87,6 @@ int main() {
   cout << sol.alienOrder({"wrt", "wrf", "er", "ett", "rftt"}) << endl; // "wertf"
   cout << sol.alienOrder({"z", "x"}) << endl; // "zx"
   cout << sol.alienOrder({"zy", "zx"}) << endl; // "yxz"
+  cout << sol.alienOrder({"a", "b", "c", "a"}) << endl; // ""
+  cout << sol.alienOrder({"ab", "bc", "cd", "a"}) << endl; // ""
 }

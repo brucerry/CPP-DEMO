@@ -51,7 +51,7 @@ public:
   // time: O(n * log(n))
   // space: O(n)
   int lengthOfLIS(vector<int>& nums) {
-    vector<int> dp (1, INT_MIN);
+    vector<int> dp (1, nums[0]);
     for (auto num : nums) {
       int pos = lower_bound(dp.begin(), dp.end(), num) - dp.begin();
       if (pos == dp.size()) {
@@ -60,7 +60,7 @@ public:
         dp[pos] = num;
       }
     }
-    return dp.size() - 1;
+    return dp.size();
   }
 };
 

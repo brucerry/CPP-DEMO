@@ -5,6 +5,7 @@
     "vector": "cpp",
     "string": "cpp",
     "unordered_set": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "ostream": "cpp"
   }
 }
