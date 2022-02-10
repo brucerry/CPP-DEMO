@@ -14,7 +14,7 @@ int findFirst(vector<int> nums, int target) {
   if (nums.front() == target) return 0;
   int left = 0, right = nums.size() - 1;
   while (left <= right) {
-    int mid = (left + right) / 2;
+    int mid = left + (right - left) / 2;
     if (nums[mid] == target) {
       if (nums[mid - 1] < nums[mid]) return mid;
       else right = mid - 1;
@@ -29,7 +29,7 @@ int findEnd(vector<int> nums, int target) {
   if (nums.back() == target) return nums.size() - 1;
   int left = 0, right = nums.size() - 1;
   while (left <= right) {
-    int mid = (left + right) / 2;
+    int mid = left + (right - left) / 2;
     if (nums[mid] == target) {
       if (nums[mid + 1] > nums[mid]) return mid;
       else left = mid + 1;
