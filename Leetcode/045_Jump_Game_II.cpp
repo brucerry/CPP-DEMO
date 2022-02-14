@@ -5,6 +5,8 @@ using namespace std;
 
 class Solution {
 public:
+  // time: O(n)
+  // space: O(1)
   int jump(vector<int>& nums) {
     int steps = 0;
     int left = 0;
