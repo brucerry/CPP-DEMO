@@ -55,6 +55,8 @@ public:
 
   // bool wordBreak(string s, vector<string>& wordDict) {
   //   unordered_map<int, bool> memo;
+  //   memo.reserve(s.length());
+  //   memo.max_load_factor(0.25);
   //   return wordBreak(s, wordDict, 0, memo);
   // }
 };
