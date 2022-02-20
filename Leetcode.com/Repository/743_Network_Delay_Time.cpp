@@ -12,10 +12,8 @@ using namespace std;
 
 
 class Solution {
-public:
-
-  // helper functions
-  unordered_map<int, vector<tuple<int, int>>> makeGraph(vector<vector<int>> times) {
+private:
+  unordered_map<int, vector<tuple<int, int>>> buildGraph(vector<vector<int>> times) {
     unordered_map<int, vector<tuple<int, int>>> graph;
     for (auto data : times) {
       int startNode = data[0];
@@ -25,26 +23,26 @@ public:
     }
     return graph;
   }
-  // helper functions
 
+public:
   int networkDelayTime(vector<vector<int>> times, int n, int k) {
-    unordered_map<int, vector<tuple<int, int>>> graph = makeGraph(times);
+    unordered_map<int, vector<tuple<int, int>>> graph = buildGraph(times);
     unordered_set<int> visited;
-    priority_queue<tuple<int, int>, vector<tuple<int, int>>, greater<tuple<int, int>>> minHeap;
-    minHeap.push({0, k}); // { timeSpend, currentNode }
+    priority_queue<tuple<int, int>, vector<tuple<int, int>>, greater<tuple<int, int>>> pq;
+    pq.push({0, k}); // { timeSpend, currentNode }
 
     int totalTime = 0;
 
-    while (minHeap.size()) {
-      auto [ timeSpend, currentNode ] = minHeap.top();
-      minHeap.pop();
+    while (pq.size()) {
+      auto [ timeSpend, currentNode ] = pq.top();
+      pq.pop();
       if (visited.count(currentNode)) continue;
       visited.insert(currentNode);
       totalTime = max(totalTime, timeSpend);
       
       for (auto [ time, neighbor ] : graph[currentNode]) {
         if (visited.count(neighbor) == 0) {
-          minHeap.push({time + timeSpend, neighbor});
+          pq.push({time + timeSpend, neighbor});
         }
       }
     }
