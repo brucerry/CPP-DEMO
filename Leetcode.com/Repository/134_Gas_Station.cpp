@@ -16,12 +16,12 @@ public:
       sumOfCost += cost[i];
     }
     if (sumOfGas < sumOfCost) return -1;
-    int totalDiff = 0;
+    int remainGas = 0;
     int pos = 0;
-    for (int i = 0; i < len; i++) {
-      totalDiff += gas[i] - cost[i];
-      if (totalDiff < 0) {
-        totalDiff = 0;
+    for (int i = 0; i < len - 1; i++) {
+      remainGas += gas[i] - cost[i];
+      if (remainGas < 0) {
+        remainGas = 0;
         pos = i + 1;
       }
     }
