@@ -23,7 +23,7 @@ private:
     return graph;
   }
 
-  bool exploreAllNodes(unordered_map<int, vector<int>> graph, int node, int prevNode, unordered_set<int> &visited) {
+  bool exploreAllNodes(unordered_map<int, vector<int>>& graph, int node, int prevNode, unordered_set<int> &visited) {
     if (visited.count(node)) return false;
     visited.insert(node);
 
@@ -35,7 +35,7 @@ private:
   }
 
 public:
-  bool validTree(int n, vector<vector<int>> edges) {
+  bool validTree(int n, vector<vector<int>>& edges) {
     unordered_map<int, vector<int>> graph = buildGraph(edges);
     unordered_set<int> visited;
 
@@ -47,5 +47,7 @@ public:
 
 int main() {
   Solution sol;
-  cout << sol.validTree(5, {{0, 1}, {0, 2}, {0, 3}, {1, 3}});
+  int n = 5;
+  vector<vector<int>> edges {{0, 1}, {0, 2}, {0, 3}, {1, 3}};
+  cout << sol.validTree(n, edges);
 }
