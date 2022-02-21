@@ -7,7 +7,7 @@ using namespace std;
 
 class Solution {
 private:
-  vector<vector<string>> wordBreak(string s, vector<string>& wordDict, int idx, unordered_map<int, vector<vector<string>>>& memo) {
+  vector<vector<string>> wordBreak(string& s, vector<string>& wordDict, int idx, unordered_map<int, vector<vector<string>>>& memo) {
     if (idx == s.length()) return {{}};
     if (memo.count(idx)) return memo[idx];
 
@@ -27,7 +27,7 @@ private:
     return result;
   }
 
-  vector<string> concatSentences(vector<vector<string>> sentences) {
+  vector<string> concatSentences(vector<vector<string>>& sentences) {
     vector<string> result;
     for (auto sentence : sentences) {
       string str = sentence[0];
