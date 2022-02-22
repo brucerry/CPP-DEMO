@@ -31,8 +31,8 @@ int _01_knapsack(vector<int> weights, vector<int> values, int idx, int capacity,
 
 int main()
 {
-  vector<int> weights = {10, 20, 30, 31, 32, 33, 34, 45, 55, 65};
-  vector<int> values = {60, 100, 120, 1, 2, 3,   4,   5,  6, 777};
+  vector<int> weights = {10,  20,  30, 31, 32, 33, 34, 45, 55,  65};
+  vector<int> values =  {60, 100, 120,  1,  2,  3,  4,  5,  6, 777};
   int capacity = 88887777;
   unordered_map<string, int> memo;
 
