@@ -7,7 +7,7 @@ int binarySearch(double num, vector<double> dictionary, int head, int tail)
 {
   if (head > tail) return -1;
 
-  int mid = (head + tail) / 2;
+  int mid = head + (tail - head) / 2;
 
   if (num == dictionary[mid]) return mid;
   if (num < dictionary[mid]) return binarySearch(num, dictionary, head, mid - 1);
