@@ -54,7 +54,7 @@ string minWindow(string& s, string& t) {
     right++;
   }
 
-  return satisfied ? s.substr(start, end - start + 1) : "";
+  return satisfied == freq_t.size() ? s.substr(start, end - start + 1) : "";
 }
 
 int main() {
