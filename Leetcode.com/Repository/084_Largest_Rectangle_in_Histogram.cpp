@@ -8,6 +8,9 @@
 #include <tuple>
 using namespace std;
 
+// time: O(n)
+// space: O(n)
+
 class Solution {
 public:
   int largestRectangleArea(vector<int> heights) {
