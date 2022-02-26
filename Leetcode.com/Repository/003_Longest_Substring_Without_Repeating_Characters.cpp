@@ -4,6 +4,9 @@
 #include <unordered_map>
 using namespace std;
 
+// time: O(s)
+// space: O(s)
+
 class Solution {
 public:
   int lengthOfLongestSubstring(string s) {

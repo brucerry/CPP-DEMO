@@ -3,6 +3,9 @@
 #include <vector>
 using namespace std;
 
+// time: O(log(min(n1, n2)))
+// space: O(1)
+
 class Solution {
 public:
   double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
