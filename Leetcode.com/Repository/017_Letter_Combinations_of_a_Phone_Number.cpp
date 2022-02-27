@@ -7,34 +7,22 @@
 using namespace std;
 
 class Solution {
-public:
-  unordered_map<char, vector<string>> mapping = {
-    {'2', {"a","b","c"}},
-    {'3', {"d","e","f"}},
-    {'4', {"g","h","i"}},
-    {'5', {"j","k","l"}},
-    {'6', {"m","n","o"}},
-    {'7', {"p","q","r","s"}},
-    {'8', {"t","u","v"}},
-    {'9', {"w","x","y","z"}}
-  };
-
-  vector<string> letterCombinations(string digits, int idx) {
+private:
+  vector<string> letterCombinations(string& digits, int idx, unordered_map<char, vector<string>>& mapping) {
     if (idx == digits.length()) return {};
 
-    vector<string> subCombinations = letterCombinations(digits, idx + 1);
+    vector<string> subCombinations = letterCombinations(digits, idx + 1, mapping);
 
     vector<string> result;
     
     if (subCombinations.size() == 0) {
-      for (auto alphabet : mapping[digits[idx]]) {
+      for (auto& alphabet : mapping[digits[idx]]) {
         result.push_back(alphabet);
       }
     } else {
-      for (auto combo : subCombinations) {
-        for (auto alphabet : mapping[digits[idx]]) {
-          string str = alphabet + combo;
-          result.push_back(str);
+      for (auto& combo : subCombinations) {
+        for (auto& alphabet : mapping[digits[idx]]) {
+          result.push_back(alphabet + combo);
         }
       }
     }
@@ -42,8 +30,19 @@ public:
     return result;
   }
 
+public:
    vector<string> letterCombinations(string digits) {
-     return letterCombinations(digits, 0);
+     unordered_map<char, vector<string>> mapping = {
+      {'2', {"a","b","c"}},
+      {'3', {"d","e","f"}},
+      {'4', {"g","h","i"}},
+      {'5', {"j","k","l"}},
+      {'6', {"m","n","o"}},
+      {'7', {"p","q","r","s"}},
+      {'8', {"t","u","v"}},
+      {'9', {"w","x","y","z"}}
+    };
+     return letterCombinations(digits, 0, mapping);
    }
 };
 
