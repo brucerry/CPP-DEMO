@@ -24,7 +24,7 @@ private:
         for (auto& alphabet : mapping[digits[idx]]) {
           result.push_back(alphabet + combo);
         }
-      } 
+      }
     }
 
     return result;
