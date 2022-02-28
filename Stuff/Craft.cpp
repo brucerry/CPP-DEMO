@@ -3,6 +3,16 @@
 #include <vector>
 using namespace std;
 
+// put the blocks stacked on the target block (slots[slot][index]) back to the top of their original slots
+void distribute(vector<vector<int>>& slots, vector<pair<int, int>>& location, int slot, int index) {
+  for (int i = index + 1; i < slots[slot].size(); i++) {
+    int block = slots[slot].back();
+    slots[slot].pop_back();
+    slots[block].push_back(block);
+    location[block] = {block, slots[block].size() - 1};
+  }
+}
+
 int main() {
   int n, m;
   int blockA, blockB;
@@ -31,36 +41,21 @@ int main() {
     auto [ slotB, indexB ] = location[blockB];
 
     if (slotA == slotB) {
-      cout << "same slot" << endl;
+      // cout << "same slot" << endl;
       continue;
     }
 
     if (cmd1 == "move") {
       if (cmd2 == "onto") {
-        for (int i = slots[slotA].size() - 1; i >= indexA + 1; i--) {
-          int block = slots[slotA][i];
-          slots[slotA].pop_back();
-          slots[block].push_back(block);
-          location[block] = {block, slots[block].size() - 1};
-        }
-        for (int i = slots[slotB].size() - 1; i >= indexB + 1; i--) {
-          int block = slots[slotB][i];
-          slots[slotB].pop_back();
-          slots[block].push_back(block);
-          location[block] = {block, slots[block].size() - 1};
-        }
+        distribute(slots, location, slotA, indexA);
+        distribute(slots, location, slotB, indexB);
         slots[slotA].pop_back();
         slots[slotB].push_back(blockA);
         location[blockA] = {slotB, slots[slotB].size() - 1};
       }
 
       else {
-        for (int i = slots[slotA].size() - 1; i >= indexA + 1; i--) {
-          int block = slots[slotA][i];
-          slots[slotA].pop_back();
-          slots[block].push_back(block);
-          location[block] = {block, slots[block].size() - 1};
-        }
+        distribute(slots, location, slotA, indexA);
         slots[slotA].pop_back();
         slots[slotB].push_back(blockA);
         location[blockA] = {slotB, slots[slotB].size() - 1};
@@ -69,12 +64,7 @@ int main() {
 
     else {
       if (cmd2 == "onto") {
-        for (int i = slots[slotB].size() - 1; i >= indexB + 1; i--) {
-          int block = slots[slotB][i];
-          slots[slotB].pop_back();
-          slots[block].push_back(block);
-          location[block] = {block, slots[block].size() - 1};
-        }
+        distribute(slots, location, slotB, indexB);
         slots[slotB].insert(slots[slotB].end(), slots[slotA].begin() + indexA, slots[slotA].end());
         slots[slotA].erase(slots[slotA].begin() + indexA, slots[slotA].end());
       }
@@ -86,7 +76,7 @@ int main() {
     }
   }
 
-  
+
 
   // output
   for (int i = 0; i < n; i++) {
