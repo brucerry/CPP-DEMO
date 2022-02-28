@@ -10,6 +10,7 @@ int main() {
 
   cin >> n >> m;
 
+  // init
   vector<vector<int>> slots (n, vector<int>());
   vector<pair<int, int>> location (n);
 
@@ -17,8 +18,6 @@ int main() {
     slots[i].push_back(i);
     location[i] = {i, 0};
   }
-
-
 
 
   // cases
@@ -56,25 +55,38 @@ int main() {
       }
 
       else {
-
+        for (int i = slots[slotA].size() - 1; i >= indexA + 1; i--) {
+          int block = slots[slotA][i];
+          slots[slotA].pop_back();
+          slots[block].push_back(block);
+          location[block] = {block, slots[block].size() - 1};
+        }
+        slots[slotA].pop_back();
+        slots[slotB].push_back(blockA);
+        location[blockA] = {slotB, slots[slotB].size() - 1};
       }
     }
 
     else {
       if (cmd2 == "onto") {
-
+        for (int i = slots[slotB].size() - 1; i >= indexB + 1; i--) {
+          int block = slots[slotB][i];
+          slots[slotB].pop_back();
+          slots[block].push_back(block);
+          location[block] = {block, slots[block].size() - 1};
+        }
+        slots[slotB].insert(slots[slotB].end(), slots[slotA].begin() + indexA, slots[slotA].end());
+        slots[slotA].erase(slots[slotA].begin() + indexA, slots[slotA].end());
       }
 
       else {
-
+        slots[slotB].insert(slots[slotB].end(), slots[slotA].begin() + indexA, slots[slotA].end());
+        slots[slotA].erase(slots[slotA].begin() + indexA, slots[slotA].end());
       }
     }
   }
 
-
-
-
-
+  
 
   // output
   for (int i = 0; i < n; i++) {
