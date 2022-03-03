@@ -38,7 +38,7 @@ public:
         return (max(nums1left, nums2left) + min(nums1right, nums2right)) / 2.0;
       }
 
-      if (nums1left > nums2right) {
+      else if (nums1left > nums2right) {
         right = partition1 - 1;
       } else {
         left = partition1 + 1;
