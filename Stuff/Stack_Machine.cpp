@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stack>
-#include <unordered_set>
+#include <set>
 #include <vector>
 using namespace std;
 
@@ -29,8 +29,9 @@ vector<string> separateSubset(string& str) {
 string concatSubset(vector<string>& vec) {
   string result = "{";
 
-  for (string& subset : vec) {
-    result += subset;
+  set<string> subset (vec.begin(), vec.end());
+  for (const string& str : subset) {
+    result += str;
   }
 
   return result + "}";
@@ -40,6 +41,8 @@ int main() {
   int n;
   string cmd;
   stack<string> stack;
+  // stack.push("{{}{{{}}}}");
+  // stack.push("{{}{{}}}");
 
   cin >> n;
 
@@ -55,27 +58,26 @@ int main() {
     }
 
     else if (cmd == "UNION") {
-      vector<string> first = separateSubset(stack.top());
+      string first = stack.top();
       stack.pop();
-      vector<string> second = separateSubset(stack.top());
+      string second = stack.top();
       stack.pop();
-      unordered_set<string> firstSet (first.begin(), first.end());
-      for (string& sec : second) {
-        if (firstSet.count(sec) == 0) {
-          first.push_back(sec);
-        }
-      }
-      stack.push(concatSubset(first));
+      vector<string> firstVec = separateSubset(first);
+      vector<string> secondVec = separateSubset(second);
+      firstVec.insert(firstVec.end(), secondVec.begin(), secondVec.end());
+      stack.push(concatSubset(firstVec));
     }
 
     else if (cmd == "INTERSECT") {
-      vector<string> first = separateSubset(stack.top());
+      string first = stack.top();
       stack.pop();
-      vector<string> second = separateSubset(stack.top());
+      string second = stack.top();
       stack.pop();
-      unordered_set<string> firstSet (first.begin(), first.end());
+      vector<string> firstVec = separateSubset(first);
+      vector<string> secondVec = separateSubset(second);
+      set<string> firstSet (firstVec.begin(), firstVec.end());
       vector<string> intersect;
-      for (string& sec : second) {
+      for (string& sec : secondVec) {
         if (firstSet.count(sec)) {
           intersect.push_back(sec);
         }
@@ -89,14 +91,13 @@ int main() {
       string second = stack.top();
       stack.pop();
       vector<string> secondVec = separateSubset(second);
-      unordered_set<string> secondSet (secondVec.begin(), secondVec.end());
-      if (secondSet.count(first) == 0) {
-        second.insert(second.length() - 1, first);
-      }
-      stack.push(second);
+      secondVec.push_back(first);
+      stack.push(concatSubset(secondVec));
     }
 
-    // cout << stack.top() << endl;
+    // cout << "stack top is: " << stack.top() << endl;
+    // cout << "stack remains: " << stack.size() << endl;
+
     cout << separateSubset(stack.top()).size() << endl;
   }
 }
