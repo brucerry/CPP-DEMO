@@ -26,34 +26,31 @@ void rankFinding(vector<Point>& points, vector<int>& ranks, vector<Point>& buffe
   rankFinding(points, ranks, buffer, left, mid);
   rankFinding(points, ranks, buffer, mid, right);
 
-  int leftPtr = left, leftTmp = left;
+  int leftPtr = left, tmp = left;
   int rightPtr = mid;
   int count = 0;
 
   while (leftPtr < mid || rightPtr < right) {
     if (leftPtr == mid) {
-      buffer[leftTmp] = points[rightPtr];
-      ranks[buffer[leftTmp].index] += count;
+      buffer[tmp] = points[rightPtr];
+      ranks[buffer[tmp].index] += count;
       rightPtr++;
-      leftTmp++;
     }
     else if (rightPtr == right) {
-      buffer[leftTmp] = points[leftPtr];
+      buffer[tmp] = points[leftPtr];
       leftPtr++;
-      leftTmp++;
     }
     else if (points[leftPtr].y <= points[rightPtr].y) {
-      buffer[leftTmp] = points[leftPtr];
+      buffer[tmp] = points[leftPtr];
       count++;
       leftPtr++;
-      leftTmp++;
     }
     else {
-      buffer[leftTmp] = points[rightPtr];
-      ranks[buffer[leftTmp].index] += count;
-      leftTmp++;
+      buffer[tmp] = points[rightPtr];
+      ranks[buffer[tmp].index] += count;
       rightPtr++;
     }
+    tmp++;
   }
 
   for (int i = left; i < right; i++) {
