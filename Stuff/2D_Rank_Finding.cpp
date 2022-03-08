@@ -19,9 +19,9 @@ struct Point {
 };
 
 void rankFinding(vector<Point>& points, vector<int>& ranks, vector<Point>& buffer, int left, int right) {
-  if (right - left <= 1) return;
+  if (right - left == 1) return;
 
-  int mid = (left + right) >> 1;
+  int mid = left + ((right - left) >> 1);
 
   rankFinding(points, ranks, buffer, left, mid);
   rankFinding(points, ranks, buffer, mid, right);
