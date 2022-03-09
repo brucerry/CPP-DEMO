@@ -18,43 +18,45 @@ struct Point {
   }
 };
 
-void rankFinding(vector<Point>& points, vector<int>& ranks, vector<Point>& buffer, int left, int right) {
+void rankFinding(vector<Point>& points, vector<int>& ranks, vector<Point>& tmp, int left, int right) {
   if (right - left == 1) return;
 
   int mid = left + ((right - left) >> 1);
 
-  rankFinding(points, ranks, buffer, left, mid);
-  rankFinding(points, ranks, buffer, mid, right);
+  rankFinding(points, ranks, tmp, left, mid);
+  rankFinding(points, ranks, tmp, mid, right);
 
-  int leftPtr = left, tmp = left;
+  int leftPtr = left;
   int rightPtr = mid;
+  int fullPtr = left;
   int count = 0;
+
+  // supposed that both left & right subarray were sorted in ascending order separately
+
+  // points is sorted in ascending order by x then y
+  // tmp is a buffer for storing points in ascending order by comparing y <= other.y
 
   while (leftPtr < mid || rightPtr < right) {
     if (leftPtr == mid) {
-      buffer[tmp] = points[rightPtr];
-      ranks[buffer[tmp].index] += count;
-      rightPtr++;
+      tmp[fullPtr] = points[rightPtr++];
+      ranks[tmp[fullPtr].index] += count;
     }
     else if (rightPtr == right) {
-      buffer[tmp] = points[leftPtr];
-      leftPtr++;
+      tmp[fullPtr] = points[leftPtr++];
     }
     else if (points[leftPtr].y <= points[rightPtr].y) {
-      buffer[tmp] = points[leftPtr];
+      tmp[fullPtr] = points[leftPtr++];
       count++;
-      leftPtr++;
     }
     else {
-      buffer[tmp] = points[rightPtr];
-      ranks[buffer[tmp].index] += count;
-      rightPtr++;
+      tmp[fullPtr] = points[rightPtr++];
+      ranks[tmp[fullPtr].index] += count;
     }
-    tmp++;
+    fullPtr++;
   }
 
   for (int i = left; i < right; i++) {
-    points[i] = buffer[i];
+    points[i] = tmp[i];
   }
 }
 
@@ -64,7 +66,7 @@ int main() {
 
   int x, y;
   vector<Point> points;
-  vector<Point> buffer (n);
+  vector<Point> tmp (n);
   vector<int> ranks (n, 0);
   points.reserve(n);
 
@@ -73,9 +75,9 @@ int main() {
     points.emplace_back(x, y, i);
   }
 
-  sort(points.begin(), points.end());
+  sort(points.begin(), points.end()); // sort in ascending by x then y
 
-  rankFinding(points, ranks, buffer, 0, n);
+  rankFinding(points, ranks, tmp, 0, n);
 
   cout << ranks[0];
   for (int i = 1; i < n; i++) {
