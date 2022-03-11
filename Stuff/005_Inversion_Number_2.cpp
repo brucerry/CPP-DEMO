@@ -6,7 +6,7 @@ int mergeSort(vector<int>& nums, vector<int>& tmp, int left, int right) {
   int count = 0;
 
   if (left < right) {
-    int mid = left + ((right - left) >> 1);
+    int mid = left + ((right - left) >> 1); // == (left + right) / 2 == left + (right - left) / 2
     count += mergeSort(nums, tmp, left, mid);
     count += mergeSort(nums, tmp, mid + 1, right);
     
@@ -24,7 +24,7 @@ int mergeSort(vector<int>& nums, vector<int>& tmp, int left, int right) {
       }
       else {
         tmp[fullPtr++] = nums[rightPtr++];
-        count = (count + mid - leftPtr + 1) % 524287;
+        count = (count + mid - leftPtr + 1) % 524287; // % 524287 refers to the question asked
       }
     }
 
