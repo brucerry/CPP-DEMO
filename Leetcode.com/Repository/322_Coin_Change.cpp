@@ -13,7 +13,7 @@ public:
 
     for (int i = 1; i <= amount; i++) {
       int mini = INT_MAX;
-      for (auto coin : coins) {
+      for (int& coin : coins) {
         int remain = i - coin;
         if (remain >= 0) {
           mini = min(mini, dp[remain]);

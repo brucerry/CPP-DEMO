@@ -12,36 +12,34 @@ using namespace std;
 class Solution {
 public:
   string decodeString(string& s) {
-    string ans;
     stack<string> stack;
 
     for (char& ch : s) {
-      if ('0' <= ch && ch <= '9') {
-        string str = string(1, ch);
-        while (stack.size() && '0' <= stack.top()[0] && stack.top()[0] <= '9') {
-          str = stack.top() + str;
-          stack.pop();
-        }
-        stack.push(str);
-      }
-      else if (('a' <= ch && ch <= 'z') || ch == '['){
+      if (ch != ']') {
         stack.push(string(1, ch));
       }
       else {
         string str;
-        while (stack.top()[0] != '[') {
+        while (stack.top() != "[") {
           str = stack.top() + str;
           stack.pop();
         }
-        stack.pop();
-        int num = stoi(stack.top());
-        stack.pop();
-        string s;
-        while (num--) s += str;
-        stack.push(s);
+        stack.pop(); // pop the "["
+
+        string num;
+        while (stack.size() && "0" <= stack.top() && stack.top() <= "9") {
+          num = stack.top() + num;
+          stack.pop();
+        }
+
+        int inum = stoi(num);
+        string repeatedStr;
+        while (inum--) repeatedStr += str;
+        stack.push(repeatedStr);
       }
     }
 
+    string ans;
     while (stack.size()) {
       ans = stack.top() + ans;
       stack.pop();

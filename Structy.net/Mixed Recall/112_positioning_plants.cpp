@@ -8,12 +8,12 @@ int positioningPlants(std::vector<std::vector<int>> costs, int pos, int prevType
   string key = to_string(prevType) + ',' + to_string(pos);
   if (memo.count(key)) return memo[key];
   
-  int minCost = -1;
+  int minCost = INT_MAX;
   
   for (int type = 0; type < costs[0].size(); type++) {
     if (type != prevType) {
       int cost = costs[pos][type] + positioningPlants(costs, pos + 1, type, memo);
-      if (minCost == -1 || cost < minCost) {
+      if (cost < minCost) {
         minCost = cost;
       }
     }
