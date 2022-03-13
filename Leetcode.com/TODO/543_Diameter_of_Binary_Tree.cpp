@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/house-robber-iii/
+// https://leetcode.com/problems/diameter-of-binary-tree/
 
 /**
  * Definition for a binary tree node.
@@ -13,7 +13,7 @@
  */
 class Solution {
 public:
-    int rob(TreeNode* root) {
+    int diameterOfBinaryTree(TreeNode* root) {
         
     }
 };
