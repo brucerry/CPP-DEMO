@@ -9,7 +9,7 @@ using namespace std;
 
 class Solution {
 private:
-  bool isMatch(string& s, string& p, int i, int j, array<array<int, 20>, 30>& memo) {
+  bool isMatch(string& s, string& p, int i, int j, array<array<int, 30>, 30>& memo) {
     if (i < s.length() && j < p.length() && memo[i][j] != -1) return memo[i][j];
     if (i >= s.length() && j >= p.length()) return true;
     if (j >= p.length()) return false;
@@ -29,7 +29,7 @@ private:
 
 public:
   bool isMatch(string s, string p) {
-    array<array<int, 20>, 30> memo;
+    array<array<int, 30>, 30> memo;
     memset(&memo, -1, sizeof(memo));
     return isMatch(s, p, 0, 0, memo);
   }
