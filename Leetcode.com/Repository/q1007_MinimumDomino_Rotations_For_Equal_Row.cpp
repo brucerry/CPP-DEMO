@@ -20,7 +20,7 @@ public:
       int missingBottom = 0;
 
       for (int i = 0; i < len; i++) {
-        if (!(tops[i] == target || bottoms[i] == target)) break;
+        if (tops[i] != target && bottoms[i] != target) break;
 
         if (tops[i] != target) missingTop++;
         if (bottoms[i] != target) missingBottom++;
