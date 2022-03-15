@@ -3,7 +3,6 @@
 // https://www.youtube.com/watch?v=vGsyTE4s34w
 
 #include <vector>
-#include <iostream>
 using namespace std;
 
 // time: O(n)
@@ -19,11 +18,3 @@ public:
     return nums;
   }
 };
-
-int main() {
-  Solution sol;
-  vector<int> nums {45, 2, -34, 21, 444, 33, 33, 232, 335, 2, 34, -33, -445, -1, 0};
-  for (auto num : sol.wiggleSort(nums)) {
-    cout << num << " ";
-  }
-}
