@@ -35,8 +35,3 @@ public:
     return nums.size() + 1;
   }
 };
-
-int main() {
-  Solution sol;
-  cout << sol.firstMissingPositive({1});
-}
