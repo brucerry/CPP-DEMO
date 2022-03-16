@@ -37,6 +37,8 @@ public:
       visited.insert(currentNode);
 
       totalTime = max(totalTime, timeSpend);
+
+      if (visited.size() == n) return totalTime;
       
       for (auto& [ time, neighbor ] : graph[currentNode]) {
         if (visited.count(neighbor) == 0) {
@@ -45,6 +47,6 @@ public:
       }
     }
 
-    return visited.size() == n ? totalTime : -1;
+    return -1;
   }
 };

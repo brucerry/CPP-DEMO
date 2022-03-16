@@ -13,10 +13,10 @@ private:
 
     vector<vector<string>> result;
 
-    for (auto word : wordDict) {
+    for (string& word : wordDict) {
       int pos = s.find(word, idx);
       if (pos == idx) {
-        for (auto subSentence : wordBreak(s, wordDict, idx + word.length(), memo)) {
+        for (auto& subSentence : wordBreak(s, wordDict, idx + word.length(), memo)) {
           subSentence.insert(subSentence.begin(), word);
           result.push_back(subSentence);
         }

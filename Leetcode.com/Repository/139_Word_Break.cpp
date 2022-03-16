@@ -19,7 +19,7 @@ public:
     dp.back() = true;
 
     for (int i = s.length() - 1; i >= 0; i--) {
-      for (auto word : wordDict) {
+      for (string& word : wordDict) {
         if (i + word.length() <= s.length() && s.substr(i, word.length()) == word) {
           dp[i] = dp[i + word.length()];
           if (dp[i]) break;
