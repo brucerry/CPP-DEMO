@@ -11,7 +11,7 @@ class Solution {
 private:
   void kSum(vector<int>& nums, vector<int>& candidate, int target, vector<vector<int>>& result, int k, int start) {
     if (k > 2) {
-      for (int i = start; i < nums.size() - k + 1; i++) { // loop through except the last k - 1 elements, i.e. last 3 elements when k = 4
+      for (int i = start; i < nums.size() - k + 1; i++) { // loop through except the last k - 1 elements
         if (i > start && nums[i - 1] == nums[i]) continue;
         candidate.emplace_back(nums[i]);
         kSum(nums, candidate, target - nums[i], result, k - 1, i + 1);
