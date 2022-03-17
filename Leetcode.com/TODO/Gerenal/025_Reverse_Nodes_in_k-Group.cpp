@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/merge-k-sorted-lists/
+// https://leetcode.com/problems/reverse-nodes-in-k-group/
 
 /**
  * Definition for singly-linked list.
@@ -12,7 +12,7 @@
  */
 class Solution {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
+    ListNode* reverseKGroup(ListNode* head, int k) {
         
     }
 };
