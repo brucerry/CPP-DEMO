@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/merge-two-sorted-lists/
+// https://leetcode.com/problems/sort-list/
 
 /**
  * Definition for singly-linked list.
@@ -12,7 +12,7 @@
  */
 class Solution {
 public:
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+    ListNode* sortList(ListNode* head) {
         
     }
 };

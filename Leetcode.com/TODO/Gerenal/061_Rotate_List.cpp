@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/remove-nth-node-from-end-of-list/
+// https://leetcode.com/problems/rotate-list/
 
 /**
  * Definition for singly-linked list.
@@ -12,7 +12,7 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* rotateRight(ListNode* head, int k) {
         
     }
 };
