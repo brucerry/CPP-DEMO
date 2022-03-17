@@ -4,7 +4,6 @@
 // https://www.youtube.com/watch?v=bXsUuownnoQ
 
 #include <vector>
-#include <iostream>
 #include <unordered_map>
 #include <unordered_set>
 using namespace std;
@@ -14,7 +13,7 @@ class Solution {
 private:
   unordered_map<int, vector<int>> buildGraph(vector<vector<int>> edges) {
     unordered_map<int, vector<int>> graph;
-    for (auto edge : edges) {
+    for (auto& edge : edges) {
       int a = edge[0];
       int b = edge[1];
       graph[a].push_back(b);
@@ -44,10 +43,3 @@ public:
     return valid && visited.size() == n;
   }
 };
-
-int main() {
-  Solution sol;
-  int n = 5;
-  vector<vector<int>> edges {{0, 1}, {0, 2}, {0, 3}, {1, 3}};
-  cout << sol.validTree(n, edges);
-}
