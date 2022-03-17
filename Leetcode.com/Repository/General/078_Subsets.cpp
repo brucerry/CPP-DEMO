@@ -1,47 +1,27 @@
-/*
-  https://leetcode.com/problems/subsets/
-*/
+// https://leetcode.com/problems/subsets/
 
-
-#include <iostream>
 #include <vector>
 using namespace std;
 
-class Solution {
-public:
+// time: O(n * 2^n)
+// space: O(n)
 
-  void search(vector<int> nums, vector<int> &state, vector<vector<int>> &solutions, int begin) {
-    solutions.push_back(state);
-    for (int i = begin; i < nums.size(); i++) {
-      state.push_back(nums[i]);
-      search(nums, state, solutions, i + 1);
-      state.pop_back();
+class Solution {
+private:
+  void solve(vector<int>& nums, vector<int> &candidate, vector<vector<int>> &solutions, int start) {
+    solutions.emplace_back(candidate);
+    for (int i = start; i < nums.size(); i++) {
+      candidate.emplace_back(nums[i]);
+      solve(nums, candidate, solutions, i + 1);
+      candidate.pop_back();
     }
   }
 
+public:
   vector<vector<int>> subsets(vector<int>& nums) {
     vector<vector<int>> solutions;
-    vector<int> state;
-    search(nums, state, solutions, 0);
+    vector<int> candidate;
+    solve(nums, candidate, solutions, 0);
     return solutions;
   }
 };
-
-void printSubsets(vector<vector<int>> subsets) {
-  for (auto subset : subsets) {
-    cout << "[ ";
-    for (auto num : subset) {
-      cout << num << " ";
-    }
-    cout << "]" << endl;
-  }
-}
-
-int main() {
-  vector<int> nums = {1, 3, 2};
-
-  Solution sol;
-  vector<vector<int>> subsets = sol.subsets(nums);
-
-  printSubsets(subsets);
-}
