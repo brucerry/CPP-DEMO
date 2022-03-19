@@ -1,33 +1,28 @@
-/*
-  https://leetcode.com/problems/open-the-lock/
-*/
+// https://leetcode.com/problems/open-the-lock/
+
 
 #include <vector>
 #include <string>
 #include <unordered_set>
 #include <queue>
-#include <tuple>
 using namespace std;
 
-
-
 class Solution {
+private:
+  char rotateForward(char& ch) {
+    return ((ch - '0') - 1 + 10) % 10 + '0';
+  }
+
+  char rotateBackward(char& ch) {
+    return (ch - '0' + 1) % 10 + '0';
+  }
+
 public:
 
-  char rotateForward(char d) {
-    int ans = d - '0' - 1;
-    return ans < 0 ? '9' : d - 1;
-  }
-
-  char rotateBackward(char d) {
-    int ans = d - '0' + 1;
-    return ans > 9 ? '0' : d + 1;
-  }
-
-  int openLock(vector<string> deadends, string target) {
+  int openLock(vector<string>& deadends, string& target) {
     unordered_set<string> dead (deadends.begin(), deadends.end());
     unordered_set<string> visited;
-    queue<tuple<int, string>> queue;
+    queue<pair<int, string>> queue;
     queue.push({0, "0000"});
     visited.insert("0000");
 
@@ -56,11 +51,3 @@ public:
     return -1;
   }
 };
-
-#include <iostream>
-
-
-int main() {
-  Solution sol;
-  cout << sol.openLock({"0201","0101","0102","1212","2002"}, "0202");
-}

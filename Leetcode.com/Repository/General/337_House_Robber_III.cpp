@@ -28,6 +28,7 @@ private:
 
     return {robThis, skipThis};
   }
+  
 public:
   int rob(TreeNode* root) {
     pair<int, int> result = dfs(root);
