@@ -22,18 +22,19 @@ class Solution {
 //   }
 
 public:
+  // int numTrees(int n) {
+  //   return numTrees(n, 1, nums);
+  // }
+
   int numTrees(int n) {
-    vector<int> nums (n + 1);
+    vector<int> nums (n + 1, 0);
     nums[0] = 1;
-    // return numTrees(n, 1, nums);
 
     for (int each_n = 1; each_n <= n; each_n++) {
-      int ans = 0;
       for (int i = 1; i <= each_n; i++) {
         int countLeft = i - 1;
         int countRight = each_n - i;
-        ans += nums[countLeft] * nums[countRight];
-        if (i == each_n) nums[i] = ans;
+        nums[each_n] += nums[countLeft] * nums[countRight];
       }
     }
 
