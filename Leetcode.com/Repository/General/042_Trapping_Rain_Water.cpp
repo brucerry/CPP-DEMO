@@ -18,7 +18,8 @@ public:
         left++;
         maxLeft = max(maxLeft, height[left]);
         sum += maxLeft - height[left];
-      } else {
+      }
+      else {
         right--;
         maxRight = max(maxRight, height[right]);
         sum += maxRight - height[right];
