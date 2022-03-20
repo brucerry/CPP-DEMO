@@ -1,10 +1,11 @@
-/*
-  https://leetcode.com/problems/first-missing-positive/
-*/
+// https://leetcode.com/problems/first-missing-positive/
+
 
 #include <vector>
-#include <iostream>
 using namespace std;
+
+// time: O(n)
+// space: O(1)
 
 class Solution {
 public:
