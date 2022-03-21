@@ -24,7 +24,7 @@ public:
     ListNode* node1 = list1;
     ListNode* node2 = list2;
 
-    while (node1 != nullptr && node2 != nullptr) {
+    while (node1 && node2) {
       if (node1->val < node2->val) {
         cur->next = node1;
         node1 = node1->next;
@@ -36,11 +36,11 @@ public:
       cur = cur->next;
     }
 
-    if (node1 != nullptr) {
+    if (node1) {
       cur->next = node1;
     }
 
-    if (node2 != nullptr) {
+    if (node2) {
       cur->next = node2;
     }
 

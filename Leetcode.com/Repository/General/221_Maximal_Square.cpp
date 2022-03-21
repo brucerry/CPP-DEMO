@@ -19,7 +19,8 @@ public:
         if (matrix[r-1][c-1] == '1') {
           dp[c] = 1 + min({dp[c-1], prev, dp[c]});
           maxsqlen = max(maxsqlen, dp[c]);
-        } else {
+        }
+        else {
           dp[c] = 0;
         }
         prev = tmp;
