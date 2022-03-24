@@ -30,19 +30,19 @@ int findPivotIndex(vector<float> &numbers, int head, int tail)
 {
   int medianOfThree = findMedianOfThree(numbers, head, tail, (head + tail) / 2);
   float pivot = numbers[medianOfThree];
-  int smallerIndex = head - 1;
+  int p = head;
 
   for (int i = head; i < tail; i++)
   {
     if (numbers[i] <= pivot)
     {
-      smallerIndex++;
-      swap(&numbers[smallerIndex], &numbers[i]);
+      swap(&numbers[p], &numbers[i]);
+      p++;
     }
   }
-  swap(&numbers[medianOfThree], &numbers[smallerIndex + 1]);
+  swap(&numbers[medianOfThree], &numbers[p]);
 
-  return smallerIndex + 1;
+  return p;
 }
 
 void quickSort(vector<float> &numbers, int head, int tail)
