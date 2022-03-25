@@ -3,8 +3,7 @@
 #include <vector>
 using namespace std;
 
-int findMedianOfThree(vector<pair<float, string>>& cocktails, int left, int right, int mid)
-{
+int findMedianOfThree(vector<pair<float, string>>& cocktails, int left, int right, int mid) {
   if (cocktails[mid].first < cocktails[left].first) swap(cocktails[mid], cocktails[left]);
   if (cocktails[right].first < cocktails[left].first) swap(cocktails[right], cocktails[left]);
   if (cocktails[mid].first < cocktails[right].first) swap(cocktails[mid], cocktails[right]);
