@@ -8,22 +8,11 @@
 using namespace std;
 
 int canTraverse(vector<int>& gas, vector<int>& cost) {
-  int n = gas.size();
-  // int sumOfGas = 0;
-  // int sumOfCost = 0;
-
-  // for (int i = 0; i < n; i++) {
-  //   sumOfGas += gas[i];
-  //   sumOfCost += cost[i];
-  // }
-
-  // if (sumOfGas < sumOfCost) return -1;
-
   int ans = 0;
   int remainGas = 0;
   int prevRemainGas = 0;
 
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < gas.size(); i++) {
     remainGas += gas[i] - cost[i];
     if (remainGas < 0) {
       prevRemainGas += remainGas;
@@ -32,7 +21,7 @@ int canTraverse(vector<int>& gas, vector<int>& cost) {
     }
   }
 
-  return (ans == n || remainGas + prevRemainGas < 0) ? -1 : ans;
+  return (ans == gas.size() || remainGas + prevRemainGas < 0) ? -1 : ans;
 }
 
 int main() {
