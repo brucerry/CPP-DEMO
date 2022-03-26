@@ -4,10 +4,11 @@
 #include <numeric>
 using namespace std;
 
+// time: O(n)
+// space: O(1)
+
 class Solution {
 public:
-  // time: O(n)
-  // space: O(1)
   int pivotIndex(vector<int>& nums) {
     int sum = accumulate(nums.begin(), nums.end(), 0);
     int leftSum = 0;

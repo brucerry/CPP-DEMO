@@ -12,7 +12,6 @@ public:
     vector<int> result (temperatures.size(), 0);
     int hottest = 0;
 
-
     for (int i = temperatures.size() - 1; i >= 0; i--) {
       if (hottest <= temperatures[i]) {
         hottest = temperatures[i];

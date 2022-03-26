@@ -11,17 +11,16 @@ using namespace std;
 class Solution {
 public:
   int deleteAndEarn(vector<int>& nums) {
-    unordered_map<int, int> count;
+    unordered_map<int, int> intCount;
     vector<int> groupNums;
 
     for (int& num : nums) {
-      if (count.count(num) == 0) count[num] = 0;
-      count[num]++;
+      intCount[num]++;
     }
 
-    groupNums.reserve(count.size());
+    groupNums.reserve(intCount.size());
     
-    for (auto& pair : count) {
+    for (auto& pair : intCount) {
       groupNums.emplace_back(pair.first);
     }
 
@@ -31,7 +30,7 @@ public:
     int two = 0;
 
     for (int i = 0; i < groupNums.size(); i++) {
-      int earn = groupNums[i] * count[groupNums[i]];
+      int earn = groupNums[i] * intCount[groupNums[i]];
       int tmp;
       if (i > 0 && groupNums[i - 1] == groupNums[i] - 1) {
         tmp = max(earn + one, two);
