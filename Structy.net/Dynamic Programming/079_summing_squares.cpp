@@ -5,12 +5,10 @@ int summingSquares(int n, unordered_map<int, int> &memo) {
   if (memo.count(n)) return memo[n];
   if (n == 0) return 0;
   
-  int minSum = 0;
+  int minSum = n;
   for (int i = 1; i * i <= n; i++) {
     int sum = 1 + summingSquares(n - i * i, memo);
-    if (minSum == 0 || sum < minSum) {
-      minSum = sum;
-    }
+    minSum = min(minSum, sum);
   }
   
   memo[n] = minSum;
