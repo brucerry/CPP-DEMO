@@ -4,8 +4,8 @@
 using namespace std;
 
 // double linked list
-// time: get() = O(1), put() = O(1)
-// space: O(capacity)
+// time: O(1) for operations
+// space: O(n)
 
 struct Node {
   int key, val;
@@ -22,6 +22,22 @@ private:
   Node* leastRecentlyUsed; // dummy node on the left
   Node* mostRecentlyUsed; // dummy node on the right
 
+  // remove node from list
+  void remove(Node* node) {
+    Node* prev = node->prev, *next = node->next;
+    prev->next = next;
+    next->prev = prev;
+    delete &node;
+  }
+
+  // insert node at mostRecentlyUsed
+  void insert(Node* node) {
+    Node* prev = mostRecentlyUsed->prev;
+    prev->next = mostRecentlyUsed->prev = node;
+    node->prev = prev;
+    node->next = mostRecentlyUsed;
+  }
+  
 public:
   LRUCache(int capacity) : cap(capacity), cache({}), leastRecentlyUsed(new Node(0, 0)), mostRecentlyUsed(new Node(0, 0)) {
     leastRecentlyUsed->next = mostRecentlyUsed;
@@ -57,21 +73,6 @@ public:
     }
   }
 
-  // remove node from list
-  void remove(Node* node) {
-    Node* prev = node->prev, *next = node->next;
-    prev->next = next;
-    next->prev = prev;
-    delete &node;
-  }
-
-  // insert node at mostRecentlyUsed
-  void insert(Node* node) {
-    Node* prev = mostRecentlyUsed->prev;
-    prev->next = mostRecentlyUsed->prev = node;
-    node->prev = prev;
-    node->next = mostRecentlyUsed;
-  }
 };
 
 /**
