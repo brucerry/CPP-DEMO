@@ -27,7 +27,8 @@ int main() {
   string ans;
 
   for (auto& pair : buffer) {
-    ans += string(pair.second, pair.first);
+    ans.append(pair.second, pair.first);
+    // ans += string(pair.second, pair.first);
   }
 
   cout << ans;
