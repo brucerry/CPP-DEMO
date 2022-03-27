@@ -14,21 +14,20 @@ int main() {
     charCount[ch]++;
   }
 
-  vector<pair<char, int>> buffer;
+  vector<pair<int, char>> buffer;
 
   for (auto& pair : charCount) {
-    buffer.emplace_back(pair);
+    buffer.emplace_back(pair.second, pair.first);
   }
 
-  sort(buffer.begin(), buffer.end(), [](const pair<char, int>& a, const pair<char, int>& b) -> bool {
-    return a.second == b.second ? a.first < b.first : a.second > b.second;
+  sort(buffer.begin(), buffer.end(), [](const pair<int, char>& a, const pair<int, char>& b) -> bool {
+    return a.first == b.first ? a.second < b.second : a.first > b.first;
   });
 
   string ans;
 
   for (auto& pair : buffer) {
-    ans.append(pair.second, pair.first);
-    // ans += string(pair.second, pair.first);
+    ans.append(pair.first, pair.second);
   }
 
   cout << ans;

@@ -18,20 +18,18 @@ public:
       charCount[ch]++;
     }
 
-    vector<pair<char, int>> buffer;
+    vector<pair<int, char>> buffer;
 
     for (auto& pair : charCount) {
-      buffer.emplace_back(pair);
+      buffer.emplace_back(pair.second, pair.first);
     }
 
-    sort(buffer.begin(), buffer.end(), [](const pair<char, int>& a, const pair<char, int>& b) -> bool {
-      return a.second == b.second ? a.first < b.first : a.second > b.second;
-    });
+    sort(buffer.rbegin(), buffer.rend());
 
     string ans;
 
     for (auto& pair : buffer) {
-      ans += string(pair.second, pair.first);
+      ans.append(pair.first, pair.second);
     }
 
     return ans;
