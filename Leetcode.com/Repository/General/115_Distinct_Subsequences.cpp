@@ -18,6 +18,7 @@ public:
         if (s[i] == t[j]) {
           dp[j] += dp[j+1];
         }
+        if (i == 0 && j == 0) break;
       }
     }
 
