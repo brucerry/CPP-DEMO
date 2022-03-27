@@ -7,6 +7,9 @@
 #include <vector>
 using namespace std;
 
+// time: O(n)
+// space: O(n)
+
 class Solution {
 public:
   bool wordPattern(string pattern, string s) {
