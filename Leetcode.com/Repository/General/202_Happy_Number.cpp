@@ -1,10 +1,7 @@
 // https://leetcode.com/problems/happy-number/
 
-#include <unordered_set>
-using namespace std;
-
 // time: O(1)
-// space: O(n)
+// space: O(1)
 
 class Solution {
 private:
@@ -20,13 +17,14 @@ private:
 
 public:
   bool isHappy(int n) {
-    unordered_set<int> visited;
+    int slower = sumOfSquare(n);
+    int faster = sumOfSquare(sumOfSquare(n));
 
-    while (visited.count(n) == 0) {
-      visited.insert(n);
-      n = sumOfSquare(n);
-      if (n == 1) return true;
-    }
+    do {
+      if (faster == 1) return true;
+      slower = sumOfSquare(slower);
+      faster = sumOfSquare(sumOfSquare(faster));
+    } while (slower != faster);
 
     return false;
   }
