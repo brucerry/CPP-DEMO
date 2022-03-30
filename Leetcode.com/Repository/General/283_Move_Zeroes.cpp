@@ -9,11 +9,11 @@ using namespace std;
 class Solution {
 public:
   void moveZeroes(vector<int>& nums) {
-    int left = 0;
+    int l = 0;
 
-    for (int right = 0; right < nums.size(); right++) {
-      if (nums[right]) {
-        swap(nums[left++], nums[right]);
+    for (int r = 0; r < nums.size(); r++) {
+      if (nums[r]) {
+        swap(nums[l++], nums[r]);
       }
     }
   }
