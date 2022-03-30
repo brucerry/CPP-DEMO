@@ -4,34 +4,38 @@
 #include <algorithm>
 using namespace std;
 
-
-// time: O(n * log(n)) + O(n^2) => O(n^2)
-// space: O(log(n)) to O(n) for the extra space required by the sorting process
+// time: O(n^2)
+// space: O(log(n)) to O(n) for sorting
 class Solution {
 public:
-  vector<vector<int>> threeSum(vector<int>& nums) {    
-    vector<vector<int>> result;
-
+  vector<vector<int>> threeSum(vector<int>& nums) {
     sort(nums.begin(), nums.end());
-
+    
+    vector<vector<int>> result;
+    
     for (int i = 0; i < nums.size(); i++) {
       if (nums[i] > 0) break;
-      if (i > 0 && nums[i] == nums[i-1]) continue;
-
-      int left = i + 1;
-      int right = nums.size() - 1;
-      while (left < right) {
-        int sum = nums[i] + nums[left] + nums[right];
-        if (sum > 0) right--;
-        else if (sum < 0) left++;
+      if (i > 0 && nums[i-1] == nums[i]) continue;
+      
+      int l = i + 1, r = nums.size() - 1;
+      while (l < r) {
+        int sum = nums[i] + nums[l] + nums[r];
+        if (sum > 0) {
+          r--;
+        }
+        else if (sum < 0) {
+          l++;
+        }
         else {
-          result.push_back({nums[i], nums[left], nums[right]});
-          left++;
-          while (left < right && nums[left] == nums[left-1]) left++;
+          result.push_back({ nums[i], nums[l], nums[r] });
+          l++;
+          while (l < r && nums[l-1] == nums[l]) {
+            l++;
+          }
         }
       }
     }
-
+    
     return result;
   }
 };

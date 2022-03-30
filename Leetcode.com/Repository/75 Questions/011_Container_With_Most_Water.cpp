@@ -9,22 +9,20 @@ using namespace std;
 class Solution {
 public:
   int maxArea(vector<int>& height) {
-    int left = 0;
-    int right = height.size() - 1;
+    int l = 0, r = height.size() - 1;
     int ans = 0;
-
-    while (left < right) {
-      int width = right - left;
-      if (height[left] < height[right]) {
-        ans = max(ans, width * height[left]);
-        left++;
+    
+    while (l < r) {
+      if (height[l] < height[r]) {
+        ans = max(ans, (r - l) * height[l]);
+        l++;
       }
       else {
-        ans = max(ans, width * height[right]);
-        right--;
+        ans = max(ans, (r - l) * height[r]);
+        r--;
       }
     }
-
+    
     return ans;
   }
 };

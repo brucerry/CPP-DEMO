@@ -9,20 +9,20 @@ using namespace std;
 
 class Solution {
 public:
-  int lengthOfLongestSubstring(string& s) {
-    int ans = 0, left = 0, right = 0;
-    unordered_set<char> charSet;
-
-    while (right < s.length()) {
-      while (charSet.count(s[right])) {
-        charSet.erase(s[left]);
-        left++;
+  int lengthOfLongestSubstring(string s) {
+    int ans = 0;
+    unordered_set<char> set;
+    
+    int l = 0;
+    
+    for (int r = 0; r < s.length(); r++) {
+      while (set.count(s[r])) {
+        set.erase(s[l++]);
       }
-      charSet.insert(s[right]);
-      ans = max(ans, right - left + 1);
-      right++;
+      set.insert(s[r]);
+      ans = max(ans, r - l + 1);
     }
-
+    
     return ans;
   }
 };
