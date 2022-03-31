@@ -10,26 +10,23 @@ class Solution {
 public:
   vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
     vector<vector<int>> result;
-
+    
     for (int i = 0; i < intervals.size(); i++) {
-      int newStart = newInterval[0];
-      int newEnd = newInterval[1];
-      int currentStart = intervals[i][0];
-      int currentEnd = intervals[i][1];
-      
-      if (newEnd < currentStart) {
-        result.push_back(newInterval);
+      if (newInterval[1] < intervals[i][0]) {
+        result.emplace_back(newInterval);
         result.insert(result.end(), intervals.begin() + i, intervals.end());
         return result;
-      } else if (currentEnd < newStart) {
-        result.push_back(intervals[i]);
-      } else {
-        newInterval = {min(currentStart, newStart), max(currentEnd, newEnd)};
+      }
+      else if (intervals[i][1] >= newInterval[0]) {
+        newInterval = { min(intervals[i][0], newInterval[0]), max(intervals[i][1], newInterval[1]) };
+      }
+      else {
+        result.emplace_back(intervals[i]);
       }
     }
-
-    result.push_back(newInterval);
-
+    
+    result.emplace_back(newInterval);
+    
     return result;
   }
 };

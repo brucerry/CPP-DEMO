@@ -7,17 +7,15 @@ class Solution {
 public:
   int climbStairs(int n) {
     if (n < 3) return n;
-
-    int first = 1;
-    int second = 2;
-    int ans;
-
+    
+    int one = 1, ans = 2;
+    
     for (int i = 3; i <= n; i++) {
-      ans = first + second;
-      first = second;
-      second = ans;
+      int tmp = ans;
+      ans += one;
+      one = tmp;
     }
-
+    
     return ans;
   }
 };
