@@ -13,9 +13,7 @@ public:
     int i = 0, j = n - 1;
 
     while (i < j) {
-      swap(matrix[i], matrix[j]);
-      i++;
-      j--;
+      swap(matrix[i++], matrix[j--]);
     }
 
     for (int r = 0; r < n; r++) {

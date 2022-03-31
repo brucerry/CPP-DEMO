@@ -13,19 +13,19 @@ using namespace std;
 class Solution {
 public:
   vector<vector<string>> groupAnagrams(vector<string>& strs) {
-    unordered_map<string, vector<string>> umap;
+    unordered_map<string, vector<string>> map;
 
-    for (string& str : strs) {
+    for (string& s : strs) {
       string s = "00000000000000000000000000";
-      for (char& ch : str) {
-        s[ch - 'a']++;
+      for (char& c : s) {
+        s[c - 'a']++;
       }
-      umap[s].emplace_back(str);
+      map[s].emplace_back(s);
     }
 
     vector<vector<string>> result;
 
-    for (auto& pair : umap) {
+    for (auto& pair : map) {
       result.emplace_back(pair.second);
     }
 

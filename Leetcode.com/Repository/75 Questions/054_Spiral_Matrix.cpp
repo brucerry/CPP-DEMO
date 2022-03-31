@@ -3,9 +3,9 @@
 #include <vector>
 using namespace std;
 
-
 // time: O(r * c)
 // space: O(1)
+
 class Solution {
 public:
   vector<int> spiralOrder(vector<vector<int>>& matrix) {
@@ -41,66 +41,3 @@ public:
     return ans;
   }
 };
-
-// time: O(r * c)
-// space: O(1)
-// class Solution {
-// private:
-//   enum Direction {
-//     UP, DOWN, LEFT, RIGHT
-//   };
-
-//   void traverse(vector<vector<int>>& matrix, vector<int>& ans, int r, int c, Direction dir, const int* rows, const int* cols) {
-//     ans.push_back(matrix[r][c]);
-//     matrix[r][c] = INT_MAX;
-
-//     switch (dir) {
-//       case UP:
-//         if (r-1 >= 0 && matrix[r-1][c] != INT_MAX) {
-//           r--;
-//         } else if (c+1 < *cols && matrix[r][c+1] != INT_MAX) {
-//           c++;
-//           dir = RIGHT;
-//         } else return;
-//         break;
-
-//       case DOWN:
-//         if (r+1 < *rows && matrix[r+1][c] != INT_MAX) {
-//           r++;
-//         } else if (c-1 >= 0 && matrix[r][c-1] != INT_MAX) {
-//           c--;
-//           dir = LEFT;
-//         } else return;
-//         break;
-
-//       case LEFT:
-//         if (c-1 >= 0 && matrix[r][c-1] != INT_MAX) {
-//           c--;
-//         } else if (r-1 >= 0 && matrix[r-1][c] != INT_MAX) {
-//           r--;
-//           dir = UP;
-//         } else return;
-//         break;
-
-//       case RIGHT:
-//         if (c+1 < *cols && matrix[r][c+1] != INT_MAX) {
-//           c++;
-//         } else if (r+1 < *rows && matrix[r+1][c] != INT_MAX) {
-//           r++;
-//           dir = DOWN;
-//         } else return;
-//         break;
-//     }
-
-//     traverse(matrix, ans, r, c, dir, rows, cols);
-//   }
-
-// public:
-//   vector<int> spiralOrder(vector<vector<int>>& matrix) {
-//     int rows = matrix.size();
-//     int cols = matrix[0].size();
-//     vector<int> ans;
-//     traverse(matrix, ans, 0, 0, RIGHT, &rows, &cols);
-//     return ans;
-//   }
-// };
