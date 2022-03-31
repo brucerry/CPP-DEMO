@@ -3,10 +3,11 @@
 #include <vector>
 using namespace std;
 
+// time: O(r * c)
+// space: O(1)
+
 class Solution {
 public:
-  // time: O(r * c)
-  // space: O(1)
   void setZeroes(vector<vector<int>>& matrix) {
     int rows = matrix.size();
     int cols = matrix[0].size();

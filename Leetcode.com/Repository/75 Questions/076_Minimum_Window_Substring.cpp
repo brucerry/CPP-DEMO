@@ -9,41 +9,39 @@ using namespace std;
 
 class Solution {
 public:
-  string minWindow(string& s, string& t) {
-    if (s.length() < t.length()) return "";
-        
-    unordered_map<char, int> freq_t, freq_s;
-
+  string minWindow(string s, string t) {
+    unordered_map<char, int> charCountT, charCountS;
+    
     for (char& ch : t) {
-      freq_t[ch]++;
+      charCountT[ch]++;
     }
-
-    string ans;
-    int left = 0;
-    int matched = 0;
-    int start = 0;
-    int minLen = INT_MAX;
-
-    for (int i = 0; i < s.length(); i++) {
-      char ch = s[i];
-      freq_s[ch]++;
-
-      if (matched < freq_t.size() && freq_t.count(ch) && freq_s[ch] == freq_t[ch]) {
-        matched++;
+    
+    int minLen = s.length();
+    int startIndex = 0;
+    int l = 0;
+    int satisfied = 0;
+    
+    for (int r = 0; r < s.length(); r++) {
+      const char& ch = s[r];
+      charCountS[ch]++;
+      
+      if (satisfied < charCountT.size() && charCountT.count(ch) && charCountT[ch] == charCountS[ch]) {
+        satisfied++;
       }
-
-      if (matched == freq_t.size()) {
-        while (freq_t.count(s[left]) == 0 || freq_s[s[left]] > freq_t[s[left]]) {
-          freq_s[s[left]]--;
-          left++;
+      
+      if (satisfied == charCountT.size()) {
+        while (charCountT.count(s[l]) == 0 || charCountS[s[l]] > charCountT[s[l]]) {
+          charCountS[s[l]]--;
+          l++;
         }
-        if (i - left < minLen) {
-          start = left;
-          minLen = i - left + 1;
+        const int len = r - l + 1;
+        if (len < minLen) {
+          minLen = len;
+          startIndex = l;
         }
       }
     }
-
-    return matched == freq_t.size() ? s.substr(start, minLen) : "";
+    
+    return satisfied == charCountT.size() ? s.substr(startIndex, minLen) : "";
   }
 };
