@@ -38,4 +38,29 @@ public:
     traverse(root, result, 0);
     return result;
   }
+
+  // BFS
+  // vector<vector<int>> levelOrder(TreeNode* root) {
+  //   queue<TreeNode*> queue;
+  //   if (root) queue.push(root);
+    
+  //   vector<vector<int>> result;
+    
+  //   while (queue.size()) {
+  //     vector<int> level;
+  //     const int size = queue.size();
+  //     for (int i = 0; i < size; i++) {
+  //       TreeNode* node = queue.front();
+  //       queue.pop();
+  //       if (node) {
+  //         level.emplace_back(node->val);
+  //         queue.push(node->left);
+  //         queue.push(node->right);
+  //       }
+  //     }
+  //     if (level.size()) result.emplace_back(level);
+  //   }
+    
+  //   return result;
+  // }
 };

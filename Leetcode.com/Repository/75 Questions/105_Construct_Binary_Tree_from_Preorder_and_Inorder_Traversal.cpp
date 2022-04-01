@@ -24,9 +24,9 @@ private:
     int rootIndex = find(inorder.begin(), inorder.end(), rootValue) - inorder.begin();
     int leftSize = rootIndex - inStart;
 
-    TreeNode* leftNode = buildTree(preorder, inorder, preStart + 1, preStart + leftSize, inStart, rootIndex - 1);
-    TreeNode* rightNode = buildTree(preorder, inorder, preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd);
-    TreeNode* root = new TreeNode(rootValue, leftNode, rightNode);
+    TreeNode* root = new TreeNode(rootValue);
+    root->left = buildTree(preorder, inorder, preStart + 1, preStart + leftSize, inStart, rootIndex - 1);
+    root->right = buildTree(preorder, inorder, preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd);
 
     return root;
   }

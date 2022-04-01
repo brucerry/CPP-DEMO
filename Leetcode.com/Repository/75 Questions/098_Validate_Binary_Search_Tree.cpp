@@ -16,15 +16,18 @@ struct TreeNode {
 
 class Solution {
 private:
-  bool traverse(long leftBound, TreeNode* root, long rightBound) {
+  bool isValidBST(long leftVal, TreeNode* root, long rightVal) {
     if (!root) return true;
-    if (!(leftBound < root->val && root->val < rightBound)) return false;
-
-    return traverse(leftBound, root->left, root->val) && traverse(root->val, root->right, rightBound);
+    
+    if (leftVal < root->val && root->val < rightVal) {
+      return isValidBST(leftVal, root->left, root->val) && isValidBST(root->val, root->right, rightVal);
+    }
+    
+    return false;
   }
-
+  
 public:
   bool isValidBST(TreeNode* root) {
-    return traverse(LONG_MIN, root, LONG_MAX);
+    return isValidBST(LONG_MIN, root, LONG_MAX);
   }
 };
