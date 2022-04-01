@@ -15,25 +15,25 @@ struct TreeNode {
 // space: O(height of tree)
 
 class Solution {
-private:
-  int traverse(TreeNode* root, int* maxSum) {
+private:  
+  int maxPathSum(TreeNode* root, int* maxSum) {
     if (!root) return 0;
-
-    int maxLeft = max(traverse(root->left, maxSum), 0);
-    int maxRight = max(traverse(root->right, maxSum), 0);
-
-    int withSplit = root->val + maxLeft + maxRight;
-    int withoutSplit = root->val + max(maxLeft, maxRight);
-
-    *maxSum = max(*maxSum, withSplit);
-
+    
+    int leftMax = max(0, maxPathSum(root->left, maxSum));
+    int rightMax = max(0, maxPathSum(root->right, maxSum));
+    
+    int withoutSplit = root->val + max(leftMax, rightMax);
+    int split = root->val + leftMax + rightMax;
+    
+    *maxSum = max(*maxSum, split);
+    
     return withoutSplit;
   }
-
+  
 public:
   int maxPathSum(TreeNode* root) {
     int maxSum = root->val;
-    traverse(root, &maxSum);
+    maxPathSum(root, &maxSum);
     return maxSum;
   }
 };
