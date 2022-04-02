@@ -18,15 +18,15 @@ public:
 
   // recursive
   ListNode* reverseList(ListNode* head) {
-    if (!head) return nullptr;
+    if (!head) return head;
 
     ListNode* newHead = head;
 
     if (head->next) {
       newHead = reverseList(head->next);
       head->next->next = head;
+      head->next = nullptr;
     }
-    head->next = nullptr;
 
     return newHead;
   }
