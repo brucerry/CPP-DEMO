@@ -6,44 +6,30 @@
 #include <vector>
 #include <iostream>
 #include <stack>
-#include <tuple>
 using namespace std;
 
 int largestRectangle(vector<int>& heights) {
   int n = heights.size();
   int maxArea = 0;
-  stack<pair<int, int>> stack;
+  stack<pair<int, int>> stack; // index, height
 
   for (int i = 0; i < n; i++) {
-    if (stack.size() == 0) {
-      stack.push({heights[i], i});
-    } else {
-      auto [ topHeight, topIndex ] = stack.top();
-      if (heights[i] > topHeight) {
-        stack.push({heights[i], i});
-      } else {
-        while (heights[i] <= topHeight ) {
-          topIndex = get<1>(stack.top());
-          int area = topHeight  * (i - topIndex);
-          //cout << area << endl;
-          maxArea = max(maxArea, area);
-          stack.pop();
-          if (stack.size()) {
-            topHeight = get<0>(stack.top());
-          } else {
-            break;
-          }
-        }
-        stack.push({heights[i], topIndex});
-      }
+    int start = i;
+
+    while (stack.size() && heights[i] < stack.top().second) {
+      auto& [ index, height ] = stack.top();
+      maxArea = max(maxArea, height * (i - index));
+      start = index;
+      stack.pop();
     }
+
+    stack.push({ start, heights[i] });
   }
 
   while (stack.size()) {
-    auto [ topHeight, topIndex ] = stack.top();
+    auto& [ index, height ] = stack.top();
+    maxArea = max(maxArea, height * (n - index));
     stack.pop();
-    int area = topHeight * (n - topIndex);
-    maxArea = max(maxArea, area);
   }
 
   return maxArea;
