@@ -9,27 +9,15 @@ using namespace std;
 class Solution {
 public:
   int findMin(vector<int>& nums) {
-    int l = 0;
-    int r = nums.size() - 1;
-    int ans = nums[0];
-
-    while (l <= r) {
-      if (nums[l] < nums[r]) {
-        ans = min(ans, nums[l]);
-        break;
-      }
-
-      int mid = l + ((r - l) >> 1);
-      ans = min(ans, nums[mid]);
-
-      if (nums[mid] > nums[r]) {
-        l = mid + 1;
-      }
-      else {
-        r = mid - 1;
-      }
+    int l = 0, r = nums.size() - 1;
+    
+    while (l < r) {
+      int m = l + ((r - l) >> 1);
+      
+      if (nums[m] < nums[r]) r = m;
+      else l = m + 1;
     }
-
-    return ans;
+    
+    return nums[l];
   }
 };

@@ -15,8 +15,8 @@ public:
     for (int& num : nums) {
       int tmpMax = curMax * num;
       int tmpMin = curMin * num;
-      curMax = max({tmpMax, tmpMin, num});
-      curMin = min({tmpMax, tmpMin, num});
+      curMax = max({ tmpMax, tmpMin, num });
+      curMin = min({ tmpMax, tmpMin, num });
       ans = max(ans, curMax);
     }
 
