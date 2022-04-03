@@ -2,47 +2,44 @@
 
 #include <vector>
 #include <queue>
-#include <unordered_map>
 #include <unordered_set>
 using namespace std;
 
-// n = # of nodes
-// e = # of edges
 // time: O(e * log(n))
 // space: O(n)
 
 class Solution {
 public:
   int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-    unordered_map<int, vector<pair<int, int>>> graph;
+    vector<vector<pair<int, int>>> graph (n + 1, vector<pair<int, int>>());
 
-    for (auto& data : times) {
-      int startNode = data[0];
-      int endNode = data[1];
-      int timeSpend = data[2];
-      graph[startNode].push_back({timeSpend, endNode});
+    for (const auto& data : times) {
+      int start = data[0];
+      int end = data[1];
+      int time = data[2];
+      graph[start].emplace_back(time, end);
     }
 
     unordered_set<int> visited;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-    pq.push({0, k}); // { timeSpend, currentNode }
-
+    pq.emplace(0, k); // { timeSpend, node }
+    
     int totalTime = 0;
 
     while (pq.size()) {
-      auto [ timeSpend, currentNode ] = pq.top();
+      auto [ timeSpend, node ] = pq.top();
       pq.pop();
 
-      if (visited.count(currentNode)) continue;
-      visited.insert(currentNode);
+       if (visited.count(node)) continue;
+       visited.emplace(node);
 
       totalTime = max(totalTime, timeSpend);
 
       if (visited.size() == n) return totalTime;
       
-      for (auto& [ time, neighbor ] : graph[currentNode]) {
+      for (const auto& [ time, neighbor ] : graph[node]) {
         if (visited.count(neighbor) == 0) {
-          pq.push({time + timeSpend, neighbor});
+          pq.emplace(time + timeSpend, neighbor);
         }
       }
     }
