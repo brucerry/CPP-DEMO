@@ -11,18 +11,11 @@ void printNums(vector<float> numbers)
   cout << endl;
 }
 
-void swap(float* a, float* b)
-{
-  float tmp = *a;
-  *a = *b;
-  *b = tmp;
-}
-
 int findMedianOfThree(vector<float> &numbers, int head, int tail, int mid)
 {
-  if (numbers[mid] < numbers[head]) swap(&numbers[mid], &numbers[head]);
-  if (numbers[tail] < numbers[head]) swap(&numbers[tail], &numbers[head]);
-  if (numbers[mid] < numbers[tail]) swap(&numbers[mid], &numbers[tail]);
+  if (numbers[mid] < numbers[head]) swap(numbers[mid], numbers[head]);
+  if (numbers[tail] < numbers[head]) swap(numbers[tail], numbers[head]);
+  if (numbers[mid] < numbers[tail]) swap(numbers[mid], numbers[tail]);
   return tail;
 }
 
@@ -36,11 +29,11 @@ int findPivotIndex(vector<float> &numbers, int head, int tail)
   {
     if (numbers[i] <= pivot)
     {
-      swap(&numbers[p], &numbers[i]);
+      swap(numbers[p], numbers[i]);
       p++;
     }
   }
-  swap(&numbers[medianOfThree], &numbers[p]);
+  swap(numbers[medianOfThree],numbers[p]);
 
   return p;
 }
