@@ -1,39 +1,41 @@
 // https://leetcode.com/problems/design-add-and-search-words-data-structure/
 
 #include <string>
-#include <unordered_map>
+#include <array>
 using namespace std;
 
 class WordDictionary {
 private:
-  WordDictionary* children[26];
+  array<WordDictionary*, 26> children;
   bool isEnd;
-
-  bool dfs(string& word, int start, WordDictionary* n) {
-    WordDictionary* cur = n;
-    for (int i = start; i < word.size(); i++) {
+  
+  bool dfs(const string& word, int start, WordDictionary* node) {
+    WordDictionary* cur = node;
+    
+    for (int i = start; i < word.length(); i++) {
       if (word[i] == '.') {
         for (int j = 0; j < 26; j++) {
           if (cur->children[j] && dfs(word, i + 1, cur->children[j])) return true;
         }
         return false;
       }
-      else {
-        if (!cur->children[word[i] - 'a']) return false;
-        cur = cur->children[word[i] - 'a'];
+      else if (!cur->children[word[i] - 'a']) {
+        return false;
       }
+      cur = cur->children[word[i] - 'a'];
     }
+    
     return cur->isEnd;
   }
-
+  
 public:
-  WordDictionary() : children(), isEnd(false) {
-    fill(children, children + 26, nullptr);
+  WordDictionary() : isEnd(false) {
+    fill(children.begin(), children.end(), nullptr);
   }
   
   void addWord(string word) {
     WordDictionary* cur = this;
-    for (char& ch : word) {
+    for (const char& ch : word) {
       if (!cur->children[ch - 'a']) {
         cur->children[ch - 'a'] = new WordDictionary();
       }

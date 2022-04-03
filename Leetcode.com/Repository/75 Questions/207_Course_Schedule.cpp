@@ -1,40 +1,42 @@
 // https://leetcode.com/problems/course-schedule/
 
 #include <vector>
-#include <unordered_map>
 using namespace std;
+
+// time: O(n + e)
+// space: O(n)
 
 class Solution {
 private:
-  bool hasCycle(vector<int> *graph, int node, vector<int>& visited) {
-    if (visited[node] == 2) return false;
-    if (visited[node] == 1) return true;
-
-    visited[node] = 1;
-
-    for (auto neighbor : graph[node]) {
-      if (hasCycle(graph, neighbor, visited)) return true;
-    }
-
-    visited[node] = 2;
-
-    return false;
-}
-
-public:
-  bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-    vector<int> graph[numCourses];
-    for (auto courses : prerequisites) {
-      int a = courses[1];
-      int b = courses[0];
-      graph[a].push_back(b);
+  bool hasCycle(vector<vector<int>>& graph, int node, vector<int>& visitStates) {
+    if (visitStates[node] == 1) return true;
+    if (visitStates[node] == 2) return false;
+    
+    visitStates[node] = 1;
+    
+    for (const int& neighbor : graph[node]) {
+      if (hasCycle(graph, neighbor, visitStates)) return true;
     }
     
-    vector<int> visited (numCourses, 0);
-    for (int i = 0; i < numCourses; i++) {
-      if (hasCycle(graph, i, visited)) return false;
+    visitStates[node] = 2;
+    
+    return false;
+  }
+  
+public:
+  bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<vector<int>> graph (numCourses, vector<int>());
+    
+    for (const auto& courses : prerequisites) {
+      graph[courses[1]].emplace_back(courses[0]);
     }
-
+    
+    vector<int> visitStates (numCourses, 0); // 1: visiting, 2: visited
+    
+    for (int node = 0; node < numCourses; node++) {
+      if (graph[node].size() && hasCycle(graph, node, visitStates)) return false;
+    }
+    
     return true;
   }
 };
