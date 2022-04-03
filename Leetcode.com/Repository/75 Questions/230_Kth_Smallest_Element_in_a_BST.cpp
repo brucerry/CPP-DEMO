@@ -13,32 +13,26 @@ struct TreeNode {
   TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-// time: O(n)
+// time: O(n + k)
 // space: O(n)
 
 class Solution {
 public:
   int kthSmallest(TreeNode* root, int k) {
     stack<TreeNode*> stack;
-    TreeNode* cur = root;
-    int count = 0;
-
-    while (cur || stack.size()) {
-      while (cur) {
-        stack.push(cur);
-        cur = cur->left;
+    
+    while (true) {
+      while (root) {
+        stack.push(root);
+        root = root->left;
       }
-
-      cur = stack.top();
+      
+      root = stack.top();
       stack.pop();
-
-      if (++count == k) {
-        return cur->val;
-      }
-
-      cur = cur->right;
+      
+      if (--k == 0) return root->val;
+      
+      root = root->right;
     }
-
-    return -1;
   }
 };
