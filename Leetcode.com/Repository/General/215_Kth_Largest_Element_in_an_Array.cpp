@@ -20,14 +20,13 @@ private:
     }
     swap(nums[p], nums[right]);
 
-    if (p > k) return quickSelect(nums, left, p - 1, k);
+    if (k < p) return quickSelect(nums, left, p - 1, k);
     else if (p < k) return quickSelect(nums, p + 1, right, k);
     else return nums[p];
   }
 
 public:
   int findKthLargest(vector<int>& nums, int k) {
-    k = nums.size() - k;
-    return quickSelect(nums, 0, nums.size() - 1, k);
+    return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
   }
 };
