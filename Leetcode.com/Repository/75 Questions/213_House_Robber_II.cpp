@@ -27,6 +27,6 @@ public:
   int rob(vector<int>& nums) {
     int result1 = houseRobber1(nums, 0, nums.size() - 2);
     int result2 = houseRobber1(nums, 1, nums.size() - 1);
-    return max({nums[0], result1, result2});
+    return max({ nums[0], result1, result2 });
   }
 };
