@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-// time: O(n) for encode, O(s) for decode
+// time: O(n)
 // space: O(1)
 
 class Solution {
@@ -30,7 +30,7 @@ public:
       }
       int len = stoi(tmp);
       i++;
-      output.push_back(s.substr(i, len));
+      output.emplace_back(s.substr(i, len));
       i += len;
     }
 

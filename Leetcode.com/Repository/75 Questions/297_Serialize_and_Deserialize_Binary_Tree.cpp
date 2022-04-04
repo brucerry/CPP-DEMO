@@ -18,12 +18,11 @@ struct TreeNode {
 class Codec {
 private:
   void dfsSerialize(TreeNode* node, string& str) {
+    if (str.length()) str += ',';
     if (!node) {
-      if (str.length()) str += ',';
       str += 'N';
       return;
     }
-    if (str.length()) str += ',';
     str += to_string(node->val);
     dfsSerialize(node->left, str);
     dfsSerialize(node->right, str);
@@ -59,12 +58,11 @@ public:
     stringstream ss (data);
     string s;
     while (getline(ss, s, ',')) {
-      values.push_back(s);
+      values.emplace_back(s);
     }
 
     int i = 0;
-    TreeNode* root = dfsDeserialize(values, &i);
-    return root;
+    return dfsDeserialize(values, &i);
   }
 };
 
