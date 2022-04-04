@@ -24,16 +24,14 @@ public:
   // time: O(n * log(n))
   // space: O(n)
   int lengthOfLIS(vector<int>& nums) {
-    vector<int> dp (1, nums[0]);
-    for (int& num : nums) {
+    vector<int> dp;
+    
+    for (const int& num : nums) {
       int pos = lower_bound(dp.begin(), dp.end(), num) - dp.begin();
-      if (pos == dp.size()) {
-        dp.push_back(num);
-      }
-      else {
-        dp[pos] = num;
-      }
+      if (pos == dp.size()) dp.emplace_back(num);
+      else dp[pos] = num;
     }
+    
     return dp.size();
   }
 };

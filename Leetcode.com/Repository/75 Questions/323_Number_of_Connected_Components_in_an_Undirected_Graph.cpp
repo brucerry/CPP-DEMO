@@ -17,7 +17,7 @@ private:
     return node;
   }
 
-  int unionNodes(vector<int> &parents, vector<int>& ranks, int node1, int node2) {
+  int unionNodes(vector<int>& parents, vector<int>& ranks, int node1, int node2) {
     int parent1 = findRootParent(parents, node1);
     int parent2 = findRootParent(parents, node2);
 
@@ -43,7 +43,7 @@ public:
       parents[i] = i;
     }
 
-    for (auto& edge : edges) {
+    for (const auto& edge : edges) {
       int node1 = edge[0];
       int node2 = edge[1];
       
