@@ -3,24 +3,23 @@
 #include <vector>
 using namespace std;
 
+// time: O(a * c)
+// space: O(a)
+
 class Solution {
 public:
-  // time: O(a * c)
-  // space: O(a)
   int change(int amount, vector<int>& coins) {
-    int dp[amount + 1];
-    fill(dp, dp + amount + 1, 0);
+    vector<int> dp (amount + 1, 0);
     dp[0] = 1;
-
-    for (int& coin : coins) {
-      for (int a = 1; a <= amount; a++) {
-        int remain = a - coin;
-        if (remain >= 0) {
-          dp[a] += dp[remain];
+    
+    for (const int& coin : coins) {
+      for (int a = 0; a <= amount; a++) {
+        if (a >= coin) {
+          dp[a] += dp[a - coin];
         }
       }
     }
-
+    
     return dp[amount];
   }
 };
