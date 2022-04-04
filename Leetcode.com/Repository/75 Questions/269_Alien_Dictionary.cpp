@@ -1,11 +1,10 @@
 // https://leetcode.com/problems/alien-dictionary/
 
-// https://www.youtube.com/watch?v=6kTZYvNNyps
-
 #include <vector>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 using namespace std;
 
 // n = total number of characters in words
@@ -14,18 +13,17 @@ using namespace std;
 
 class Solution {
 private:
-  bool hasCycle(unordered_map<char, unordered_set<char>> &graph, const char& node, string& result, unordered_set<char>& visiting, unordered_set<char>& visited) {
-    if (visiting.count(node)) return true;
-    if (visited.count(node)) return false;
+  bool hasCycle(unordered_map<char, unordered_set<char>> &graph, const char& node, string& result, vector<char>& visitStates) {
+    if (visitStates[node - 'a'] == 1) return true;
+    if (visitStates[node - 'a'] == 2) return false;
 
-    visiting.insert(node);
+    visitStates[node - 'a'] = 1;
 
-    for (auto& neighbors : graph[node]) {
-      if (hasCycle(graph, neighbors, result, visiting, visited)) return true;
+    for (const char& neighbor : graph[node]) {
+      if (hasCycle(graph, neighbor, result, visitStates)) return true;
     }
 
-    visiting.erase(node);
-    visited.insert(node);
+    visitStates[node - 'a'] = 2;
 
     result += node;
 
@@ -33,36 +31,35 @@ private:
   }
 
 public:
-  string alienOrder(vector<string> words) {
+  string alienOrder(vector<string>& words) {
     unordered_map<char, unordered_set<char>> graph;
 
-    for (string& word : words) {
-      for (char& ch : word) {
+    for (const string& word : words) {
+      for (const char& ch : word) {
         graph[ch] = {};
       }
     }
 
     for (int i = 0; i < words.size() - 1; i++) {
-      string& word1 = words[i];
-      string& word2 = words[i + 1];
+      string_view word1 = words[i];
+      string_view word2 = words[i + 1];
       int minLen = min(word1.length(), word2.length());
 
-      if (word1.length() > word2.length() && word1.substr(0, minLen) == word2.substr(0, minLen)) return "";
+      if (word1.substr(0, minLen) == word2.substr(0, minLen) && word1.length() > word2.length()) return "";
 
       for (int j = 0; j < minLen; j++) {
         if (word1[j] != word2[j]) {
-          graph[word1[j]].insert(word2[j]);
+          graph[word1[j]].emplace(word2[j]);
           break;
         }
       }
     }
 
-    unordered_set<char> visiting;
-    unordered_set<char> visited;
+    vector<char> visitStates (26, 0); // 1: visiting, 2: visited
     string result;
 
-    for (auto& pair : graph) {
-      if (hasCycle(graph, pair.first, result, visiting, visited)) return "";
+    for (const auto& [ node, _ ] : graph) {
+      if (hasCycle(graph, node, result, visitStates)) return "";
     }
 
     reverse(result.begin(), result.end());

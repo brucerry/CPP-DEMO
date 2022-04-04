@@ -19,8 +19,8 @@ public:
       charCountT[t[i]]++;
     }
 
-    for (auto& pair : charCountS) {
-      if (charCountS[pair.first] != charCountT[pair.first]) return false;
+    for (const auto& [ ch, _ ] : charCountS) {
+      if (charCountS[ch] != charCountT[ch]) return false;
     }
 
     return true;

@@ -13,7 +13,7 @@ public:
 };
 
 // time: O(n * log(n))
-// space: O(log(n)) to O(n) for sorting
+// space: O(n)
 
 class Solution {
 public:
@@ -36,8 +36,8 @@ public:
     while (s < starts.size()) {
       if (starts[s] < ends[e]) {
         count++;
-        ans = max(ans, count);
         s++;
+        ans = max(ans, count);
       }
       else {
         count--;

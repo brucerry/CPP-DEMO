@@ -9,21 +9,21 @@ using namespace std;
 class Solution {
 public:
   vector<int> productExceptSelf(vector<int>& nums) {
-    vector<int> ans (nums.size());
+    vector<int> result (nums.size());
     
     int prefix = 1;
     int postfix = 1;
 
     for (int i = 0; i < nums.size(); i++) {
-      ans[i] = prefix;
+      result[i] = prefix;
       prefix *= nums[i];
     }
 
     for (int i = nums.size() - 1; i >= 0; i--) {
-      ans[i] *= postfix;
+      result[i] *= postfix;
       postfix *= nums[i];
     }
 
-    return ans;
+    return result;
   }
 };
