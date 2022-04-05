@@ -3,25 +3,25 @@
 #include <vector>
 using namespace std;
 
+// time: O(n)
+// space: O(1)
+
 class Solution {
 public:
-  // time: O(n)
-  // space: O(1)
   int jump(vector<int>& nums) {
-    int steps = 0;
-    int left = 0;
-    int right = 0;
+    int ans = 0;
+    int l = 0, r = 0;
 
-    while (right < nums.size() - 1) {
+    while (r < nums.size() - 1) {
       int farthest = 0;
-      for (int i = left; i <= right; i++) {
+      for (int i = l; i <= r; i++) {
         farthest = max(farthest, i + nums[i]);
       }
-      left = right + 1;
-      right = farthest;
-      steps++;
+      l = r + 1;
+      r = farthest;
+      ans++;
     }
 
-    return steps;
+    return ans;
   }
 };
