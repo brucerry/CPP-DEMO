@@ -1,64 +1,42 @@
-#include <iostream>
 #include <vector>
-using namespace std;
 
-void printNums(vector<float> numbers)
+class Quicksort
 {
-  for (auto num : numbers)
+public:
+  void quickSort(std::vector<int>& nums)
   {
-    cout << " " << num; 
+    quickSort(nums, 0, nums.size() - 1);
   }
-  cout << endl;
-}
 
-int findMedianOfThree(vector<float> &numbers, int head, int tail, int mid)
-{
-  if (numbers[mid] < numbers[head]) swap(numbers[mid], numbers[head]);
-  if (numbers[tail] < numbers[head]) swap(numbers[tail], numbers[head]);
-  if (numbers[mid] < numbers[tail]) swap(numbers[mid], numbers[tail]);
-  return tail;
-}
-
-int findPivotIndex(vector<float> &numbers, int head, int tail)
-{
-  int medianOfThree = findMedianOfThree(numbers, head, tail, (head + tail) / 2);
-  float pivot = numbers[medianOfThree];
-  int p = head;
-
-  for (int i = head; i < tail; i++)
+private:
+  int findMedianOfThree(std::vector<int>& nums, int left, int right, int mid)
   {
-    if (numbers[i] <= pivot)
+    if (nums[mid] < nums[left]) std::swap(nums[mid], nums[left]);
+    if (nums[right] < nums[left]) std::swap(nums[right], nums[left]);
+    if (nums[mid] < nums[right]) std::swap(nums[mid], nums[right]);
+    return right;
+  }
+
+  void quickSort(std::vector<int>& nums, int left, int right)
+  {
+    if (left < right)
     {
-      swap(numbers[p], numbers[i]);
-      p++;
+      int medianOfThree = findMedianOfThree(nums, left, right, (left + right) / 2);
+      int pivot = nums[medianOfThree];
+      int p = left;
+
+      for (int i = left; i < right; i++)
+      {
+        if (nums[i] <= pivot)
+        {
+          std::swap(nums[p], nums[i]);
+          p++;
+        }
+      }
+      std::swap(nums[medianOfThree], nums[p]);
+
+      quickSort(nums, left, p - 1);
+      quickSort(nums, p + 1, right);
     }
   }
-  swap(numbers[medianOfThree],numbers[p]);
-
-  return p;
-}
-
-void quickSort(vector<float> &numbers, int head, int tail)
-{
-  if (head < tail)
-  {
-    int pivotIndex = findPivotIndex(numbers, head, tail);
-    quickSort(numbers, head, pivotIndex - 1);
-    quickSort(numbers, pivotIndex + 1, tail);
-  }
-}
-
-int main()
-{
-  vector<float> numbers = {9, 77, 65, 443, -98, -34, 54, 2234, -9.2283, 9.223, 9.22456, -988, 334, 334.1};
-
-  cout << "Before sort:";
-  printNums(numbers);
-
-  quickSort(numbers, 0, numbers.size() - 1);
-
-  cout << "After sort:";
-  printNums(numbers);
-
-  return 0;
-}
+};
