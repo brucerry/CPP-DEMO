@@ -7,7 +7,7 @@ class Solution {
 public:
   int getSum(int a, int b) {
     while (b) {
-      int tmp = (unsigned int)(a & b) << 1;
+      int tmp = (unsigned int)(a & b) << 1; // carry
       a ^= b;
       b = tmp;
     }

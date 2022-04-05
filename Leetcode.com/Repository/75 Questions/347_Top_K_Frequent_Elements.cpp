@@ -14,28 +14,26 @@ class Solution {
 public:
   vector<int> topKFrequent(vector<int>& nums, int k) {
     unordered_map<int, int> intCount;
-
-    for (int& num : nums) {
+    
+    for (const int& num : nums) {
       intCount[num]++;
     }
-
+    
     vector<vector<int>> freqs (nums.size() + 1);
     
-    for (auto& [ num, count ] : intCount) {
-      freqs[count].push_back(num);
+    for (const auto& [ num, count ] : intCount) {
+      freqs[count].emplace_back(num);
     }
-
+    
     vector<int> result;
     result.reserve(k);
-
-    for (int i = freqs.size() - 1; i >= 0; i--) {
-      if (result.size() == k) break;
-
-      for (int& num : freqs[i]) {
+    
+    for (int i = freqs.size() - 1; i >= 0 && result.size() < k; i--) {
+      for (const int& num : freqs[i]) {
         result.emplace_back(num);
       }
     }
-
+    
     return result;
   }
 };
