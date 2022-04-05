@@ -3,26 +3,29 @@
 #include <vector>
 using namespace std;
 
+// time: O(n^3)
+// space: O(n^2)
+
 class Solution {
 private:
-  int maxCoins(vector<int>& nums, int head, int tail, vector<vector<int>> &dp){
-    if (head > tail) return 0;
-    if (dp[head][tail] != 0) return dp[head][tail];
+  int maxCoins(vector<int>& nums, int left, int right, vector<vector<int>> &dp){
+    if (left > right) return 0;
+    if (dp[left][right] != -1) return dp[left][right];
 
-    for (int i = head; i <= tail; i++) {      
-      int leftCoin = head - 1 < 0 ? 1 : nums[head - 1];
-      int rightCoin = tail + 1 >= nums.size() ? 1 : nums[tail + 1];
+    for (int i = left; i <= right; i++) {      
+      int leftCoin = left - 1 < 0 ? 1 : nums[left - 1];
+      int rightCoin = right + 1 >= nums.size() ? 1 : nums[right + 1];
       int totalCoins = leftCoin * rightCoin * nums[i];
-      totalCoins += maxCoins(nums, head, i - 1, dp) + maxCoins(nums, i + 1, tail, dp);
-      dp[head][tail] = max(dp[head][tail], totalCoins);
+      totalCoins += maxCoins(nums, left, i - 1, dp) + maxCoins(nums, i + 1, right, dp);
+      dp[left][right] = max(dp[left][right], totalCoins);
     }
 
-    return dp[head][tail];
+    return dp[left][right];
   }
 
 public:
   int maxCoins(vector<int>& nums) {
-    vector<vector<int>> dp (nums.size(), vector<int>(nums.size(), 0));
+    vector<vector<int>> dp (nums.size(), vector<int>(nums.size(), -1));
     return maxCoins(nums, 0, nums.size() - 1, dp);
   }
 };
