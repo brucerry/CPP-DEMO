@@ -10,8 +10,8 @@ using namespace std;
 class Solution {
 public:
   int longestCommonSubsequence(string text1, string text2) {
-    int m = text1.length();
-    int n = text2.length();
+    const int m = text1.length();
+    const int n = text2.length();
 
     vector<vector<int>> dp (m + 1, vector<int>(n + 1, 0));
 

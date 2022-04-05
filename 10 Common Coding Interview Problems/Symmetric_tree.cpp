@@ -20,16 +20,13 @@ public:
 */
 
 bool symmetricTree(Node* root1, Node* root2) {
-  if (root1 == nullptr && root2 == nullptr) return true;
-  if (root1 == nullptr && root2 != nullptr) return false;
-  if (root2 == nullptr && root1 != nullptr) return false;
-  if (root1->val != root2->val) return false;
-  
-  return symmetricTree(root1->left, root2->right) && symmetricTree(root2->left, root1->right);
+  if (not root1 and not root2) return true;
+  if (root1 and root2 and root1->val == root2->val) return symmetricTree(root1->left, root2->right) and symmetricTree(root2->left, root1->right);
+  return false;
 }
 
 bool symmetricTree(Node* root) {
-  if (root == nullptr) return true;
+  if (not root) return true;
   return symmetricTree(root->left, root->right);
 }
 
@@ -47,5 +44,5 @@ int main() {
   b.right = &e;
   c.left = &f;
   c.right = &g;
-  cout << symmetricTree(&a);
+  cout << boolalpha << symmetricTree(&a);
 }

@@ -14,7 +14,7 @@ public:
 
     vector<vector<int>> result;
 
-    for (auto& interval : intervals) {
+    for (const auto& interval : intervals) {
       if (result.empty() || result.back()[1] < interval[0]) {
         result.emplace_back(interval);
       }
