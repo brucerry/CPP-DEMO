@@ -33,7 +33,7 @@ private:
 
 public:
   TreeNode* deleteNode(TreeNode* root, int key) {
-    if (!root) return root;
+    if (not root) return root;
 
     if (root->val == key) return helper(root);
 
@@ -41,11 +41,17 @@ public:
 
     while (cur) {
       if (key < cur->val) {
-        if (cur->left && cur->left->val == key) cur->left = helper(cur->left);
+        if (cur->left and cur->left->val == key) {
+          cur->left = helper(cur->left);
+          break;
+        }
         else cur = cur->left;
       }
       else {
-        if (cur->right && cur->right->val == key) cur->right = helper(cur->right);
+        if (cur->right and cur->right->val == key) {
+          cur->right = helper(cur->right);
+          break;
+        }
         else cur = cur->right;
       }
     }
@@ -53,7 +59,3 @@ public:
     return root;
   }
 };
-
-int main() {
-
-}
