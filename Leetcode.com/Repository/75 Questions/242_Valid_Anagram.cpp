@@ -4,7 +4,7 @@
 #include <unordered_map>
 using namespace std;
 
-// time: O(s + t) -> O(s)
+// time: O(s) where s == t
 // space: O(s + t)
 
 class Solution {
@@ -19,8 +19,8 @@ public:
       charCountT[t[i]]++;
     }
 
-    for (const auto& [ ch, _ ] : charCountS) {
-      if (charCountS[ch] != charCountT[ch]) return false;
+    for (const auto& [ ch, count ] : charCountS) {
+      if (count != charCountT[ch]) return false;
     }
 
     return true;

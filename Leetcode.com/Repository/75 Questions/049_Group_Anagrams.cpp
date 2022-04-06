@@ -14,21 +14,21 @@ class Solution {
 public:
   vector<vector<string>> groupAnagrams(vector<string>& strs) {
     unordered_map<string, vector<string>> map;
-
-    for (string& s : strs) {
+    
+    for (const string& str : strs) {
       string s = "00000000000000000000000000";
-      for (char& c : s) {
-        s[c - 'a']++;
+      for (const char& ch : str) {
+        s[ch - 'a']++;
       }
-      map[s].emplace_back(s);
+      map[s].emplace_back(str);
     }
-
-    vector<vector<string>> result;
-
-    for (auto& pair : map) {
-      result.emplace_back(pair.second);
+    
+    vector<vector<string>> ans;
+    
+    for (const auto& [ _, group ] : map) {
+      ans.emplace_back(group);
     }
-
-    return result;
+    
+    return ans;
   }
 };
