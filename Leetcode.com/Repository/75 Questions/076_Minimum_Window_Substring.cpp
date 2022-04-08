@@ -10,38 +10,34 @@ using namespace std;
 class Solution {
 public:
   string minWindow(string s, string t) {
-    unordered_map<char, int> charCountT, charCountS;
+    unordered_map<char, int> charCountS, charCountT;
     
-    for (char& ch : t) {
+    for (const char& ch : t) {
       charCountT[ch]++;
     }
     
-    int minLen = s.length();
-    int startIndex = 0;
     int l = 0;
-    int satisfied = 0;
+    int matches = 0;
+    int startIndex = 0, minLen = INT_MAX;
     
     for (int r = 0; r < s.length(); r++) {
-      const char& ch = s[r];
-      charCountS[ch]++;
+      charCountS[s[r]]++;
       
-      if (satisfied < charCountT.size() && charCountT.count(ch) && charCountT[ch] == charCountS[ch]) {
-        satisfied++;
-      }
+      if (matches < charCountT.size() && charCountT.count(s[r]) && charCountS[s[r]] == charCountT[s[r]])
+        matches++;
       
-      if (satisfied == charCountT.size()) {
+      if (matches == charCountT.size()) {
         while (charCountT.count(s[l]) == 0 || charCountS[s[l]] > charCountT[s[l]]) {
           charCountS[s[l]]--;
           l++;
         }
-        const int len = r - l + 1;
-        if (len < minLen) {
-          minLen = len;
+        if (r - l + 1 < minLen) {
+          minLen = r - l + 1;
           startIndex = l;
         }
       }
     }
     
-    return satisfied == charCountT.size() ? s.substr(startIndex, minLen) : "";
+    return minLen == INT_MAX ? "" : s.substr(startIndex, minLen);
   }
 };
