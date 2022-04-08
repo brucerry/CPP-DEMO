@@ -3,28 +3,31 @@
 #include <vector>
 using namespace std;
 
+// time: O(n)
+// space: O(1)
+
 class Solution {
 public:
-  // time: O(n)
-  // space: O(1)
   int trap(vector<int>& height) {
-    int sum = 0;
-    int left = 0;
-    int right = height.size() - 1;
-    int maxLeft = height[left];
-    int maxRight = height[right];
-    while (left < right) {
-      if (maxLeft < maxRight) {
-        left++;
-        maxLeft = max(maxLeft, height[left]);
-        sum += maxLeft - height[left];
+    int l = 0, r = height.size() - 1;
+    int leftMax = height[l];
+    int rightMax = height[r];
+    
+    int ans = 0;
+    
+    while (l < r) {
+      if (leftMax < rightMax) {
+        l++;
+        leftMax = max(leftMax, height[l]);
+        ans += leftMax - height[l];
       }
       else {
-        right--;
-        maxRight = max(maxRight, height[right]);
-        sum += maxRight - height[right];
+        r--;
+        rightMax = max(rightMax, height[r]);
+        ans += rightMax - height[r];
       }
     }
-    return sum;
+    
+    return ans;
   }
 };
