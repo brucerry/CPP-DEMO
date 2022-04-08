@@ -16,8 +16,12 @@ public:
   }
   
   void push(int val) {
-    if (stack.size() == 0) stack.push({ val, val });
-    else stack.push({ val, min(val, stack.top().second) });
+    if (stack.size()) {
+      stack.emplace(val, min(val, stack.top().second));
+    }
+    else {
+      stack.emplace(val, val);
+    }
   }
   
   void pop() {

@@ -10,25 +10,26 @@ using namespace std;
 
 class Solution {
 public:
-  bool isValid(string& s) {
-    unordered_map<char, char> match {
+  bool isValid(string s) {
+    unordered_map<char, char> map {
       { ')', '(' },
+      { ']', '[' },
       { '}', '{' },
-      { ']', '[' }
     };
-
-    vector<char> container;
-
-    for (char& ch : s) {
-      if (match.count(ch)) {
-        if (container.size() == 0 || container.back() != match[ch]) return false;
-        container.pop_back();
+    
+    vector<char> buffer;
+    
+    for (const char& ch : s) {
+      if (map.count(ch)) {
+        if (buffer.size() == 0 || buffer.back() != map[ch])
+          return false;
+        buffer.pop_back();
       }
       else {
-        container.emplace_back(ch);
+        buffer.emplace_back(ch);
       }
     }
-
-    return container.size() == 0;
+    
+    return buffer.size() == 0;
   }
 };

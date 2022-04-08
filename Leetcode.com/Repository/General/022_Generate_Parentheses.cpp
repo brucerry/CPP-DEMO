@@ -1,30 +1,35 @@
-/*
-  https://leetcode.com/problems/generate-parentheses/
-*/
+// https://leetcode.com/problems/generate-parentheses/
 
-#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
 
 class Solution {
-public:
-  void generateParenthesis(int n, vector<string>& result, string s, int open, int close) {
+private:
+  void solve(vector<string>& ans, string& str, int n, int open, int close) {
     if (close == n) {
-      result.push_back(s);
+      ans.emplace_back(str);
       return;
     }
+    
     if (open < n) {
-      generateParenthesis(n, result, s + '(', open + 1, close);
+      str += '(';
+      solve(ans, str, n, open + 1, close);
+      str.pop_back();
     }
+    
     if (close < open) {
-      generateParenthesis(n, result, s + ')', open, close + 1);
+      str += ')';
+      solve(ans, str, n, open, close + 1);
+      str.pop_back();
     }
   }
-
+  
+public:
   vector<string> generateParenthesis(int n) {
-    vector<string> result;
-    generateParenthesis(n, result, "", 0, 0);
-    return result;
+    vector<string> ans;
+    string str;
+    solve(ans, str, n, 0, 0);
+    return ans;
   }
 };
