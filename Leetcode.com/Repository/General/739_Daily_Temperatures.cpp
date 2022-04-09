@@ -9,22 +9,24 @@ using namespace std;
 class Solution {
 public:
   vector<int> dailyTemperatures(vector<int>& temperatures) {
-    vector<int> result (temperatures.size(), 0);
+    vector<int> ans (temperatures.size(), 0);
+    
     int hottest = 0;
-
+    
     for (int i = temperatures.size() - 1; i >= 0; i--) {
-      if (hottest <= temperatures[i]) {
+      if (temperatures[i] >= hottest) {
         hottest = temperatures[i];
         continue;
       }
-
+      
       int days = 1;
-      while (temperatures[i + days] <= temperatures[i]) {
-        days += result[i + days];
-      }
-      result[i] = days;
+      
+      while (temperatures[i] >= temperatures[i + days])
+        days += ans[i + days];
+      
+      ans[i] = days;
     }
-
-    return result;
+    
+    return ans;
   }
 };
