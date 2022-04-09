@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-// p = # of piles
+// p = len of piles
 // n = max value of piles
 // time: O(log(n) * p)
 

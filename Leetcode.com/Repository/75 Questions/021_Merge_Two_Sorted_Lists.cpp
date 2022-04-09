@@ -18,32 +18,27 @@ struct ListNode {
 class Solution {
 public:
   ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-    ListNode* dummy = new ListNode();
-    ListNode* cur = dummy;
-
-    ListNode* node1 = list1;
-    ListNode* node2 = list2;
-
-    while (node1 && node2) {
-      if (node1->val < node2->val) {
-        cur->next = node1;
-        node1 = node1->next;
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    
+    while (list1 && list2) {
+      if (list1->val < list2->val) {
+        cur->next = list1;
+        list1 = list1->next;
       }
       else {
-        cur->next = node2;
-        node2 = node2->next;
+        cur->next = list2;
+        list2 = list2->next;
       }
       cur = cur->next;
     }
-
-    if (node1) {
-      cur->next = node1;
-    }
-
-    if (node2) {
-      cur->next = node2;
-    }
-
-    return dummy->next;
+    
+    if (list1)
+      cur->next = list1;
+    
+    if (list2)
+      cur->next = list2;
+    
+    return dummy.next;
   }
 };

@@ -18,7 +18,8 @@ public:
 
   // recursive
   ListNode* reverseList(ListNode* head) {
-    if (!head) return head;
+    if (!head)
+      return head;
 
     ListNode* newHead = head;
 
