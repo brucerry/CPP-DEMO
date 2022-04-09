@@ -9,40 +9,37 @@ using namespace std;
 class Solution {
 public:
   double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-    if (nums1.size() > nums2.size()) swap(nums1, nums2); // let nums1 always be shorter
+    // let nums1 always be shorter
+    if (nums1.size() > nums2.size())
+      nums1.swap(nums2);
     
-    int len1 = nums1.size();
-    int len2 = nums2.size();
-    int totalLen = len1 + len2;
-    int half = totalLen / 2;
-
-    int left = 0;
-    int right = len1 - 1;
-
+    int totalLen = nums1.size() + nums2.size();
+    int half = totalLen >> 1;
+    
+    int l = 0, r = nums1.size() - 1;
+    
     while (true) {
-      int partition1 = floor((left + right) / 2.0);
-      int partition2 = half - partition1 - 2; // -2 is because both 'partition1' and 'partition2' are indexed start from 0
-
-      int nums1left = partition1 < 0 ? INT_MIN : nums1[partition1];
-      int nums1right = partition1 + 1 >= len1 ? INT_MAX : nums1[partition1 + 1];
-      int nums2left = partition2 < 0 ? INT_MIN : nums2[partition2];
-      int nums2right = partition2 + 1 >= len2 ? INT_MAX : nums2[partition2 + 1];
-
-      // success partitions
-      if (nums1left <= nums2right && nums2left <= nums1right) {
+      int m1 = l + ((r - l) >> 1);
+      int m2 = half - m1 - 2; // -2 is because both 'm1' and 'm2' are indexed start from 0
+    
+      int leftVal1 = m1 < 0 ? INT_MIN : nums1[m1];
+      int rightVal1 = m1 + 1 >= nums1.size() ? INT_MAX : nums1[m1 + 1];
+      int leftVal2 = m2 < 0 ? INT_MIN : nums2[m2];
+      int rightVal2 = m2 + 1 >= nums2.size() ? INT_MAX : nums2[m2 + 1];
+      
+      if (leftVal1 <= rightVal2 && leftVal2 <= rightVal1) {
         // odd
-        if (totalLen % 2) {
-          return min(nums1right, nums2right);
-        }
+        if (totalLen % 2)
+          return min(rightVal1, rightVal2);
+        
         // even
-        return (max(nums1left, nums2left) + min(nums1right, nums2right)) / 2.0;
+        return (max(leftVal1, leftVal2) + min(rightVal1, rightVal2)) / 2.0;
       }
-
-      else if (nums1left > nums2right) {
-        right = partition1 - 1;
-      } else {
-        left = partition1 + 1;
-      }
+      
+      else if (leftVal1 > rightVal2) // leftVal is too large
+        r = m1 - 1;
+      else
+        l = m1 + 1;
     }
   }
 };
