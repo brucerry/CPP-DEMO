@@ -18,44 +18,41 @@ struct ListNode {
 
 class Solution {
 private:
-  ListNode* mergeKLists(vector<ListNode*>& lists, int left, int right) {
-    if (right == left) return lists[left];
-    
-    ListNode* dummy = new ListNode();
+  ListNode* merge2Lists(vector<ListNode*>& lists, ListNode* leftNode, ListNode* rightNode) {    
+    ListNode dummy, *cur = &dummy;
 
-    if (left < right) {
-      int mid = left + ((right - left) >> 1);
-
-      ListNode* node1 = mergeKLists(lists, left, mid);
-      ListNode* node2 = mergeKLists(lists, mid + 1, right);
-      ListNode* cur = dummy;
-
-      while (node1 && node2) {
-        if (node1->val < node2->val) {
-          cur->next = node1;
-          node1 = node1->next;
-        }
-        else {
-          cur->next = node2;
-          node2 = node2->next;
-        }
-        cur = cur->next;
+    while (leftNode && rightNode) {
+      if (leftNode->val < rightNode->val) {
+        cur->next = leftNode;
+        leftNode = leftNode->next;
       }
-
-      if (node1) {
-        cur->next = node1;
+      else {
+        cur->next = rightNode;
+        rightNode = rightNode->next;
       }
-      
-      if (node2) {
-        cur->next = node2;
-      }
+      cur = cur->next;
     }
 
-    return dummy->next;
-  }
+    if (leftNode)
+      cur->next = leftNode;
 
+    if (rightNode)
+      cur->next = rightNode;
+    
+    return dummy.next;
+  }
+  
 public:
   ListNode* mergeKLists(vector<ListNode*>& lists) {
-    return mergeKLists(lists, 0, lists.size() - 1);
+    int interval = 1;
+
+    while (interval < lists.size()) {
+      for (int i = 0; i < lists.size() - interval; i += (interval << 1)) {
+        lists[i] = merge2Lists(lists, lists[i], lists[i + interval]);
+      }
+      interval <<= 1;
+    }
+
+    return lists.size() ? lists[0] : nullptr;
   }
 };
