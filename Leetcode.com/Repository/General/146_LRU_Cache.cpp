@@ -7,72 +7,67 @@ using namespace std;
 // time: O(1) for operations
 // space: O(n)
 
-struct Node {
-  int key, val;
-  Node* prev, *next;
-
-  Node(int key, int value)
-    : key(key), val(value), prev(nullptr), next(nullptr) {};
-};
-
 class LRUCache {
 private:
-  int cap;
-  unordered_map<int, Node*> cache; // key, node
-  Node* leastRecentlyUsed; // dummy node on the left
-  Node* mostRecentlyUsed; // dummy node on the right
+  struct Node {
+    int key, value;
+    Node* left, *right;
 
+    Node() : left(nullptr), right(nullptr) {};
+    Node(int key, int value) : key(key), value(value), left(nullptr), right(nullptr) {};
+  };
+  
+  int m_Capacity;
+  Node m_MRU; // most recently used, on the right most side
+  Node m_LRU; // least recently used, on the left most side
+  unordered_map<int, Node*> m_Cache; // key, Node*
+  
+  // insert node to MRU
+  void insert(Node* node) {
+    Node* tmp = m_MRU.left;
+    tmp->right = m_MRU.left = node;
+    node->left = tmp;
+    node->right = &m_MRU;
+  }
+  
   // remove node from list
   void remove(Node* node) {
-    Node* prev = node->prev, *next = node->next;
-    prev->next = next;
-    next->prev = prev;
-    delete &node;
-  }
-
-  // insert node at mostRecentlyUsed
-  void insert(Node* node) {
-    Node* prev = mostRecentlyUsed->prev;
-    prev->next = mostRecentlyUsed->prev = node;
-    node->prev = prev;
-    node->next = mostRecentlyUsed;
+    Node* lhs = node->left, *rhs = node->right;
+    lhs->right = rhs;
+    rhs->left = lhs;
   }
   
 public:
-  LRUCache(int capacity) : cap(capacity), cache({}), leastRecentlyUsed(new Node(0, 0)), mostRecentlyUsed(new Node(0, 0)) {
-    leastRecentlyUsed->next = mostRecentlyUsed;
-    mostRecentlyUsed->prev = leastRecentlyUsed;
+  LRUCache(int capacity) : m_Capacity(capacity) {
+    m_MRU.left = &m_LRU;
+    m_LRU.right = &m_MRU;
   }
-
-  ~LRUCache() {
-    for (auto [ key, node ] : cache) {
-      delete cache[key];
-    }
-  }
-    
+  
   int get(int key) {
-    if (cache.count(key)) {
-      remove(cache[key]);
-      insert(cache[key]);
-      return cache[key]->val;
+    if (m_Cache.count(key)) {
+      remove(m_Cache[key]);
+      insert(m_Cache[key]);
+      return m_Cache[key]->value;
     }
     return -1;
   }
-    
+  
   void put(int key, int value) {
-    if (cache.count(key)) {
-      remove(cache[key]);
+    if (m_Cache.count(key)) {
+      remove(m_Cache[key]);
+      insert(m_Cache[key]);
+      m_Cache[key]->value = value;
     }
-    cache[key] = new Node(key, value);
-    insert(cache[key]);
-
-    if (cache.size() > cap) {
-      Node* lru = leastRecentlyUsed->next;
-      remove(lru);
-      cache.erase(lru->key);
+    else {
+      m_Cache[key] = new Node(key, value);
+      insert(m_Cache[key]);
+      if (m_Cache.size() > m_Capacity) {
+        Node* lru = m_LRU.right;
+        remove(lru);
+        m_Cache.erase(lru->key);
+      }
     }
   }
-
 };
 
 /**
