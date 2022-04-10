@@ -16,12 +16,13 @@ struct ListNode {
 class Solution {
 public:
   ListNode* removeNthFromEnd(ListNode* head, int n) {
-    ListNode* dummy = new ListNode(0, head);
-    ListNode* cur = head, *prev = dummy, *tmp = head;
+    ListNode dummy(0, head);
+    ListNode* tmp = head;
     
-    while (n--) {
+    for (int i = 0; i < n; i++)
       tmp = tmp->next;
-    }
+    
+    ListNode* cur = head, *prev = &dummy;
     
     while (tmp) {
       tmp = tmp->next;
@@ -31,6 +32,6 @@ public:
     
     prev->next = cur->next;
     
-    return dummy->next;
+    return dummy.next;
   }
 };

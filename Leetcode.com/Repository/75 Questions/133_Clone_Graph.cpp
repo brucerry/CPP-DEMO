@@ -28,35 +28,25 @@ public:
 
 class Solution {
 private:
-  void buildGraph(unordered_map<Node*, vector<Node*>>& graph, Node* node) {
-    if (!node || graph.count(node)) return;
-    if (graph.count(node) == 0) graph[node] = {};
-    
+  Node* clone(unordered_map<Node*, Node*>& map, Node* node) {
+    if (map.count(node))
+      return map[node];
+
+    Node* copy = new Node(node->val);
+    map[node] = copy;
+
     for (Node*& neighbor : node->neighbors) {
-      graph[node].emplace_back(neighbor);
-      buildGraph(graph, neighbor);
+      copy->neighbors.emplace_back(clone(map, neighbor));
     }
+
+    return copy;
   }
   
 public:
   Node* cloneGraph(Node* node) {
-    if (!node) return node;
-    
-    unordered_map<Node*, vector<Node*>> graph;
-    buildGraph(graph, node);
-    
-    vector<Node*> newNodes (graph.size());
-    
-    for (auto& pair : graph) {
-      newNodes[pair.first->val - 1] = new Node(pair.first->val);
-    }
-    
-    for (auto& [ node, neighbors ] : graph) {
-      for (Node*& neighbor : neighbors) {
-        newNodes[node->val - 1]->neighbors.emplace_back(newNodes[neighbor->val - 1]);
-      }
-    }
-    
-    return newNodes[0];
+    unordered_map<Node*, Node*> map { // originalNode, newNode
+      { nullptr, nullptr }
+    };
+    return clone(map, node);
   }
 };
