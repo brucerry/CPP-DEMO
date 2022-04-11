@@ -12,7 +12,8 @@ private:
   Trie* searchPrefix(const string& word) {
     Trie* cur = this;
     for (const char& ch : word) {
-      if (!cur->children[ch - 'a']) return nullptr;
+      if (!cur->children[ch - 'a'])
+        return nullptr;
       cur = cur->children[ch - 'a'];
     }
     return cur;
@@ -35,13 +36,12 @@ public:
   }
   
   bool search(string word) {
-    Trie* result = searchPrefix(word);
-    return result && result->isEnd;
+    Trie* node = searchPrefix(word);
+    return node && node->isEnd;
   }
   
   bool startsWith(string prefix) {
-    Trie* result = searchPrefix(prefix);
-    return result;
+    return searchPrefix(prefix);
   }
 };
 

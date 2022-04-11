@@ -18,11 +18,14 @@ struct TreeNode {
 class Codec {
 private:
   void dfsSerialize(TreeNode* node, string& str) {
-    if (str.length()) str += ',';
+    if (str.length())
+      str += ',';
+
     if (!node) {
       str += 'N';
       return;
     }
+    
     str += to_string(node->val);
     dfsSerialize(node->left, str);
     dfsSerialize(node->right, str);
