@@ -18,49 +18,52 @@ struct TreeNode {
 
 class Solution {
 private:
-  void traverse(TreeNode* root, vector<vector<int>> &result, int level) {
-    if (!root) return;
+  void traverse(TreeNode* root, vector<vector<int>> &ans, int level) {
+    if (!root)
+      return;
 
-    if (level < result.size()) {
-      result[level].push_back(root->val);
+    if (level < ans.size()) {
+      ans[level].emplace_back(root->val);
     }
     else {
-      result.push_back({root->val});
+      ans.emplace_back(vector<int>(1, root->val));
     }
 
-    traverse(root->left, result, level + 1);
-    traverse(root->right, result, level + 1);
+    traverse(root->left, ans, level + 1);
+    traverse(root->right, ans, level + 1);
   }
 
 public:
   vector<vector<int>> levelOrder(TreeNode* root) {
-    vector<vector<int>> result;
-    traverse(root, result, 0);
-    return result;
+    vector<vector<int>> ans;
+    traverse(root, ans, 0);
+    return ans;
   }
 
-  // BFS
+  // iterative BFS
   // vector<vector<int>> levelOrder(TreeNode* root) {
+  //   vector<vector<int>> ans;
+    
   //   queue<TreeNode*> queue;
-  //   if (root) queue.push(root);
+  //   if (root)
+  //     queue.emplace(root);
     
-  //   vector<vector<int>> result;
-    
-  //   while (queue.size()) {
+  //   while (queue.size()) {            
   //     vector<int> level;
-  //     const int size = queue.size();
+  //     int size = queue.size();
   //     for (int i = 0; i < size; i++) {
   //       TreeNode* node = queue.front();
   //       queue.pop();
   //       if (node) {
   //         level.emplace_back(node->val);
-  //         queue.push(node->left);
-  //         queue.push(node->right);
+  //         queue.emplace(node->left);
+  //         queue.emplace(node->right);
   //       }
   //     }
-  //     if (level.size()) result.emplace_back(level);
+  //     if (level.size())
+  //       ans.emplace_back(level);
   //   }
     
-  //   return result;
+  //   return ans;
   // }
 };
