@@ -23,14 +23,15 @@ public:
     
     while (true) {
       while (root) {
-        stack.push(root);
+        stack.emplace(root);
         root = root->left;
       }
       
       root = stack.top();
       stack.pop();
       
-      if (--k == 0) return root->val;
+      if (--k == 0)
+        return root->val;
       
       root = root->right;
     }
