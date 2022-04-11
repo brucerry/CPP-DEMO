@@ -16,14 +16,14 @@ struct TreeNode {
 
 class Solution {
 private:
-  bool isValidBST(long leftVal, TreeNode* root, long rightVal) {
-    if (!root) return true;
+  bool isValidBST(long leftBound, TreeNode* root, long rightBound) {
+    if (!root)
+      return true;
     
-    if (leftVal < root->val && root->val < rightVal) {
-      return isValidBST(leftVal, root->left, root->val) && isValidBST(root->val, root->right, rightVal);
-    }
+    if (leftBound >= root->val || root->val >= rightBound)
+      return false;
     
-    return false;
+    return isValidBST(leftBound, root->left, root->val) && isValidBST(root->val, root->right, rightBound);
   }
   
 public:
