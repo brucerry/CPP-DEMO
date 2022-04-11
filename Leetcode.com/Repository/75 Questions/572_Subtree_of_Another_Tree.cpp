@@ -19,19 +19,27 @@ struct TreeNode {
 
 class Solution {
 private:
-  bool isSameTree(TreeNode* s, TreeNode* t) {
-    if (!s && !t) return true;
-    if (s && t && s->val == t->val) return isSameTree(s->left, t->left) && isSameTree(s->right, t->right);
+  bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (!p && !q)
+      return true;
+    
+    if (p && q && p->val == q->val)
+      return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    
     return false;
   }
-
+  
 public:
   bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-    if (!subRoot) return true;
-    if (!root) return false;
-
-    if (isSameTree(root, subRoot)) return true;
-
+    if (!subRoot)
+      return true;
+    
+    if (!root)
+      return false;
+    
+    if (isSameTree(root, subRoot))
+      return true;
+    
     return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
   }
 };
