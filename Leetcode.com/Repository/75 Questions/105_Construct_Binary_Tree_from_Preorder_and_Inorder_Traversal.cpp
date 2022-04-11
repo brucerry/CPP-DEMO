@@ -18,7 +18,8 @@ struct TreeNode {
 class Solution {
 private:
   TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder, int preStart, int preEnd, int inStart, int inEnd) {
-    if (preStart > preEnd) return nullptr;
+    if (preStart > preEnd)
+      return nullptr;
 
     int rootValue = preorder[preStart];
     int rootIndex = find(inorder.begin(), inorder.end(), rootValue) - inorder.begin();
