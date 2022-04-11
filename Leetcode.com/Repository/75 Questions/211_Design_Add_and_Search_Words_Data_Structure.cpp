@@ -15,7 +15,8 @@ private:
     for (int i = start; i < word.length(); i++) {
       if (word[i] == '.') {
         for (int j = 0; j < 26; j++) {
-          if (cur->children[j] && dfs(word, i + 1, cur->children[j])) return true;
+          if (cur->children[j] && dfs(word, i + 1, cur->children[j]))
+            return true;
         }
         return false;
       }
