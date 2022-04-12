@@ -9,13 +9,13 @@ int main() {
   cin >> n;
 
   array<set<int>, 1000> ans;
-  array<int, 100> numIndex { 0 };
+  array<int, 100> places { 0 };
 
   for (int i = 0; i < n; i++) {
     cin >> m;
 
-    ans[numIndex[m]].emplace(m);
-    numIndex[m]++;
+    ans[places[m]].emplace(m);
+    places[m]++;
   }
 
   for (int i = 0; i < n && ans[i].size(); i++) {

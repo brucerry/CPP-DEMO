@@ -10,19 +10,18 @@ int main() {
   cin >> n;
 
   vector<set<int>> ans (n);
-  unordered_map<int, int> map; // num, latest index in ans
+  unordered_map<int, int> places; // num, latest index in ans
 
   for (int i = 0; i < n; i++) {
     cin >> m;
 
-    if (map.count(m) == 0) {
-      map[m] = 0;
-      ans[0].emplace(m);
+    if (places.count(m) == 0) {
+      places[m] = 0;
     }
     else {
-      map[m]++;
-      ans[map[m]].emplace(m);
+      places[m]++;
     }
+    ans[places[m]].emplace(m);
   }
 
   for (int i = 0; i < n && ans[i].size(); i++) {
