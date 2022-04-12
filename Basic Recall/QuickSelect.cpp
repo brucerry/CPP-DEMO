@@ -29,9 +29,12 @@ private:
       }
       std::swap(nums[right], nums[p]);
 
-      if (k < p) return quickSelect(nums, left, p - 1, k);
-      else if (p < k) return quickSelect(nums, p + 1, right, k);
-      else return nums[p];
+      if (k < p)
+        return quickSelect(nums, left, p - 1, k);
+      else if (p < k)
+        return quickSelect(nums, p + 1, right, k);
+        
+      return nums[p];
     }
 
     return -1;
