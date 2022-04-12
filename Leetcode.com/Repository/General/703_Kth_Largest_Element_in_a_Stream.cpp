@@ -4,7 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-// n = len of nums
 // time: O(n * log(n)) for constructor(), O(log(k)) for add()
 // space: O(n)
 
