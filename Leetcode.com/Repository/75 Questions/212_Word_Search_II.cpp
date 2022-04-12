@@ -14,8 +14,8 @@ using namespace std;
 class Solution {
 private:
   struct Trie {
-    array<Trie*, 26> children;
     bool isEnd;
+    array<Trie*, 26> children;
 
     Trie() : isEnd(false) {
       fill(children.begin(), children.end(), nullptr);
@@ -33,28 +33,28 @@ private:
     }
   };
   
-  void explore(vector<vector<char>>& board, int r, int c, Trie* node, string& str, vector<string>& result, unordered_set<string>& done) {
-    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] == '*' || !node->children[board[r][c] - 'a']) return;
+  void explore(vector<vector<char>>& board, int r, int c, Trie* node, string& word, vector<string>& result, unordered_set<string>& used) {
+    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] == '*' || !node->children[board[r][c] - 'a'])
+      return;
     
     node = node->children[board[r][c] - 'a'];
-    str += board[r][c];
+    word += board[r][c];
     
-    if (node->isEnd && done.count(str) == 0) {
-      done.emplace(str);
-      result.emplace_back(str);
+    if (node->isEnd && used.count(word) == 0) {
+      used.emplace(word);
+      result.emplace_back(word);
     }
     
-    const char tmp = board[r][c];
     board[r][c] = '*';
     
-    explore(board, r+1, c, node, str, result, done);
-    explore(board, r-1, c, node, str, result, done);
-    explore(board, r, c+1, node, str, result, done);
-    explore(board, r, c-1, node, str, result, done);
+    explore(board, r+1, c, node, word, result, used);
+    explore(board, r-1, c, node, word, result, used);
+    explore(board, r, c+1, node, word, result, used);
+    explore(board, r, c-1, node, word, result, used);
     
-    board[r][c] = tmp;
+    board[r][c] = word.back();
     
-    str.pop_back();
+    word.pop_back();
   }
   
 public:
@@ -66,12 +66,12 @@ public:
     }
     
     vector<string> result;
-    string str;
-    unordered_set<string> done;
+    string word;
+    unordered_set<string> used;
     
     for (int r = 0; r < board.size(); r++) {
       for (int c = 0; c < board[0].size(); c++) {
-        explore(board, r, c, &root, str, result, done);
+        explore(board, r, c, &root, word, result, used);
       }
     }
     
