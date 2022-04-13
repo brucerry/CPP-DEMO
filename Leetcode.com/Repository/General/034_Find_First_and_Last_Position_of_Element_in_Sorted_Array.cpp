@@ -7,51 +7,34 @@ using namespace std;
 // space: O(1)
 
 class Solution {
+private:
+  int binarySearch(vector<int>& nums, int target, bool leftBiased) {
+    int index = -1;
+    int l = 0, r = nums.size() - 1;
+
+    while (l <= r) {
+      int m = l + ((r - l) >> 1);
+      
+      if (nums[m] < target)
+        l = m + 1;
+      else if (nums[m] > target)
+        r = m - 1;
+      else {
+        index = m;
+        if (leftBiased)
+          r = m - 1;
+        else
+          l = m + 1;
+      }
+    }
+
+    return index;
+  }
+
 public:
   vector<int> searchRange(vector<int>& nums, int target) {
-    int first = -1;
-    int second = -1;
-
-    int left = 0;
-    int right = nums.size() - 1;
-
-    while (left <= right) {
-      int mid = left + (right - left) / 2;
-      if (nums[mid] == target) {
-        if (mid == 0 || mid > 0 && nums[mid - 1] < nums[mid]) {
-          first = mid;
-          break;
-        } else {
-          right = mid - 1;
-        }
-      } else if (nums[mid] < target) {
-        left = mid + 1;
-      } else {
-        right = mid - 1;
-      }
-    }
-
-    if (first == -1) return {-1, -1};
-
-    left = 0;
-    right = nums.size() - 1;
-
-    while (left <= right) {
-      int mid = left + (right - left) / 2;
-      if (nums[mid] == target) {
-        if (mid == nums.size() - 1 || mid < nums.size() - 1 && nums[mid] < nums[mid + 1]) {
-          second = mid;
-          break;
-        } else {
-          left = mid + 1;
-        }
-      } else if (nums[mid] < target) {
-        left = mid + 1;
-      } else {
-        right = mid - 1;
-      }
-    }
-
-    return {first, second};
+    int first = binarySearch(nums, target, true);
+    int second = first == -1 ? first : binarySearch(nums, target, false);
+    return { first, second };
   }
 };

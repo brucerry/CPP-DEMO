@@ -10,8 +10,11 @@ using namespace std;
 class Solution {
 private:
   void solve(vector<int>& candidates, int target, vector<vector<int>>& solutions, vector<int>& comb, int start) {
-    if (target == 0) solutions.emplace_back(comb);
-    if (start == candidates.size() || target <= 0) return;
+    if (target == 0)
+      solutions.emplace_back(comb);
+
+    if (start == candidates.size() || target == 0)
+      return;
 
     for (int i = start; i < candidates.size(); i++) {
       if (candidates[i] <= target) {
