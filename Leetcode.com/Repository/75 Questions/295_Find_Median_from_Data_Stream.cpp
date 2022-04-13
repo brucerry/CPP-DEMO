@@ -19,25 +19,29 @@ public:
   void addNum(int num) {
     maxHeap.emplace(num);
 
-    if (maxHeap.size() && minHeap.size() && maxHeap.top() > minHeap.top()) {
+    if (minHeap.size() && maxHeap.top() > minHeap.top()) {
       minHeap.emplace(maxHeap.top());
       maxHeap.pop();
     }
 
-    if (maxHeap.size() > minHeap.size() + 1) {
+    if (maxHeap.size() == minHeap.size() + 2) {
       minHeap.emplace(maxHeap.top());
       maxHeap.pop();
     }
 
-    if (minHeap.size() > maxHeap.size() + 1) {
+    if (minHeap.size() == maxHeap.size() + 2) {
       maxHeap.emplace(minHeap.top());
       minHeap.pop();
     }
   }
     
   double findMedian() {
-    if (maxHeap.size() > minHeap.size()) return maxHeap.top();
-    if (maxHeap.size() < minHeap.size()) return minHeap.top();
+    if (maxHeap.size() > minHeap.size())
+      return maxHeap.top();
+
+    if (maxHeap.size() < minHeap.size())
+      return minHeap.top();
+
     return (maxHeap.top() + minHeap.top()) / 2.0;
   }
 };
