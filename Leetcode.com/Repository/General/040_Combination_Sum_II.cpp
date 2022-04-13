@@ -15,14 +15,13 @@ private:
       return;
     }
 
-    int prev = -1;
-
     for (int i = start; i < candidates.size(); i++) {
-      if (candidates[i] <= target && candidates[i] != prev) {
+      if (i > start && candidates[i-1] == candidates[i])
+        continue;
+      if (candidates[i] <= target) {
         comb.emplace_back(candidates[i]);
         solve(candidates, target - candidates[i], solutions, comb, i + 1);
         comb.pop_back();
-        prev = candidates[i];
       }
     }
   }

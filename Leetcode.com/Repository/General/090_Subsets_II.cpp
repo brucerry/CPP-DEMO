@@ -1,6 +1,4 @@
-/*
-  https://leetcode.com/problems/subsets-ii/
-*/
+// https://leetcode.com/problems/subsets-ii/
 
 
 #include <iostream>
@@ -8,57 +6,46 @@
 #include <algorithm>
 using namespace std;
 
+// time: O(n * 2^n)
+// space: O(n)
+
+// iterative
 class Solution {
 public:
-
-  // iterative
   vector<vector<int>> subsetsWithDup(vector<int>& nums) {
     sort(nums.begin(), nums.end());
-    vector<vector<int>> solutions, sub;
-    solutions.push_back({});
+    vector<vector<int>> solutions(1), sub;
     for (int i = 0; i < nums.size(); i++) {
-      if (i == 0 || nums[i - 1] != nums[i]) sub = solutions;
-      for (auto& j : sub) j.push_back(nums[i]);
+      if (i == 0 || nums[i - 1] != nums[i])
+        sub = solutions;
+      for (auto& j : sub)
+        j.emplace_back(nums[i]);
       solutions.insert(solutions.end(), sub.begin(), sub.end());
     }
     return solutions;
   }
-
-  // void search(vector<int> nums, vector<int> &state, vector<vector<int>> &solutions, int begin) {
-  //   solutions.push_back(state);
-  //   for (int i = begin; i < nums.size(); i++) {
-  //     if (i == begin || nums[i - 1] != nums[i]) {
-  //       state.push_back(nums[i]);
-  //       search(nums, state, solutions, i + 1);
-  //       state.pop_back();
-  //     }
-  //   }
-  // }
-
-  // vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-  //   sort(nums.begin(), nums.end());
-  //   vector<vector<int>> solutions;
-  //   vector<int> state;
-  //   search(nums, state, solutions, 0);
-  //   return solutions;
-  // }
 };
 
-void printSubsets(vector<vector<int>> subsets) {
-  for (auto subset : subsets) {
-    cout << "[ ";
-    for (auto num : subset) {
-      cout << num << " ";
-    }
-    cout << "]" << endl;
+// recursive
+class Solution {
+public:
+  vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> ans;
+    vector<int> candidate;
+    solve(nums, ans, candidate, 0);
+    return ans;
   }
-}
-
-int main() {
-  vector<int> nums = {1, 3, 2, 2};
-
-  Solution sol;
-  vector<vector<int>> subsets = sol.subsetsWithDup(nums);
-
-  printSubsets(subsets);
-}
+  
+private:
+  void solve(vector<int>& nums, vector<vector<int>>& ans, vector<int>& candidate, int start) {
+    ans.emplace_back(candidate);
+    for (int i = start; i < nums.size(); i++) {
+      if (i > start && nums[i-1] == nums[i])
+        continue;
+      candidate.emplace_back(nums[i]);
+      solve(nums, ans, candidate, i + 1);
+      candidate.pop_back();
+    }
+  }
+};

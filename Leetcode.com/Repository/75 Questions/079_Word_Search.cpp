@@ -10,10 +10,13 @@ using namespace std;
 class Solution {
 private:
   bool explore(vector<vector<char>>& board, string& word, int r, int c, int i) {
-    if (i == word.size()) return true;
-    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != word[i]) return false;
+    if (i == word.size())
+      return true;
     
-    const char ch = board[r][c];
+    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != word[i])
+      return false;
+    
+    char ch = board[r][c];
     board[r][c] = '*';
     
     if (explore(board, word, r+1, c, i+1) ||
