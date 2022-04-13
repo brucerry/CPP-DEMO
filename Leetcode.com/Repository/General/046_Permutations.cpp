@@ -3,24 +3,29 @@
 #include <vector>
 using namespace std;
 
+// time: O(n!)
+// space: O(n!)
+
 class Solution {
 public:
   vector<vector<int>> permute(vector<int>& nums) {
-    if (nums.size() == 1) return { nums };
-
-    vector<vector<int>> result;
-    vector<int> numsRemain (nums.begin() + 1, nums.end());
-
-    for (auto permuteRemain : permute(numsRemain)) {
-      int len = permuteRemain.size();
+    if (nums.size() == 1)
+      return { nums };
+    
+    vector<int> withoutFirst = vector<int>(nums.begin() + 1, nums.end());
+    
+    vector<vector<int>> ans;
+    
+    for (auto& p : permute(withoutFirst)) {
+      int len = p.size();
       for (int i = 0; i <= len; i++) {
-        permuteRemain.insert(permuteRemain.begin() + i, nums[0]);
-        result.push_back(permuteRemain);
-        permuteRemain.erase(permuteRemain.begin() + i);
+        p.emplace(p.begin() + i, nums[0]);
+        ans.emplace_back(p);
+        p.erase(p.begin() + i);
       }
     }
-
-    return result;
+    
+    return ans;
   }
 
   // vector<vector<int>> permute(vector<int>& nums) {
