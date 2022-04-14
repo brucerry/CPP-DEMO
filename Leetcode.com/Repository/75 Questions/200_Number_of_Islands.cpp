@@ -9,7 +9,8 @@ using namespace std;
 class Solution {
 private:
   bool traverse(vector<vector<char>>& grid, int r, int c) {
-    if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == '0') return false;
+    if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == '0')
+      return false;
     
     grid[r][c] = '0';
     

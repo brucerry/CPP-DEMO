@@ -9,7 +9,8 @@ using namespace std;
 class Solution {
 private:
   void traverse(vector<vector<int>>& heights, int r, int c, int prevHeight, vector<vector<char>>& visited) {
-    if (r < 0 || r >= heights.size() || c < 0 || c >= heights[0].size() || prevHeight > heights[r][c] || visited[r][c] == 1) return;
+    if (r < 0 || r >= heights.size() || c < 0 || c >= heights[0].size() || prevHeight > heights[r][c] || visited[r][c])
+      return;
     
     visited[r][c] = 1;
     
@@ -21,8 +22,8 @@ private:
   
 public:
   vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-    const int rows = heights.size();
-    const int cols = heights[0].size();
+    int rows = heights.size();
+    int cols = heights[0].size();
     
     vector<vector<char>> visitedAtlantic (rows, vector<char>(cols, 0));
     vector<vector<char>> visitedPacific = visitedAtlantic;

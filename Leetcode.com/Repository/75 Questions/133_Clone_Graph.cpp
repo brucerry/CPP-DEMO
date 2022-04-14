@@ -27,26 +27,26 @@ public:
 // space: O(n)
 
 class Solution {
-private:
-  Node* clone(unordered_map<Node*, Node*>& map, Node* node) {
-    if (map.count(node))
-      return map[node];
-
-    Node* copy = new Node(node->val);
-    map[node] = copy;
-
-    for (Node*& neighbor : node->neighbors) {
-      copy->neighbors.emplace_back(clone(map, neighbor));
-    }
-
-    return copy;
-  }
-  
 public:
   Node* cloneGraph(Node* node) {
-    unordered_map<Node*, Node*> map { // originalNode, newNode
+    unordered_map<Node*, Node*> originalToCopy {
       { nullptr, nullptr }
     };
-    return clone(map, node);
+    return clone(node, originalToCopy);
+  }
+  
+private:
+  Node* clone(Node* node, unordered_map<Node*, Node*>& originalToCopy) {
+    if (originalToCopy.count(node))
+      return originalToCopy[node];
+    
+    Node* copy = new Node(node->val);
+    originalToCopy[node] = copy;
+    
+    for (const auto& neighbor : node->neighbors) {
+      copy->neighbors.emplace_back(clone(neighbor, originalToCopy));
+    }
+    
+    return copy;
   }
 };

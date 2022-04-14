@@ -7,36 +7,41 @@ using namespace std;
 // space: O(n)
 
 class Solution {
-private:
-  bool hasCycle(vector<vector<int>>& graph, int node, vector<int>& visitStates) {
-    if (visitStates[node] == 1) return true;
-    if (visitStates[node] == 2) return false;
-    
-    visitStates[node] = 1;
-    
-    for (const int& neighbor : graph[node]) {
-      if (hasCycle(graph, neighbor, visitStates)) return true;
-    }
-    
-    visitStates[node] = 2;
-    
-    return false;
-  }
-  
 public:
   bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-    vector<vector<int>> graph (numCourses, vector<int>());
+    vector<vector<int>> graph (numCourses);
     
-    for (const auto& courses : prerequisites) {
-      graph[courses[1]].emplace_back(courses[0]);
+    for (const auto& p : prerequisites) {
+      graph[p[1]].emplace_back(p[0]);
     }
     
-    vector<int> visitStates (numCourses, 0); // 1: visiting, 2: visited
+    vector<char> visitState (numCourses, 0); // 1: visiting 2: visited
     
     for (int node = 0; node < numCourses; node++) {
-      if (graph[node].size() && hasCycle(graph, node, visitStates)) return false;
+      if (hasCycle(graph, node, visitState))
+        return false;
     }
     
     return true;
+  }
+  
+private:
+  bool hasCycle(vector<vector<int>>& graph, int node, vector<char>& visitState) {
+    if (visitState[node] == 1)
+      return true;
+    
+    if (visitState[node] == 2)
+      return false;
+    
+    visitState[node] = 1;
+    
+    for (const int& neighbor : graph[node]) {
+      if (hasCycle(graph, neighbor, visitState))
+        return true;
+    }
+    
+    visitState[node] = 2;
+    
+    return false;
   }
 };
