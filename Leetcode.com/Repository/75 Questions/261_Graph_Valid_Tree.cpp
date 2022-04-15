@@ -9,33 +9,32 @@ using namespace std;
 // space: O(n + e)
 
 class Solution {
-private:
-  bool explore(vector<vector<int>>& graph, int node, int prevNode, unordered_set<int> &visited) {
-    if (visited.count(node)) return false;
-    visited.insert(node);
-
-    for (const int& neighbor : graph[node]) {
-      if (neighbor != prevNode && !explore(graph, neighbor, node, visited)) return false;
-    }
-
-    return true;
-  }
-
 public:
-  bool validTree(int n, vector<vector<int>>& edges) {
-    vector<vector<int>> graph (n, vector<int>());
+  bool validTree(int n, vector<vector<int>> &edges) {
+    vector<vector<int>> graph (n);
 
     for (const auto& edge : edges) {
-      int a = edge[0];
-      int b = edge[1];
-      graph[a].emplace_back(b);
-      graph[b].emplace_back(a);
+      graph[edge[0]].emplace_back(edge[1]);
+      graph[edge[1]].emplace_back(edge[0]);
     }
 
     unordered_set<int> visited;
 
-    bool valid = explore(graph, 0, -1, visited);
+    return !hasCycle(graph, 0, -1, visited) && visited.size() == n;
+  }
 
-    return valid && visited.size() == n;
+private:
+  bool hasCycle(vector<vector<int>>& graph, int node, int prevNode, unordered_set<int>& visited) {
+    if (visited.count(node))
+      return true;
+
+    visited.emplace(node);
+
+    for (const int& neighbor : graph[node]) {
+      if (neighbor != prevNode && hasCycle(graph, neighbor, node, visited))
+        return true;
+    }
+
+    return false;
   }
 };
