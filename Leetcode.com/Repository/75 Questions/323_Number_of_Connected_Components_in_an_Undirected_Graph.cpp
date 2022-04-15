@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/
 
 #include <vector>
+#include <numeric>
 using namespace std;
 
 // Union Find
@@ -17,7 +18,9 @@ private:
     return node;
   }
 
-  int unionNodes(vector<int>& parents, vector<int>& ranks, int node1, int node2) {
+  int unionNodes(vector<int>& parents, vector<int>& ranks, const vector<int>& edge) {
+    const int& node1 = edge[0];
+    const int& node2 = edge[1];
     int parent1 = findRootParent(parents, node1);
     int parent2 = findRootParent(parents, node2);
 
@@ -39,15 +42,10 @@ public:
     vector<int> parents (n);
     vector<int> ranks (n, 1);
 
-    for (int i = 0; i < n; i++) {
-      parents[i] = i;
-    }
+    iota(parents.begin(), parents.end(), 0);
 
-    for (const auto& edge : edges) {
-      int node1 = edge[0];
-      int node2 = edge[1];
-      
-      n -= unionNodes(parents, ranks, node1, node2);
+    for (const auto& edge : edges) {      
+      n -= unionNodes(parents, ranks, edge);
     }
 
     return n;
