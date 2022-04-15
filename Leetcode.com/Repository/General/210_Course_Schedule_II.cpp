@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/course-schedule-ii/
 
 #include <vector>
-#include <unordered_map>
 using namespace std;
 
 // time: O(n + e)
@@ -10,46 +9,36 @@ using namespace std;
 class Solution {
 public:
   vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-    unordered_map<int, vector<int>> graph;
-
-    for (auto& courses : prerequisites) {
-      graph[courses[1]].push_back(courses[0]);
+    vector<vector<int>> graph (numCourses);
+    vector<int> parentCount (numCourses, 0);
+    
+    for (const auto& p : prerequisites) {
+      graph[p[1]].emplace_back(p[0]);
+      parentCount[p[0]]++;
     }
-
-    unordered_map<int, int> numParents;
-
-    for (int i = 0; i < numCourses; i++) {
-      numParents[i] = 0;
-    }
-
-    for (auto& [ node, neighbors ] : graph) {
-      for (int& neighbor : neighbors) {
-        numParents[neighbor]++;
-      }
-    }
-
+    
     vector<int> ready;
-    for (auto& [ node, count ] : numParents) {
-      if (count == 0) {
-        ready.push_back(node);
-      }
+    
+    for (int node = 0; node < numCourses; node++) {
+      if (parentCount[node] == 0)
+        ready.emplace_back(node);
     }
-
-    vector<int> result;
-
+    
+    vector<int> ans;
+    
     while (ready.size()) {
       int node = ready.back();
       ready.pop_back();
-
-      result.push_back(node);
-
-      for (auto& neighbor : graph[node]) {
-        if (--numParents[neighbor] == 0) {
-          ready.push_back(neighbor);
+      
+      ans.emplace_back(node);
+      
+      for (const int& neighbor : graph[node]) {
+        if (--parentCount[neighbor] == 0) {
+          ready.emplace_back(neighbor);
         }
       }
     }
-
-    return result.size() == numCourses ? result : vector<int>();
+    
+    return ans.size() == numCourses ? ans : vector<int>();
   }
 };
