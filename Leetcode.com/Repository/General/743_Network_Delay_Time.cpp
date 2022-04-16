@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <queue>
-#include <unordered_set>
 using namespace std;
 
 // time: O(e * log(n))
@@ -11,39 +10,37 @@ using namespace std;
 class Solution {
 public:
   int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-    vector<vector<pair<int, int>>> graph (n + 1, vector<pair<int, int>>());
-
-    for (const auto& data : times) {
-      int start = data[0];
-      int end = data[1];
-      int time = data[2];
-      graph[start].emplace_back(time, end);
-    }
-
-    unordered_set<int> visited;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-    pq.emplace(0, k); // { timeSpend, node }
+    vector<vector<pair<int, int>>> graph (n + 1);
     
-    int totalTime = 0;
-
-    while (pq.size()) {
-      auto [ timeSpend, node ] = pq.top();
-      pq.pop();
-
-       if (visited.count(node)) continue;
-       visited.emplace(node);
-
-      totalTime = max(totalTime, timeSpend);
-
-      if (visited.size() == n) return totalTime;
+    for (const auto& time : times) {
+      graph[time[0]].emplace_back(time[2], time[1]);
+    }
+    
+    vector<char> visited (n + 1, 0);
+    int visitedCount = 0;
+    int ans = 0;
+    
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+    minHeap.emplace(0, k);
+    
+    while (minHeap.size()) {
+      auto [ time, node ] = minHeap.top();
+      minHeap.pop();
       
-      for (const auto& [ time, neighbor ] : graph[node]) {
-        if (visited.count(neighbor) == 0) {
-          pq.emplace(time + timeSpend, neighbor);
+      if (visited[node])
+        continue;
+      
+      visited[node] = 1;
+      visitedCount++;
+      ans = max(ans, time);
+      
+      for (const auto& [ t, neighbor ] : graph[node]) {
+        if (!visited[neighbor]) {
+          minHeap.emplace(time + t, neighbor);
         }
       }
     }
-
-    return -1;
+    
+    return visitedCount == n ? ans : -1;
   }
 };
