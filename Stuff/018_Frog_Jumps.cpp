@@ -11,27 +11,20 @@ int main() {
     cin >> n >> w;
 
     int maxJump = 0;
-    vector<pair<char, int>> stones (n + 1);
+    vector<pair<char, int>> stones (n + 2);
     stones[0] = { 'b', 0 };
+    stones.back() = { 'b', w };
 
-    for (int i = 1; i <= n; i++) {
-      char size;
-      int pos;
-
-      cin >> size >> pos;
-
-      stones[i] = { size, pos };
+    for (int i = 1; i < stones.size(); i++) {
+      if (i <= n) {
+        cin >> stones[i].first >> stones[i].second;
+      }
 
       if (stones[i-1].first == 'b')
-        maxJump = max(maxJump, pos - stones[i-1].second);
+        maxJump = max(maxJump, stones[i].second - stones[i-1].second);
       else
-        maxJump = max(maxJump, pos - stones[i-2].second);
+        maxJump = max(maxJump, stones[i].second - stones[i-2].second);
     }
-
-    if (stones.back().first == 'b')
-      maxJump = max(maxJump, w - stones.back().second);
-    else
-      maxJump = max(maxJump, w - stones[n-1].second);
 
     cout << maxJump << endl;
   }
