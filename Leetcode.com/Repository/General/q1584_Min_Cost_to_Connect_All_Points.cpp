@@ -13,42 +13,29 @@ public:
   int minCostConnectPoints(vector<vector<int>>& points) {
     int n = points.size();
     
-    vector<vector<pair<int, int>>> graph (n); // node, neighbors of (dist, node)
-    
-    for (int i = 0; i < n; i++) {
-      int x1 = points[i][0];
-      int y1 = points[i][1];
-      
-      for (int j = i + 1; j < n; j++) {
-        int x2 = points[j][0];
-        int y2 = points[j][1];
-        
-        int dist = abs(x1 - x2) + abs(y1 - y2);
-        graph[i].emplace_back(dist, j);
-        graph[j].emplace_back(dist, i);
-      }
-    }
-    
-    unordered_set<int> visited;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+    int visitedCount = 0;
+    vector<char> visited (n, 0);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // cost, node
     minHeap.emplace(0, 0);
     
     int ans = 0;
     
-    while (visited.size() < n) {
-      auto [ dist, node ] = minHeap.top();
+    while (visitedCount < n) {
+      auto [ cost, node ] = minHeap.top();
       minHeap.pop();
       
-      if (visited.count(node))
+      if (visited[node])
         continue;
       
-      visited.emplace(node);
+      visited[node] = 1;
+      visitedCount++;
+      ans += cost;
       
-      ans += dist;
-      
-      for (const auto& [ _, neighbor ] : graph[node]) {
-        if (visited.count(neighbor) == 0)
-          minHeap.emplace(_, neighbor);
+      for (int nextNode = 0; nextNode < n; nextNode++) {
+        if (!visited[nextNode]) {
+          int c = abs(points[node][0] - points[nextNode][0]) + abs(points[node][1] - points[nextNode][1]);
+          minHeap.emplace(c, nextNode);
+        }
       }
     }
     
