@@ -14,13 +14,17 @@ using namespace std;
 class Solution {
 private:
   bool hasCycle(unordered_map<char, unordered_set<char>> &graph, const char& node, string& result, vector<char>& visitStates) {
-    if (visitStates[node - 'a'] == 1) return true;
-    if (visitStates[node - 'a'] == 2) return false;
+    if (visitStates[node - 'a'] == 1)
+      return true;
+
+    if (visitStates[node - 'a'] == 2)
+      return false;
 
     visitStates[node - 'a'] = 1;
 
     for (const char& neighbor : graph[node]) {
-      if (hasCycle(graph, neighbor, result, visitStates)) return true;
+      if (hasCycle(graph, neighbor, result, visitStates))
+        return true;
     }
 
     visitStates[node - 'a'] = 2;
@@ -45,7 +49,8 @@ public:
       string_view word2 = words[i + 1];
       int minLen = min(word1.length(), word2.length());
 
-      if (word1.substr(0, minLen) == word2.substr(0, minLen) && word1.length() > word2.length()) return "";
+      if (word1.substr(0, minLen) == word2.substr(0, minLen) && word1.length() > word2.length())
+        return "";
 
       for (int j = 0; j < minLen; j++) {
         if (word1[j] != word2[j]) {
@@ -59,7 +64,8 @@ public:
     string result;
 
     for (const auto& [ node, _ ] : graph) {
-      if (hasCycle(graph, node, result, visitStates)) return "";
+      if (hasCycle(graph, node, result, visitStates))
+        return "";
     }
 
     reverse(result.begin(), result.end());
