@@ -9,31 +9,26 @@ using namespace std;
 class Solution {
 public:
   string longestPalindrome(string s) {
-    int maxLen = 1;
-    int startIndex = 0;
+    int startIndex = 0, maxLen = 0;
     
-    // odd len
     for (int i = 0; i < s.length(); i++) {
+      // odd
       int l = i, r = i;
-      while (l >= 0 && r < s.length() && s[l] == s[r]) {
-        int len = r - l + 1;
-        if (maxLen < len) {
-          maxLen = len;
+      while (0 <= l && r < s.length() && s[l] == s[r]) {
+        if (r - l + 1 > maxLen) {
           startIndex = l;
+          maxLen = r - l + 1;
         }
         l--;
         r++;
       }
-    }
-    
-    // even len
-    for (int i = 0; i < s.length(); i++) {
-      int l = i, r = i + 1;
-      while (l >= 0 && r < s.length() && s[l] == s[r]) {
-        int len = r - l + 1;
-        if (maxLen < len) {
-          maxLen = len;
+      
+      // even
+      l = i, r = i + 1;
+      while (0 <= l && r < s.length() && s[l] == s[r]) {
+        if (r - l + 1 > maxLen) {
           startIndex = l;
+          maxLen = r - l + 1;
         }
         l--;
         r++;
