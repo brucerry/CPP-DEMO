@@ -4,27 +4,32 @@
 #include <vector>
 using namespace std;
 
+// m = len of text1
+// n = len of text2
 // time: O(m * n)
-// space: O(m * n)
+// space: O(n)
 
 class Solution {
 public:
   int longestCommonSubsequence(string text1, string text2) {
-    const int m = text1.length();
-    const int n = text2.length();
+    int m = text1.length();
+    int n = text2.length();
+    vector<int> dp (n + 1, 0);
+    
+    for (int r = m - 1; r >= 0; r--) {
+      int prev = 0;
+      for (int c = n - 1; c >= 0; c--) {
+        int tmp = dp[c];
 
-    vector<vector<int>> dp (m + 1, vector<int>(n + 1, 0));
-
-    for (int i = m - 1; i >= 0; i--) {
-      for (int j = n - 1; j >= 0; j--) {
-        if (text1[i] == text2[j]) {
-          dp[i][j] = 1 + dp[i+1][j+1];
-        } else {
-          dp[i][j] = max(dp[i+1][j], dp[i][j+1]);
-        }
+        if (text1[r] == text2[c])
+          dp[c] = prev + 1;
+        else
+          dp[c] = max(dp[c], dp[c+1]);
+          
+        prev = tmp;
       }
     }
-
-    return dp[0][0];
+    
+    return dp[0];
   }
 };
