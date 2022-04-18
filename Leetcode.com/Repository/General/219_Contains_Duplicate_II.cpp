@@ -14,14 +14,16 @@ public:
     int l = 0, r = 0;
     
     while (r < nums.size() && r <= k) {
-      if (set.count(nums[r])) return true;
+      if (set.contains(nums[r]))
+        return true;
       set.emplace(nums[r]);
       r++;
     }
     
     while (r < nums.size()) {
       set.erase(nums[l]);
-      if (set.count(nums[r])) return true;
+      if (set.contains(nums[r]))
+        return true;
       set.emplace(nums[r]);
       r++;
       l++;

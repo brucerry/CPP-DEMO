@@ -13,7 +13,8 @@ public:
     unordered_set<int> set;
     
     for (const int& num : nums) {
-      if (set.count(num)) return true;
+      if (set.contains(num))
+        return true;
       set.emplace(num);
     }
     
