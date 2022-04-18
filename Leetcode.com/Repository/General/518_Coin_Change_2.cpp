@@ -13,7 +13,7 @@ public:
     dp[0] = 1;
     
     for (const int& coin : coins) {
-      for (int a = 0; a <= amount; a++) {
+      for (int a = 1; a <= amount; a++) {
         if (a >= coin) {
           dp[a] += dp[a - coin];
         }
