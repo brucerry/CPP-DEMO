@@ -7,28 +7,21 @@ using namespace std;
 // space: O(n)
 
 class Solution {
-private:
-  int maxProfit(vector<int>& prices, int index, int buying, vector<vector<int>>& memo) {
-    if (index >= prices.size()) return 0;
-    if (memo[index][buying] != INT_MIN) return memo[index][buying];
-
-    int cooldown = maxProfit(prices, index + 1, buying, memo);
-
-    if (buying) {
-      int buy = maxProfit(prices, index + 1, !buying, memo) - prices[index];
-      memo[index][buying] = max(buy, cooldown);
-    }
-    else {
-      int sell = maxProfit(prices, index + 2, !buying, memo) + prices[index];
-      memo[index][buying] = max(sell, cooldown);
-    }
-
-    return memo[index][buying];
-  }
-
 public:
-  int maxProfit(vector<int>& prices) {
-    vector<vector<int>> memo (prices.size(), vector<int>(2, INT_MIN));
-    return maxProfit(prices, 0, true, memo);
+  int maxProfit(vector<int>& prices) {    
+    vector<vector<int>> dp (prices.size() + 2, vector<int>(2, 0));
+    // rows: days
+    // col 0: have no stock
+    // col 1: have stock
+    
+    for (int i = prices.size() - 1; i >= 0; i--) {
+      // to buy or cooldown
+      dp[i][0] = max(dp[i + 1][1] - prices[i], dp[i + 1][0]);
+      
+      // to sell or cooldown
+      dp[i][1] = max(dp[i + 2][0] + prices[i], dp[i + 1][1]);
+    }
+    
+    return dp[0][0]; // return col 0 at day 0
   }
 };
