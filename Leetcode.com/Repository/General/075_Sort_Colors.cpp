@@ -9,21 +9,18 @@ using namespace std;
 class Solution {
 public:
   void sortColors(vector<int>& nums) {
-    int left = 0;
-    int right = nums.size() - 1;
-    int i = 0;
-
-    while (i <= right) {
+    int l = 0, r = nums.size() - 1;
+    
+    for (int i = l; i <= r; i++) {
       if (nums[i] == 0) {
-        swap(nums[i], nums[left]);
-        left++;
+        swap(nums[i], nums[l]);
+        l++;
       }
       else if (nums[i] == 2) {
-        swap(nums[i], nums[right]);
-        right--;
+        swap(nums[i], nums[r]);
+        r--;
         i--;
       }
-      i++;
     }
   }
 };
