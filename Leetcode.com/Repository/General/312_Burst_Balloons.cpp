@@ -9,8 +9,11 @@ using namespace std;
 class Solution {
 private:
   int maxCoins(vector<int>& nums, int left, int right, vector<vector<int>> &dp){
-    if (left > right) return 0;
-    if (dp[left][right] != -1) return dp[left][right];
+    if (left > right)
+      return 0;
+      
+    if (dp[left][right] != -1)
+      return dp[left][right];
 
     for (int i = left; i <= right; i++) {      
       int leftCoin = left - 1 < 0 ? 1 : nums[left - 1];
