@@ -18,8 +18,8 @@ public:
     vector<int> dp ((sum << 1) + 1, 0); // range from -sum to sum
     
     // sum is the index of array half
-    dp[sum - nums[0]] += 1;
-    dp[sum + nums[0]] += 1;
+    dp[sum - nums[0]]++;
+    dp[sum + nums[0]]++;
     
     for (int i = 1; i < nums.size(); i++) {
       vector<int> cur ((sum << 1) + 1, 0);
