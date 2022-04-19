@@ -15,10 +15,10 @@ public:
 
     for (int i = s.length() - 1; i >= 0; i--) {
       for (int j = 0; j < t.length(); j++) {
-        if (s[i] == t[j]) {
+        if (s[i] == t[j])
           dp[j] += dp[j+1];
-        }
-        if (i == 0 && j == 0) break;
+        if (i == 0 && j == 0)
+          break;
       }
     }
 

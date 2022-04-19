@@ -7,29 +7,35 @@ using namespace std;
 // space: O(r * c)
 
 class Solution {
-private:
-  int longestIncreasingPath(vector<vector<int>>& matrix, int r, int c, int prevNum, vector<vector<int>>& dp) {
-    if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] <= prevNum) return 0;
-    if (dp[r][c]) return dp[r][c];
-
-    return dp[r][c] = 1 + max({
-      longestIncreasingPath(matrix, r+1, c, matrix[r][c], dp),
-      longestIncreasingPath(matrix, r-1, c, matrix[r][c], dp),
-      longestIncreasingPath(matrix, r, c+1, matrix[r][c], dp),
-      longestIncreasingPath(matrix, r, c-1, matrix[r][c], dp)});
-  }
-
 public:
   int longestIncreasingPath(vector<vector<int>>& matrix) {
-    vector<vector<int>> dp (matrix.size(), vector<int> (matrix[0].size(), 0));
-    int longestPath = 0;
-
-    for (int r = 0; r < matrix.size(); r++) {
-      for (int c = 0; c < matrix[0].size(); c++) {
-        longestPath = max(longestPath, longestIncreasingPath(matrix, r, c, -1, dp));
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    
+    vector<vector<int>> dp (rows, vector<int>(cols, 0));
+    
+    int ans = 0;
+    
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        ans = max(ans, solve(matrix, r, c, -1, dp));
       }
     }
-
-    return longestPath;
+    
+    return ans;
+  }
+  
+private:
+  int solve(vector<vector<int>>& matrix, int r, int c, int prev, vector<vector<int>>& dp) {
+    if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] <= prev)
+      return 0;
+    
+    if (dp[r][c])
+      return dp[r][c];
+    
+    return dp[r][c] = 1 + max({ solve(matrix, r+1, c, matrix[r][c], dp),
+                                solve(matrix, r-1, c, matrix[r][c], dp),
+                                solve(matrix, r, c+1, matrix[r][c], dp),
+                                solve(matrix, r, c-1, matrix[r][c], dp) });
   }
 };
