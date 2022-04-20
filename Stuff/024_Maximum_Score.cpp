@@ -7,7 +7,7 @@ struct Item {
 };
 
 int main() {
-  int n, m, s, t;
+  int n, m;
 
   cin >> n >> m;
 
