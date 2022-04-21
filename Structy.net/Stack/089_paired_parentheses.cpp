@@ -3,11 +3,13 @@ using namespace std;
 
 bool pairedParentheses(std::string str) {
   int count = 0;
-  for (auto ch : str) {
-    if (ch == '(') count++;
+  for (const char& ch : str) {
+    if (ch == '(')
+      count++;
     else if (ch == ')') {
-      if (count > 0) count--;
-      else return false;
+      if (count == 0)
+        return false;
+      count--;
     }
   }
   return count == 0;
