@@ -2,8 +2,8 @@
 #include <string>
 using namespace std;
 
-std::string tokenTransform(std::string s, std::unordered_map<std::string, std::string> tokens, unordered_map<string, string>& memo) {
-  if (memo.count(s)) return memo[s];
+std::string tokenTransform(std::string s, std::unordered_map<std::string, std::string> tokens) {
+  if (tokens.count(s)) return tokens[s];
   string result;
   
   for (int i = 0; i < s.length(); i++) {
@@ -11,19 +11,15 @@ std::string tokenTransform(std::string s, std::unordered_map<std::string, std::s
       result += s[i];
     } else {
       int end = s.find('$', i + 1);
-      string token = s.substr(i, end - i + 1);
-      result += tokenTransform(tokens[token], tokens, memo);
+      const string& key = s.substr(i, end - i + 1);
+      const string& token = tokenTransform(tokens[key], tokens);
+      tokens[key] = token;
+      result += token;
       i = end;
     }
   }
   
-  memo[s] = result;
   return result;
-}
-
-std::string tokenTransform(std::string s, std::unordered_map<std::string, std::string> tokens) {
-  unordered_map<string, string> memo;
-  return tokenTransform(s, tokens, memo);
 }
 
 void run() {
