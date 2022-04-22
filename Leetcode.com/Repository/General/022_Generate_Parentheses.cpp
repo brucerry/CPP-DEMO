@@ -6,30 +6,30 @@ using namespace std;
 
 class Solution {
 private:
-  void solve(vector<string>& ans, string& str, int n, int open, int close) {
+  void solve(vector<string>& ans, string& comb, int n, int open, int close) {
     if (close == n) {
-      ans.emplace_back(str);
+      ans.emplace_back(comb);
       return;
     }
     
     if (open < n) {
-      str += '(';
-      solve(ans, str, n, open + 1, close);
-      str.pop_back();
+      comb += '(';
+      solve(ans, comb, n, open + 1, close);
+      comb.pop_back();
     }
     
     if (close < open) {
-      str += ')';
-      solve(ans, str, n, open, close + 1);
-      str.pop_back();
+      comb += ')';
+      solve(ans, comb, n, open, close + 1);
+      comb.pop_back();
     }
   }
   
 public:
   vector<string> generateParenthesis(int n) {
     vector<string> ans;
-    string str;
-    solve(ans, str, n, 0, 0);
+    string comb;
+    solve(ans, comb, n, 0, 0);
     return ans;
   }
 };

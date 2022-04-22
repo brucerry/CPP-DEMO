@@ -12,7 +12,8 @@ private:
   void kSum(vector<int>& nums, vector<int>& candidate, int target, vector<vector<int>>& result, int k, int start) {
     if (k > 2) {
       for (int i = start; i < nums.size() - k + 1; i++) { // loop through except the last k - 1 elements
-        if (i > start && nums[i - 1] == nums[i]) continue;
+        if (i > start && nums[i - 1] == nums[i])
+          continue;
         candidate.emplace_back(nums[i]);
         kSum(nums, candidate, target - nums[i], result, k - 1, i + 1);
         candidate.pop_back();
@@ -20,34 +21,37 @@ private:
       return;
     }
     
-    int left = start;
-    int right = nums.size() - 1;
-    while (left < right) {
-      int twoSum = nums[left] + nums[right];
+    int l = start;
+    int r = nums.size() - 1;
+    while (l < r) {
+      int twoSum = nums[l] + nums[r];
       if (twoSum == target) {
-        candidate.emplace_back(nums[left]);
-        candidate.emplace_back(nums[right]);
+        candidate.emplace_back(nums[l]);
+        candidate.emplace_back(nums[r]);
         result.emplace_back(candidate);
         candidate.erase(candidate.begin() + 2, candidate.end());
-        left++;
-        while (left < right && nums[left - 1] == nums[left]) left++;
+        l++;
+        while (l < r && nums[l - 1] == nums[l])
+          l++;
       }
       else if (twoSum > target) {
-        right--;
+        r--;
       }
       else {
-        left++;
+        l++;
       }
     }
   }
 
 public:
   vector<vector<int>> fourSum(vector<int>& nums, int target) {
-    if (nums.size() < 4) return {};
+    if (nums.size() < 4)
+      return {};
+
+    sort(nums.begin(), nums.end());
 
     vector<vector<int>> result;
     vector<int> candidate;
-    sort(nums.begin(), nums.end());
     kSum(nums, candidate, target, result, 4, 0);
     return result;
   }

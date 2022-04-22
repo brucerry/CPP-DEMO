@@ -39,7 +39,7 @@ public:
      vector<string> ans;
      string candidate;
      
-     if (digits.size())
+     if (digits.length())
        solve(digits, mapping, ans, candidate, 0);
      
      return ans;
