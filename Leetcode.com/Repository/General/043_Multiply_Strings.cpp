@@ -5,36 +5,37 @@
 using namespace std;
 
 // time: O(n * m)
-// space: O(n + m)
+// space: O(1)
 
 class Solution {
 public:
   string multiply(string num1, string num2) {
-    if (num1 == "0" || num2 == "0") return "0";
-
-    vector<int> ans (num1.length() + num2.length(), 0); // 0..4
-
-    for (int i = num1.size() - 1; i >= 0; i--) { // bottom
-      for (int j = num2.size() - 1; j >= 0; j--) { // up
-        int digit1 = num1[i] - '0';
-        int digit2 = num2[j] - '0';
-        int product = digit1 * digit2;
-        int added = ans[i + j + 1] + (product % 10);
-        ans[i + j + 1] = added % 10;
-        int carry = added / 10;
-        ans[i + j] += (product / 10) + carry;
+    if (num1 == "0" || num2 == "0")
+      return "0";
+    
+    reverse(num1.begin(), num1.end());
+    reverse(num2.begin(), num2.end());
+    
+    string ans (num1.length() + num2.length(), '0'); // at most (n + m) length
+    
+    for (int i = 0; i < num1.length(); i++) { // bottom
+        int d1 = num1[i] - '0';
+      
+      for (int j = 0; j < num2.length(); j++) { // top
+        int d2 = num2[j] - '0';
+        
+        int carry = ans[i + j] - '0';
+        int result = d1 * d2 + carry;
+        ans[i + j] = result % 10 + '0';
+        ans[i + j + 1] += result / 10;
       }
     }
-
-    int i = 0;
-    while (i < ans.size() && ans[i] == 0) i++;
-
-    string result;
-    while (i < ans.size()) {
-      result += (ans[i] + '0');
-      i++;
-    }
-
-    return result;
+    
+    if (ans.back() == '0') // at most 1 leading zero
+      ans.pop_back();
+    
+    reverse(ans.begin(), ans.end());
+    
+    return ans;
   }
 };
