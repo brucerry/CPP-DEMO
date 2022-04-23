@@ -11,45 +11,44 @@ using namespace std;
 class Solution {
 public:
   vector<vector<string>> solveNQueens(int n) {
-    unordered_set<int> usedCol, usedPosDiag, usedNegDiag;
-
+    unordered_set<int> usedCol, usedNegDiag, usedPosDiag;
+    
     vector<vector<string>> ans;
-    vector<int> state; // i = row, state[i] = col
-    solve(n, ans, state, usedCol, usedPosDiag, usedNegDiag, 0);
+    vector<int> candidate;
+    solve(n, ans, candidate, usedCol, usedNegDiag, usedPosDiag, 0);
     return ans;
   }
   
 private:
-  void push_state_to_ans(vector<vector<string>>& ans, vector<int>& state) {
-    vector<string> buffer;
-    for (const int& col : state) {
-      string s = string(col, '.') + 'Q' + string(state.size() - col - 1, '.');
-      buffer.emplace_back(s);
+  void addToAns(vector<vector<string>>& ans, vector<int>& candidate, int n) {
+    vector<string> buffer (n);
+    for (int r = 0; r < n; r++) {
+      buffer[r] = string(candidate[r], '.') + 'Q' + string(n - candidate[r] - 1, '.');
     }
     ans.emplace_back(buffer);
   }
   
-  void solve(int n, vector<vector<string>>& ans, vector<int>& state, unordered_set<int>& usedCol, unordered_set<int>& usedPosDiag, unordered_set<int>& usedNegDiag, int r) {
+  void solve(int n, vector<vector<string>>& ans, vector<int>& candidate, unordered_set<int>& usedCol, unordered_set<int>& usedNegDiag, unordered_set<int>& usedPosDiag, int r) {
     if (r == n) {
-      push_state_to_ans(ans, state);
+      addToAns(ans, candidate, n);
       return;
     }
     
     for (int c = 0; c < n; c++) {
-      if (usedCol.count(c) || usedPosDiag.count(r + c) || usedNegDiag.count(r - c))
+      if (usedCol.count(c) or usedNegDiag.count(r - c) or usedPosDiag.count(r + c))
         continue;
-
+      
       usedCol.emplace(c);
-      usedPosDiag.emplace(r + c);
       usedNegDiag.emplace(r - c);
-
-      state.emplace_back(c);
-      solve(n, ans, state, usedCol, usedPosDiag, usedNegDiag, r + 1);
-      state.pop_back();
-
+      usedPosDiag.emplace(r + c);
+    
+      candidate.emplace_back(c);
+      solve(n, ans, candidate, usedCol, usedNegDiag, usedPosDiag, r + 1);
+      candidate.pop_back();
+      
       usedCol.erase(c);
-      usedPosDiag.erase(r + c);
       usedNegDiag.erase(r - c);
+      usedPosDiag.erase(r + c);
     }
   }
 };

@@ -19,6 +19,7 @@ public:
     for (int r = word1.length() - 1; r >= 0; r--) {
       int prev = dp.back();
       dp.back() = word1.length() - r;
+      
       for (int c = word2.length() - 1; c >= 0; c--) {
         int tmp = dp[c];
         

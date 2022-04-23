@@ -9,8 +9,7 @@ using namespace std;
 // time: O(n * 2^n)
 // space: O(n)
 
-// iterative
-class Solution {
+class Iterative {
 public:
   vector<vector<int>> subsetsWithDup(vector<int>& nums) {
     sort(nums.begin(), nums.end());
@@ -26,8 +25,7 @@ public:
   }
 };
 
-// recursive
-class Solution {
+class Recursive {
 public:
   vector<vector<int>> subsetsWithDup(vector<int>& nums) {
     sort(nums.begin(), nums.end());

@@ -8,29 +8,29 @@ using namespace std;
 
 class Solution {
 public:
-  string addBinary(string& a, string& b) {
+  string addBinary(string a, string b) {
     reverse(a.begin(), a.end());
     reverse(b.begin(), b.end());
     
-    int carry = 0;
-    const int maxLen = max(a.length(), b.length());
-    string ans;
-
+    int maxLen = max(a.length(), b.length()) + 1;
+    
+    string ans (maxLen, '0');
+    
     for (int i = 0; i < maxLen; i++) {
-      int digitA = i < a.length() ? a[i] - '0' : 0;
-      int digitB = i < b.length() ? b[i] - '0' : 0;
-      int total = digitA + digitB + carry;
+      char bit_a = i < a.length() ? a[i] - '0' : 0;
+      char bit_b = i < b.length() ? b[i] - '0' : 0;
+      char carry = ans[i] - '0';
       
-      char ch = (total % 2) + '0';
-      ans = ch + ans;
-
-      carry = total >> 1;
+      int sum = bit_a + bit_b + carry;
+      ans[i] = sum % 2 + '0';
+      ans[i + 1] = sum / 2 + '0';
     }
-
-    if (carry) {
-      ans = '1' + ans;
-    }
-
+    
+    if (ans.back() == '0')
+      ans.pop_back();
+    
+    reverse(ans.begin(), ans.end());
+    
     return ans;
   }
 };
