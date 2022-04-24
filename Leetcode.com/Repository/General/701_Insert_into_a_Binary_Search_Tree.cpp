@@ -19,7 +19,9 @@ class Solution {
 public:
   TreeNode* insertIntoBST(TreeNode* root, int val) {
     TreeNode* newNode = new TreeNode(val);
-    if (!root) return newNode;
+
+    if (!root)
+      return newNode;
 
     TreeNode* prev = nullptr, *cur = root;
 
@@ -28,8 +30,10 @@ public:
       cur = val < cur->val ? cur->left : cur->right;
     }
 
-    if (val < prev->val) prev->left = newNode;
-    else prev->right = newNode;
+    if (val < prev->val)
+      prev->left = newNode;
+    else
+      prev->right = newNode;
 
     return root;
   }
@@ -42,7 +46,8 @@ public:
 class Solution {
 public:
   TreeNode* insertIntoBST(TreeNode* root, int val) {
-    if (!root) return new TreeNode(val);
+    if (!root)
+      return new TreeNode(val);
     
     if (val < root->val)
       root->left = insertIntoBST(root->left, val);
