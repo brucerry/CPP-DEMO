@@ -1,33 +1,21 @@
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <climits>
 using namespace std;
 
-int quickestConcat(std::string str, std::vector<std::string> words, int i, unordered_map<int, int> &memo) {
-  if (memo.count(i)) return memo[i];
-  if (i == str.length()) return 0;
+int quickestConcat(std::string str, std::vector<std::string> words) {
+  vector<int> dp (str.length() + 1, INT_MAX);
+  dp.back() = 0;
   
-  int min = -1;
-  for (auto word : words) {
-    int pos = str.find(word, i);
-    if (pos == i) {
-      int count = quickestConcat(str, words, i + word.length(), memo);
-      if (count != -1) {
-        count++;
-        if (min == -1 || min > count) {
-          min = count;
-        }
+  for (int i = str.length() - 1; i >= 0; i--) {
+    for (const string& word : words) {
+      if (i == str.find(word, i) and dp[i + word.length()] != INT_MAX) {
+        dp[i] = min(dp[i], 1 + dp[i + word.length()]);
       }
     }
   }
   
-  memo[i] = min;
-  return min;
-}
-
-int quickestConcat(std::string str, std::vector<std::string> words) {
-  unordered_map<int, int> memo;
-  return quickestConcat(str, words, 0, memo);
+  return dp[0] == INT_MAX ? -1 : dp[0];
 }
 
 

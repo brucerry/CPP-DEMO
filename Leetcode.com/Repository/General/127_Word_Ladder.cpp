@@ -19,11 +19,14 @@ public:
     
     unordered_map<string, vector<string>> patternMap; // pattern, words
     
-    for (const string& word : wordList) {
-      for (int i = 0; i < word.length(); i++) {
-        string pattern = word;
-        pattern[i] = '*';
-        patternMap[pattern].emplace_back(word);
+    for (string& word : wordList) {
+      string copy = word;
+      
+      for (char& ch : word) {
+        char tmp_ch = ch;
+        ch = '*';
+        patternMap[word].emplace_back(copy);
+        ch = tmp_ch;
       }
     }
     
@@ -31,28 +34,31 @@ public:
     
     queue<string> queue;
     queue.emplace(beginWord);
+
     int ans = 1;
     
     while (queue.size()) {
       int len = queue.size();
       
       while (len--) {
-        string word = queue.front();
-        queue.pop();
+        string& word = queue.front();
         
         if (word == endWord)
           return ans;
         
-        for (int i = 0; i < word.length(); i++) {
-          string pattern = word;
-          pattern[i] = '*';
-          for (const string& neighbor : patternMap[pattern]) {
+        for (char& ch : word) {
+          char tmp_ch = ch;
+          ch = '*';
+          for (const string& neighbor : patternMap[word]) {
             if (visited.count(neighbor) == 0) {
               visited.emplace(neighbor);
               queue.emplace(neighbor);
             }
           }
+          ch = tmp_ch;
         }
+
+        queue.pop();
       }
       
       ans++;

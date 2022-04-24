@@ -9,26 +9,18 @@ using namespace std;
 class Solution {
 public:
   vector<vector<int>> generate(int numRows) {
-    vector<vector<int>> result;
-
-    for (int i = 0; i < numRows; i++) {
-      vector<int> row (i + 1, 0);
-      row[0] = 1;
-
-      if (i > 0) {
-        for (int j = 1; j < row.size(); j++) {
-          if (j == row.size() - 1) {
-            row[j] = 1;
-          }
-          else {
-            row[j] = result[i - 1][j - 1] + result[i - 1][j];
-          }
-        }
+    vector<vector<int>> ans { { 1 } };
+    
+    for (int r = 1; r < numRows; r++) {
+      ans.emplace_back(ans.back());
+      
+      for (int c = ans.back().size() - 1; c >= 1; c--) {
+        ans.back()[c] += ans.back()[c - 1];
       }
-
-      result.push_back(row);
+      
+      ans.back().emplace_back(1);
     }
-
-    return result;
+    
+    return ans;
   }
 };

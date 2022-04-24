@@ -4,41 +4,39 @@
 #include <string>
 using namespace std;
 
-// time: O(2^n)
+// time: O(2^n * n)
 // space: O(n)
 
 class Solution {
-private:
-  bool isPalindrome(string& s, int left, int right) {
-    while (left < right) {
-      if (s[left] != s[right])
-        return false;
-      left++;
-      right--;
-    }
-    return true;
+public:
+  vector<vector<string>> partition(string s) {
+    vector<vector<string>> ans;
+    vector<string> part;
+    solve(s, ans, part, 0);
+    return ans;
   }
-
-  void solve(string& s, vector<vector<string>>& solutions, vector<string>& candidate, int start) {
+  
+private:
+  void solve(string& s, vector<vector<string>>& ans, vector<string>& part, int start) {
     if (start == s.length()) {
-      solutions.push_back(candidate);
+      ans.emplace_back(part);
       return;
     }
-
+    
     for (int i = start; i < s.length(); i++) {
       if (isPalindrome(s, start, i)) {
-        candidate.push_back(s.substr(start, i - start + 1));
-        solve(s, solutions, candidate, i + 1);
-        candidate.pop_back();
+        part.emplace_back(s.substr(start, i - start + 1));
+        solve(s, ans, part, i + 1);
+        part.pop_back();
       }
     }
   }
-
-public:
-  vector<vector<string>> partition(string& s) {
-    vector<vector<string>> solutions;
-    vector<string> candidate;
-    solve(s, solutions, candidate, 0);
-    return solutions;
+  
+  bool isPalindrome(string& s, int left, int right) {
+    for (; left < right; left++, right--) {
+      if (s[left] != s[right])
+        return false;
+    }
+    return true;
   }
 };

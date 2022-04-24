@@ -2,47 +2,47 @@
 
 #include <vector>
 #include <string>
-#include <unordered_map>
 using namespace std;
 
+// s = len of s
+// n = len of wordDict
+// time: O(n^s)
+// space: O(s)
+
 class Solution {
-private:
-  vector<vector<string>> wordBreak(string& s, vector<string>& wordDict, int idx, unordered_map<int, vector<vector<string>>>& memo) {
-    if (idx == s.length()) return {{}};
-    if (memo.count(idx)) return memo[idx];
-
-    vector<vector<string>> result;
-
-    for (string& word : wordDict) {
-      int pos = s.find(word, idx);
-      if (pos == idx) {
-        for (auto& subSentence : wordBreak(s, wordDict, idx + word.length(), memo)) {
-          subSentence.insert(subSentence.begin(), word);
-          result.push_back(subSentence);
-        }
-      }
-    }
-
-    memo[idx] = result;
-    return result;
-  }
-
-  vector<string> concatSentences(vector<vector<string>>& sentences) {
-    vector<string> result;
-    for (auto sentence : sentences) {
-      string str = sentence[0];
-      for (int i = 1; i < sentence.size(); i++) {
-        str += " " + sentence[i];
-      }
-      result.push_back(str);
-    }
-    return result;
-  }
-
 public:
   vector<string> wordBreak(string s, vector<string>& wordDict) {
-    unordered_map<int, vector<vector<string>>> memo;
-    vector<vector<string>> sentences = wordBreak(s, wordDict, 0, memo);
-    return concatSentences(sentences);
+    vector<string> ans;
+    vector<string> words;
+    solve(s, wordDict, ans, words, 0);
+    return ans;
+  }
+  
+private:
+  void solve(string& s, vector<string>& wordDict, vector<string>& ans, vector<string>& words, int i) {
+    if (i == s.length()) {
+      addWordsToAns(ans, words);
+      return;
+    }
+    
+    for (const string& word : wordDict) {
+      if (i == s.find(word, i)) {
+        words.emplace_back(word);
+        solve(s, wordDict, ans, words, i + word.length());
+        words.pop_back();
+      }
+    }
+  }
+  
+  void addWordsToAns(vector<string>& ans, vector<string>& words) {
+    string sentence;
+    
+    for (int i = 0; i < words.size(); i++) {
+      if (i > 0)
+        sentence += ' ';
+      sentence += words[i];
+    }
+    
+    ans.emplace_back(sentence);
   }
 };

@@ -20,29 +20,55 @@ public:
 // time: O(n)
 // space: O(n)
 
-class Solution {
+class Iterative {
 public:
   Node* copyRandomList(Node* head) {
-    unordered_map<Node*, Node*> map { // originalNode, copyNode
+    unordered_map<Node*, Node*> nodeToCopy { // originalNode, copyNode
       { nullptr, nullptr }
     };
     
     Node* cur = head;
     
     while (cur) {
-      map[cur] = new Node(cur->val);
+      nodeToCopy[cur] = new Node(cur->val);
       cur = cur->next;
     }
     
     cur = head;
     
     while (cur) {
-      Node* copy = map[cur];
-      copy->next = map[cur->next];
-      copy->random = map[cur->random];
+      Node* copy = nodeToCopy[cur];
+      copy->next = nodeToCopy[cur->next];
+      copy->random = nodeToCopy[cur->random];
       cur = cur->next;
     }
     
-    return map[head];
+    return nodeToCopy[head];
+  }
+};
+
+class Recursive {
+public:
+  Node* copyRandomList(Node* head) {    
+    unordered_map<Node*, Node*> nodeToCopy {
+      { nullptr, nullptr }
+    };
+    
+    return solve(head, nodeToCopy);
+  }
+  
+private:
+  Node* solve(Node* node, unordered_map<Node*, Node*>& nodeToCopy) {
+    if (nodeToCopy.count(node))
+      return nodeToCopy[node];
+    
+    Node* copy = new Node(node->val);
+    
+    nodeToCopy[node] = copy;
+    
+    copy->next = solve(node->next, nodeToCopy);
+    copy->random = solve(node->random, nodeToCopy);
+    
+    return copy;
   }
 };
