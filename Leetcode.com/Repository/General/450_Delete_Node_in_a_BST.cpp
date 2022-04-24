@@ -17,25 +17,32 @@ struct TreeNode {
 class Solution {
 private:
   TreeNode* rightMostNode(TreeNode* node) {
-    while (node->right) node = node->right;
+    while (node->right)
+      node = node->right;
     return node;
   }
 
-  TreeNode* helper(TreeNode* node) {
-    if (!node->left) return node->right;
-    if (!node->right) return node->left;
+  TreeNode* helper(TreeNode* targetNode) {
+    if (!targetNode->left)
+      return targetNode->right;
 
-    TreeNode* rightMost = rightMostNode(node->left);
-    TreeNode* rightNode = node->right;
+    if (!targetNode->right)
+      return targetNode->left;
+
+    TreeNode* rightMost = rightMostNode(targetNode->left);
+    TreeNode* rightNode = targetNode->right;
     rightMost->right = rightNode;
-    return node->left;
+    
+    return targetNode->left;
   }
 
 public:
   TreeNode* deleteNode(TreeNode* root, int key) {
-    if (not root) return root;
+    if (!root)
+      return root;
 
-    if (root->val == key) return helper(root);
+    if (root->val == key)
+      return helper(root);
 
     TreeNode* cur = root;
 
@@ -43,16 +50,18 @@ public:
       if (key < cur->val) {
         if (cur->left and cur->left->val == key) {
           cur->left = helper(cur->left);
-          break;
+          return root;
         }
-        else cur = cur->left;
+        else
+          cur = cur->left;
       }
       else {
         if (cur->right and cur->right->val == key) {
           cur->right = helper(cur->right);
-          break;
+          return root;
         }
-        else cur = cur->right;
+        else
+          cur = cur->right;
       }
     }
     
