@@ -35,6 +35,7 @@ private:
     Node* lhs = node->left, *rhs = node->right;
     lhs->right = rhs;
     rhs->left = lhs;
+    node->left = node->right = nullptr;
   }
   
 public:

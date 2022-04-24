@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <numeric>
 using namespace std;
 
 // time: O(n * log(n))
@@ -22,7 +21,11 @@ public:
       return a + b > b + a;
     });
 
-    string ans = accumulate(strs.begin(), strs.end(), string(""));
+    string ans;
+    
+    for (const string& s : strs) {
+      ans += s;
+    }
 
     return ans[0] == '0' ? "0" : ans;
   }

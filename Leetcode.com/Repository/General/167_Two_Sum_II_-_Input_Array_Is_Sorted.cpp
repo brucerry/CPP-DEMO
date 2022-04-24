@@ -13,6 +13,7 @@ public:
     
     while (l < r) {
       int sum = numbers[l] + numbers[r];
+      
       if (sum < target)
         l++;
       else if (sum > target)
