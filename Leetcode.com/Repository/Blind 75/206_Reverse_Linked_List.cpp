@@ -11,12 +11,9 @@ struct ListNode {
 };
 
 // time: O(n)
-// space: O(1) for iterative, O(n) for recursive
-
-class Solution {
+// space: O(n)
+class Recursive {
 public:
-
-  // recursive
   ListNode* reverseList(ListNode* head) {
     if (!head)
       return head;
@@ -31,18 +28,22 @@ public:
 
     return newHead;
   }
+};
 
-  // iterative
-  // ListNode* reverseList(ListNode* head) {
-  //   ListNode* cur = head, *prev = nullptr;
+// time: O(n)
+// space: O(1)
+class Iterative {
+public:
+  ListNode* reverseList(ListNode* head) {
+    ListNode* cur = head, *prev = nullptr;
 
-  //   while (cur) {
-  //     ListNode* next = cur->next;
-  //     cur->next = prev;
-  //     prev = cur;
-  //     cur = next;
-  //   }
+    while (cur) {
+      ListNode* next = cur->next;
+      cur->next = prev;
+      prev = cur;
+      cur = next;
+    }
 
-  //   return prev;
-  // }
+    return prev;
+  }
 };
