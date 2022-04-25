@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/happy-number/
 
-// time: O(1)
+// time: O(log(n))
 // space: O(1)
 
 class Solution {

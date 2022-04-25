@@ -26,15 +26,14 @@ public:
     vector<int> ans;
     
     while (queue.size()) {
-      const int size = queue.size();
-      TreeNode* rightSideNode = nullptr;
+      int size = queue.size();
       
-      for (int i = 0; i < size; i++) {
+      while (size--) {
         TreeNode* node = queue.front();
         queue.pop();
         
-        if (i == size - 1)
-          rightSideNode = node;
+        if (size == 0)
+          ans.emplace_back(node->val);
         
         if (node->left)
           queue.emplace(node->left);
@@ -42,8 +41,6 @@ public:
         if (node->right)
           queue.emplace(node->right);
       }
-      
-      ans.emplace_back(rightSideNode->val);
     }
     
     return ans;
