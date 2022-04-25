@@ -13,26 +13,30 @@ using namespace std;
 class Solution {
 public:
   bool wordPattern(string pattern, string s) {
+    vector<string> words;
+    stringstream ss (s);
+    string word;
+    while (getline(ss, word, ' ')) {
+      words.emplace_back(word);
+    }
+    
+    if (words.size() != pattern.length())
+      return false;
+    
     unordered_map<char, string> map;
     unordered_set<string> set;
-    vector<string> words;
-    stringstream ss(s);
-    string word;
-
-    while (ss >> word) {
-      words.push_back(word);
-    }
-
-    if (words.size() != pattern.size()) return false;
-
-    for (int i = 0; i < pattern.length(); i++) {
+    
+    for (int i = 0; i < words.size(); i++) {
       if (map.count(pattern[i]) == 0) {
-        if (set.count(words[i])) return false;
+        if (set.count(words[i]))
+          return false;
+        set.emplace(words[i]);
         map[pattern[i]] = words[i];
-        set.insert(words[i]);
       }
-      else if (map[pattern[i]] != words[i]) return false;
+      else if (map[pattern[i]] != words[i])
+        return false;
     }
+    
     return true;
   }
 };

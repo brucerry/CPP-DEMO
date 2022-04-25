@@ -15,11 +15,10 @@ struct TreeNode {
 // p = # of nodes of p
 // q = # of nodes of q
 // time: O(p + q)
-// space: O(p + q) for iterative, O(height of tree) for recursive
+// space: O(p + q)
 
-class Solution {
+class Iterative {
 public:
-  // iterative
   bool isSameTree(TreeNode* p, TreeNode* q) {
     vector<TreeNode*> buffer;
     buffer.emplace_back(p);
@@ -42,15 +41,19 @@ public:
 
     return true;
   }
+};
 
-  // recursive
-  // bool isSameTree(TreeNode* p, TreeNode* q) {
-  //   if (!p && !q)
-  //     return true;
+// time: O(p + q)
+// space: O(height of tree)
+class Recursive {
+public:
+  bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (!p && !q)
+      return true;
 
-  //   if (p && q && p->val == q->val)
-  //     return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    if (p && q && p->val == q->val)
+      return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
 
-  //   return false;
-  // }
+    return false;
+  }
 };

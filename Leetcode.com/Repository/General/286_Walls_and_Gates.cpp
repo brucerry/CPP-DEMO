@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <queue>
-#include <tuple>
 using namespace std;
 
 // time: O(r * c)
@@ -11,33 +10,37 @@ using namespace std;
 class Solution {
 public:
   void wallsAndGates(vector<vector<int>> &rooms) {
-    queue<tuple<int, int, int>> queue;
+    queue<pair<int, int>> queue; // r, c
 
     for (int r = 0; r < rooms.size(); r++) {
       for (int c = 0; c < rooms[0].size(); c++) {
-        if (rooms[r][c] == 0)
-          queue.emplace(r, c, 0);
+        if (!rooms[r][c])
+          queue.emplace(r, c);
       }
     }
 
-    vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
+    int dist = 0;
+
+    vector<pair<int, int>> dirs { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
 
     while (queue.size()) {
-      int len = queue.size();
+      int size = queue.size();
 
-      while (len--) {
-        auto [ r, c, dist ] = queue.front();
+      while (size--) {
+        auto [ r, c ] = queue.front();
         queue.pop();
-        
-        for (const auto& [ dr, dc ] : moves) {
+
+        for (const auto& [ dr, dc ] : dirs) {
           int newr = r + dr;
           int newc = c + dc;
-          if (0 <= newr && newr < rooms.size() && 0 <= newc && newc < rooms[0].size() && rooms[newr][newc] == INT_MAX) {
+          if (0 <= newr and newr < rooms.size() and 0 <= newc and newc < rooms[0].size() and rooms[newr][newc] == INT_MAX) {
+            queue.emplace(newr, newc);
             rooms[newr][newc] = dist + 1;
-            queue.emplace(newr, newc, rooms[newr][newc]);
           }
         }
       }
+
+      dist++;
     }
   }
 };

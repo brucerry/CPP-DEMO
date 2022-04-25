@@ -8,16 +8,13 @@ using namespace std;
 
 class Solution {
 public:
-  int longestIncreasingPath(vector<vector<int>>& matrix) {
-    int rows = matrix.size();
-    int cols = matrix[0].size();
-    
-    vector<vector<int>> dp (rows, vector<int>(cols, 0));
+  int longestIncreasingPath(vector<vector<int>>& matrix) {    
+    vector<vector<int>> dp (matrix.size(), vector<int>(matrix[0].size()));
     
     int ans = 0;
     
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
+    for (int r = 0; r < matrix.size(); r++) {
+      for (int c = 0; c < matrix[0].size(); c++) {
         ans = max(ans, solve(matrix, r, c, -1, dp));
       }
     }
@@ -26,16 +23,18 @@ public:
   }
   
 private:
-  int solve(vector<vector<int>>& matrix, int r, int c, int prev, vector<vector<int>>& dp) {
-    if (r < 0 || r >= matrix.size() || c < 0 || c >= matrix[0].size() || matrix[r][c] <= prev)
+  int solve(vector<vector<int>>& matrix, int r, int c, int prev, vector<vector<int>>& memo) {
+    if (r < 0 or r >= matrix.size() or c < 0 or c >= matrix[0].size() or matrix[r][c] <= prev)
       return 0;
     
-    if (dp[r][c])
-      return dp[r][c];
+    if (memo[r][c])
+      return memo[r][c];
     
-    return dp[r][c] = 1 + max({ solve(matrix, r+1, c, matrix[r][c], dp),
-                                solve(matrix, r-1, c, matrix[r][c], dp),
-                                solve(matrix, r, c+1, matrix[r][c], dp),
-                                solve(matrix, r, c-1, matrix[r][c], dp) });
+    return memo[r][c] = 1 + max({
+      solve(matrix, r+1, c, matrix[r][c], memo),
+      solve(matrix, r-1, c, matrix[r][c], memo),
+      solve(matrix, r, c+1, matrix[r][c], memo),
+      solve(matrix, r, c-1, matrix[r][c], memo)
+    });
   }
 };
