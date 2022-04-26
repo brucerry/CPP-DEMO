@@ -9,11 +9,10 @@
  * int guess(int num);
  */
 
-class Solution {
+// time: O(log(n)) base-3
+// space: O(1)
+class TernarySearch {
 public:
-  // ternary search
-  // time: O(log(n)) base-3
-  // space: O(1)
   int guessNumber(int n) {
     int low = 1;
     int high = n;
@@ -33,21 +32,22 @@ public:
     }
     return -1;
   }
+};
 
-
-  // binary search
-  // time: O(log(n)) base-2
-  // space: O(1)
-  // int guessNumber(int n) {
-  //   int low = 1;
-  //   int high = n;
-  //   while (low <= high) {
-  //     int mid = low + (high - low) / 2;
-  //     int result = guess(mid);
-  //     if (result == -1) high = mid - 1;
-  //     else if (result == 1) low = mid + 1;
-  //     else return mid;
-  //   }
-  //   return -1;
-  // }
+// time: O(log(n)) base-2
+// space: O(1)
+class BinarySearch {
+public:
+  int guessNumber(int n) {
+    int low = 1;
+    int high = n;
+    while (low <= high) {
+      int mid = low + (high - low) / 2;
+      int result = guess(mid);
+      if (result == -1) high = mid - 1;
+      else if (result == 1) low = mid + 1;
+      else return mid;
+    }
+    return -1;
+  }
 };

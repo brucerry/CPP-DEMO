@@ -12,7 +12,7 @@ struct TreeNode {
 };
 
 // time: O(height of tree)
-// space: O(height of tree)
+// space: O(1)
 
 class Solution {
 private:
@@ -30,8 +30,7 @@ private:
       return targetNode->left;
 
     TreeNode* rightMost = rightMostNode(targetNode->left);
-    TreeNode* rightNode = targetNode->right;
-    rightMost->right = rightNode;
+    rightMost->right = targetNode->right;
     
     return targetNode->left;
   }

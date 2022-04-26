@@ -6,17 +6,20 @@
 class Solution {
 public:
   bool isPerfectSquare(int num) {
-    int left = 1;
-    int right = num;
-
+    int left = 1, right = num;
+    
     while (left <= right) {
       long mid = left + ((right - left) >> 1);
       long ans = mid * mid;
-      if (ans < num) left = mid + 1; 
-      else if (ans > num) right = mid - 1;
-      else return true;
+      
+      if (ans > num)
+        right = mid - 1;
+      else if (ans < num)
+        left = mid + 1;
+      else
+        return true;
     }
-
+    
     return false;
   }
 };

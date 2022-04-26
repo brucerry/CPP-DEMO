@@ -11,40 +11,43 @@ using namespace std;
 
 class Solution {
 public:
-  string decodeString(string& s) {
+  string decodeString(string s) {
     stack<string> stack;
-
-    for (char& ch : s) {
-      if (ch != ']') {
-        stack.push(string(1, ch));
-      }
+    
+    for (const char& c : s) {
+      if (c != ']')
+        stack.emplace(string(1, c));
+      
       else {
         string str;
-        while (stack.top() != "[") {
-          str = stack.top() + str;
+        while (stack.size() and stack.top() != "[") {
+          str.insert(0, stack.top());
           stack.pop();
         }
+        
         stack.pop(); // pop the "["
-
+        
         string num;
-        while (stack.size() && "0" <= stack.top() && stack.top() <= "9") {
-          num = stack.top() + num;
+        while (stack.size() and "0" <= stack.top() and stack.top() <= "9") {
+          num.insert(0, stack.top());
           stack.pop();
         }
-
-        int inum = stoi(num);
-        string repeatedStr;
-        while (inum--) repeatedStr += str;
-        stack.push(repeatedStr);
+        
+        int count = stoi(num);
+        string newStr;
+        while (count--) {
+          newStr.insert(0, str);
+        }
+        stack.emplace(newStr);
       }
     }
-
+    
     string ans;
     while (stack.size()) {
-      ans = stack.top() + ans;
+      ans.insert(0, stack.top());
       stack.pop();
     }
-
+    
     return ans;
   }
 };

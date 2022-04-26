@@ -16,22 +16,23 @@ struct TreeNode {
 };
 
 class Solution {
-private:
-  pair<int, int> dfs(TreeNode* root) {
-    if (root == nullptr) return {0, 0};
-
-    pair<int, int> leftPair = dfs(root->left);
-    pair<int, int> rightPair = dfs(root->right);
-
-    int robThis = root->val + leftPair.second + rightPair.second;
-    int skipThis = max(leftPair.first, leftPair.second) + max(rightPair.first, rightPair.second);
-
-    return {robThis, skipThis};
-  }
-  
 public:
   int rob(TreeNode* root) {
-    pair<int, int> result = dfs(root);
-    return max(result.first, result.second);
+    pair<int, int> ans = helper(root);
+    return max(ans.first, ans.second);
+  }
+  
+private:
+  pair<int, int> helper(TreeNode* node) {
+    if (!node)
+      return { 0, 0 };
+    
+    auto [ leftRob, leftIgnore ] = helper(node->left);
+    auto [ rightRob, rightIgnore ] = helper(node->right);
+  
+    int rob = node->val + leftIgnore + rightIgnore;
+    int ignore = max(leftRob, leftIgnore) + max(rightRob, rightIgnore);
+    
+    return { rob, ignore };
   }
 };

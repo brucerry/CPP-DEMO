@@ -5,30 +5,30 @@
 using namespace std;
 
 // time: O(s)
-// space: O(s)
+// space: O(1)
 
 class Solution {
 public:
   string removeKdigits(string& num, int k) {
     string ans;
-    vector<char> result;
-    result.reserve(num.length());
-
-    for (int i = 0; i < num.length(); i++) {
-      while (k > 0 && result.size() && result.back() > num[i]) {
+    
+    for (const char& n : num) {
+      while (k and ans.length() and ans.back() > n) {
+        ans.pop_back();
         k--;
-        result.pop_back();
       }
-      result.emplace_back(num[i]);
+      ans += n;
     }
-
+    
     int i = 0;
-    while (i < result.size() && result[i] == '0') i++;
-
-    for (int j = i; j < result.size() - k; j++) {
-      ans += result[j];
+    while (i < ans.length() and ans[i] == '0') {
+      i++;
     }
-
-    return ans.length() == 0 ? "0" : ans;
+    
+    while (k-- and ans.length()) {
+      ans.pop_back();
+    }
+    
+    return i < ans.length() ? ans.substr(i) : "0";
   }
 };

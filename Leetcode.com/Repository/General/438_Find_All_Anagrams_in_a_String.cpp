@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <array>
 using namespace std;
 
 // time: O(s)
@@ -9,30 +10,35 @@ using namespace std;
 
 class Solution {
 public:
-  vector<int> findAnagrams(string s, string p) {
-    if (s.length() < p.length()) return {};
+  vector<int> findAnagrams(string& s, string& p) {
+    if (s.length() < p.length())
+      return {};
     
-    vector<int> charCountS (26, 0), charCountP (26, 0);
+    array<char, 26> pCount { 0 }, sCount { 0 };
+    
     for (int i = 0; i < p.length(); i++) {
-      charCountP[p[i] - 'a']++;
-      charCountS[s[i] - 'a']++;
+      pCount[p[i] - 'a']++;
+      sCount[s[i] - 'a']++;
     }
-
-    vector<int> result;
+    
+    vector<int> ans;
+    
+    if (pCount == sCount)
+      ans.emplace_back(0);
+    
     int l = 0, r = p.length();
-
-    if (charCountP == charCountS) result.emplace_back(l);
-
+    
     while (r < s.length()) {
-      charCountS[s[r] - 'a']++;
-      charCountS[s[l] - 'a']--;
+      sCount[s[l] - 'a']--;
+      sCount[s[r] - 'a']++;
       
       l++;
       r++;
-
-      if (charCountP == charCountS) result.emplace_back(l);
+      
+      if (pCount == sCount)
+        ans.emplace_back(l);
     }
-
-    return result;
+    
+    return ans;
   }
 };

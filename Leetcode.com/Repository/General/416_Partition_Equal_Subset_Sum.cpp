@@ -10,27 +10,28 @@ using namespace std;
 class Solution {
 public:
   bool canPartition(vector<int>& nums) {
-    int sum = accumulate(nums.begin(), nums.end(), 0);
+    int sum = 0;
+    for (const int& num : nums) {
+      sum += num;
+    }
     
     if (sum & 1)
       return false;
     
     sum >>= 1;
     
-    vector<char> dp (sum + 1, 0);
+    vector<char> dp (sum + 1);
     dp[0] = 1;
-
+    
     for (const int& num : nums) {
       for (int s = sum; s >= 0; s--) {
         if (num > s)
           continue;
-        if (dp[s - num])
-          dp[s] = 1;
-        if (dp[sum])
-          return true;
+        
+        dp[s] |= dp[s - num];
       }
     }
     
-    return false;
+    return dp.back();
   }
 };

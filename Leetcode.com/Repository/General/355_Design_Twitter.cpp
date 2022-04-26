@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <tuple>
 #include <algorithm>
+#include <queue>
 using namespace std;
 
 // n = # of follwees for each user
@@ -41,13 +42,13 @@ public:
   
   vector<int> getNewsFeed(int userId) {
     vector<int> newsFeed;
-    vector<tuple<int, int, int, int>> maxHeap; // postTime, tweetId, followeeId, prev tweet index
+    priority_queue<tuple<int, int, int, int>> maxHeap; // postTime, tweetId, followeeId, prev tweet index
     
     // add latest self-tweet
     if (m_UserInfo[userId].tweets.size()) {
       int lastIndex = m_UserInfo[userId].tweets.size() - 1;
       const auto& [ postTime, tweetId ] = m_UserInfo[userId].tweets.back();
-      maxHeap.emplace_back(postTime, tweetId, userId, lastIndex - 1);
+      maxHeap.emplace(postTime, tweetId, userId, lastIndex - 1);
     }    
     
     // add latest followees' tweets
@@ -55,23 +56,19 @@ public:
       if (m_UserInfo[followeeId].tweets.size()) {
         int lastIndex = m_UserInfo[followeeId].tweets.size() - 1;
         const auto& [ postTime, tweetId ] = m_UserInfo[followeeId].tweets.back();
-        maxHeap.emplace_back(postTime, tweetId, followeeId, lastIndex - 1);
+        maxHeap.emplace(postTime, tweetId, followeeId, lastIndex - 1);
       }
     }
     
-    make_heap(maxHeap.begin(), maxHeap.end());
-    
     while (maxHeap.size() && newsFeed.size() < 10) {
-      const auto [ postTime, tweetId, followeeId, index ] = maxHeap.front();
-      pop_heap(maxHeap.begin(), maxHeap.end());
-      maxHeap.pop_back();
+      auto [ _, tweetId, followeeId, index ] = maxHeap.top();
+      maxHeap.pop();
       
       newsFeed.emplace_back(tweetId);
       
       if (index >= 0) {
         const auto& [ postTime, tweetId ] = m_UserInfo[followeeId].tweets[index];
-        maxHeap.emplace_back(postTime, tweetId, followeeId, index - 1);
-        push_heap(maxHeap.begin(), maxHeap.end());
+        maxHeap.emplace(postTime, tweetId, followeeId, index - 1);
       }
     }
     
