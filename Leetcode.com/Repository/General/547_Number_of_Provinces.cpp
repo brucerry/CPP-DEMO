@@ -20,7 +20,8 @@ private:
     int parent1 = findParent(parents, node1);
     int parent2 = findParent(parents, node2);
 
-    if (parent1 == parent2) return 0;
+    if (parent1 == parent2)
+      return 0;
 
     if (ranks[parent1] < ranks[parent2]) {
       parents[parent1] = parent2;

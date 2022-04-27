@@ -14,24 +14,25 @@ struct TreeNode {
 // space: O(height of tree)
 
 class Solution {
-private:
-  int m_MaxDiameter = 0;
-  
-  int maxHeight(TreeNode* root) {
-    if (!root)
-      return -1;
-    
-    int leftHeight = maxHeight(root->left);
-    int rightHeight = maxHeight(root->right);
-    
-    m_MaxDiameter = max(m_MaxDiameter, leftHeight + rightHeight + 2);
-    
-    return 1 + max(leftHeight, rightHeight);
-  }
-  
 public:
   int diameterOfBinaryTree(TreeNode* root) {
-    maxHeight(root);
-    return m_MaxDiameter;
+    int ans = 0;
+    maxHeight(root, ans);
+    return ans;
+  }
+
+private:
+  int maxHeight(TreeNode* node, int& ans) {
+    if (!node)
+      return -1;
+    
+    int leftHeight = maxHeight(node->left, ans);
+    int rightHeight = maxHeight(node->right, ans);
+    
+    int height = 1 + max(leftHeight, rightHeight);
+    int diameter = 2 + leftHeight + rightHeight;
+    ans = max(ans, diameter);
+    
+    return height;
   }
 };

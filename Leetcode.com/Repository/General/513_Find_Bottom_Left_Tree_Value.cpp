@@ -19,7 +19,7 @@ class Solution {
 public:
   int findBottomLeftValue(TreeNode* root) {
     queue<TreeNode*> queue;
-    queue.push(root);
+    queue.emplace(root);
 
     int ans = root->val;
 
@@ -29,8 +29,11 @@ public:
 
       ans = node->val;
 
-      if (node->right) queue.push(node->right);
-      if (node->left) queue.push(node->left);
+      if (node->right)
+        queue.emplace(node->right);
+        
+      if (node->left)
+        queue.emplace(node->left);
     }
 
     return ans;

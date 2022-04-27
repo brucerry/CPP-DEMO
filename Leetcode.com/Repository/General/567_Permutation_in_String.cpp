@@ -9,50 +9,53 @@ using namespace std;
 
 class Solution {
 public:
-  bool checkInclusion(string s1, string s2) {
+  bool checkInclusion(string& s1, string& s2) {
     if (s1.length() > s2.length())
       return false;
     
-    array<int, 26> charCountS1 { 0 }, charCountS2 { 0 };
+    array<int, 26> s1Count { 0 }, s2Count { 0 };
     
     for (int i = 0; i < s1.length(); i++) {
-      charCountS1[s1[i] - 'a']++;
-      charCountS2[s2[i] - 'a']++;
+      s1Count[s1[i] - 'a']++;
+      s2Count[s2[i] - 'a']++;
     }
     
     int matches = 0;
     
     for (int i = 0; i < 26; i++) {
-      if (charCountS1[i] == charCountS2[i])
+      if (s1Count[i] == s2Count[i])
         matches++;
     }
     
+    if (matches == 26)
+      return true;
+    
     int l = 0;
     
-    for (int r = s1.length(); r < s2.length(); r++) {
-      if (matches == 26)
-        return true;
-      
+    for (int r = s1.length(); r < s2.length(); r++) {      
       int l_index = s2[l] - 'a';
       int r_index = s2[r] - 'a';
       
-      charCountS2[r_index]++;
+      s2Count[r_index]++;
       
-      if (charCountS1[r_index] == charCountS2[r_index])
+      if (s1Count[r_index] == s2Count[r_index])
         matches++;
-      else if (charCountS1[r_index] + 1 == charCountS2[r_index])
+      else if (s1Count[r_index] + 1 == s2Count[r_index])
         matches--;
       
-      charCountS2[l_index]--;
+      s2Count[l_index]--;
       
-      if (charCountS1[l_index] == charCountS2[l_index])
+      if (s1Count[l_index] == s2Count[l_index])
         matches++;
-      else if (charCountS1[l_index] - 1 == charCountS2[l_index])
+      else if (s1Count[l_index] - 1 == s2Count[l_index])
         matches--;
+      
+      if (matches == 26)
+        return true;
       
       l++;
     }
     
-    return matches == 26;
+    return false;
   }
 };

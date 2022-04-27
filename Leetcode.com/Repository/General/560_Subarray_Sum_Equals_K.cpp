@@ -14,9 +14,11 @@ public:
     int sum = 0;
     int ans = 0;
 
-    for (int& num : nums) {
+    for (const int& num : nums) {
       sum += num;
-      ans += prefixSum[sum - k];
+      if (prefixSum.count(sum - k)) {
+        ans += prefixSum[sum - k];
+      }
       prefixSum[sum]++;
     }
 
