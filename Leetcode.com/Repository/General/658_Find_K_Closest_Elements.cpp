@@ -1,57 +1,68 @@
 // https://leetcode.com/problems/find-k-closest-elements/
 
 #include <vector>
-#include <algorithm>
 using namespace std;
 
-class Solution {
+// time: O(log(n-k) + k)
+// space: O(1)
+class Optimized {
 public:
-  // time: O(log(n-k) + k)
-  // space: O(1)
   vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-    int left = 0;
-    int right = arr.size() - k;
-
-    while (left < right) {
-      int mid = left + (right - left) / 2;
-      if (x - arr[mid] > arr[mid+k] - x) left = mid + 1;
-      else right = mid;
+    int l = 0, r = arr.size() - k;
+    
+    while (l < r) {
+      int m = l + ((r - l) >> 1);
+      
+      if (arr[m+k] - x < x - arr[m])
+        l = m + 1;
+      else
+        r = m;
     }
-
-    return vector<int>(arr.begin() + left, arr.begin() + left + k);
+    
+    return vector<int>(arr.begin() + l, arr.begin() + l + k);
   }
+};
 
-  // time: O(log(n) + k)
-  // space: O(1)
-  // vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-  //   // lower_bound() does work too
-  //   int ubPos = upper_bound(arr.begin(), arr.end(), x) - arr.begin();
-
-  //   //cout << ubPos << endl;
-
-  //   if (ubPos == arr.size()) { // x is too large
-  //     return vector<int>(arr.end() - k, arr.end());
-  //   } else if (ubPos == 0) { // x is too small
-  //     return vector<int>(arr.begin(), arr.begin() + k);
-  //   } else {
-  //     int left, right;
-  //     if (abs(arr[ubPos-1] - x) <= abs(arr[ubPos] - x)) {
-  //       left = right = ubPos - 1;
-  //     } else {
-  //       left = right = ubPos;
-  //     }
-  //     while (right - left + 1 < k) {
-  //       if (left == 0) right++;
-  //       else if (right == arr.size() - 1) left--;
-  //       else {
-  //         if (abs(arr[left - 1] - x) <= abs(arr[right + 1] - x)) {
-  //           left--;
-  //         } else {
-  //           right++;
-  //         }
-  //       }
-  //     }
-  //     return vector<int>(arr.begin() + left, arr.begin() + left + k);
-  //   }
-  // }
+// time: O(log(n) + k)
+// space: O(1)
+class Intuitive {
+public:
+  vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+    int closest_index = 0, closest_x = arr[0];
+    
+    int l = 0, r = arr.size() - 1;
+    
+    // find the closest_index to x
+    while (l <= r) {
+      int m = l + ((r - l) >> 1);
+      
+      int curDiff = abs(arr[m] - x);
+      int resDiff = abs(closest_x - x);
+      
+      if (curDiff < resDiff or (curDiff == resDiff and arr[m] < closest_x)) {
+        closest_index = m;
+        closest_x = arr[m];
+      }
+      
+      if (arr[m] < x)
+        l = m + 1;
+      else if (arr[m] > x)
+        r = m - 1;
+      else
+        break;
+    }
+    
+    l = r = closest_index;
+    
+    while (r - l + 1 < k) {
+      if (l == 0)
+        r++;
+      else if (r == arr.size() - 1 or x - arr[l-1] <= arr[r+1] - x)
+        l--;
+      else
+        r++;
+    }
+    
+    return vector<int>(arr.begin() + l, arr.begin() + l + k);
+  }
 };
