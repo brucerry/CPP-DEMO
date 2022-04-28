@@ -19,11 +19,14 @@ class Solution {
 public:
   TreeNode* searchBST(TreeNode* root, int val) {
     while (root) {
-      if (val < root->val) root = root->left;
-      else if (root->val < val) root = root->right;
-      else break;
+      if (val < root->val)
+        root = root->left;
+      else if (val > root->val)
+        root = root->right;
+      else
+        break;
     }
-
+    
     return root;
   }
 };
@@ -36,10 +39,13 @@ public:
 class Solution {
 public:
   TreeNode* searchBST(TreeNode* root, int val) {
-    if (!root) return root;
+    if (!root)
+      return root;
     
-    if (val < root->val) return searchBST(root->left, val);
-    else if (root->val < val) return searchBST(root->right, val);
+    if (val < root->val)
+      return searchBST(root->left, val);
+    else if (val > root->val)
+      return searchBST(root->right, val);
     
     return root;
   }

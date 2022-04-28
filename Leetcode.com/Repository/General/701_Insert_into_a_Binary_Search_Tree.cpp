@@ -17,24 +17,27 @@ struct TreeNode {
 // space: O(1)
 class Solution {
 public:
-  TreeNode* insertIntoBST(TreeNode* root, int val) {
-    TreeNode* newNode = new TreeNode(val);
-
+  TreeNode* insertIntoBST(TreeNode* root, int val) {    
+    TreeNode* node = new TreeNode(val);
+    
     if (!root)
-      return newNode;
-
+      return node;
+    
     TreeNode* prev = nullptr, *cur = root;
-
+    
     while (cur) {
       prev = cur;
-      cur = val < cur->val ? cur->left : cur->right;
+      if (val < cur->val)
+        cur = cur->left;
+      else
+        cur = cur->right;
     }
-
+    
     if (val < prev->val)
-      prev->left = newNode;
+      prev->left = node;
     else
-      prev->right = newNode;
-
+      prev->right = node;
+    
     return root;
   }
 };

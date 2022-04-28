@@ -4,31 +4,33 @@
 using namespace std;
 
 // time: O(n)
-// space: O(n)
+// space: O(1)
 
 class Solution {
 public:
   vector<int> asteroidCollision(vector<int>& asteroids) {
-    vector<int> result;
-
+    vector<int> ans;
+    
     for (int& asteroid : asteroids) {
-      while (result.size() && result.back() > 0 && asteroid < 0) {
-        int diff = result.back() + asteroid;
+      while (ans.size() and ans.back() > 0 and asteroid < 0) {
+        int diff = ans.back() + asteroid;
+        
         if (diff > 0) {
           asteroid = 0;
         }
         else if (diff < 0) {
-          result.pop_back();
+          ans.pop_back();
         }
         else {
           asteroid = 0;
-          result.pop_back();
+          ans.pop_back();
         }
       }
       
-      if (asteroid) result.emplace_back(asteroid);
+      if (asteroid)
+        ans.emplace_back(asteroid);
     }
-
-    return result;
+    
+    return ans;
   }
 };
