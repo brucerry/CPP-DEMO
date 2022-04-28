@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/redundant-connection/
 
 #include <vector>
-#include <numeric>
 using namespace std;
 
 // time: O(n)
@@ -15,7 +14,9 @@ public:
     vector<int> parents (n + 1);
     vector<int> ranks (n + 1, 1);
     
-    iota(parents.begin(), parents.end(), 0);
+    for (int i = 1; i <= n; i++) {
+      parents[i] = i;
+    }
     
     for (const auto& edge : edges) {
       if (!unionNodes(parents, ranks, edge))

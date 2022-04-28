@@ -9,36 +9,39 @@ using namespace std;
 class Solution {
 public:
   int findNumberOfLIS(vector<int>& nums) {
-    vector<pair<int, int>> LIScount (nums.size(), {1, 1}); // (len, count)
-    int lenLIS = 0, ans = 0;
-
-    for (int i = nums.size() - 1; i >= 0; i--) {
-      int maxLen = 1, maxCount = 1;
-
+    vector<pair<int, int>> LIScount (nums.size()); // len, count
+    LIScount.back() = { 1, 1 };
+    
+    int maxLen = 1, maxCount = 1;
+    
+    for (int i = nums.size() - 2; i >= 0; i--) {
+      int len = 1, count = 1;
+      
       for (int j = i + 1; j < nums.size(); j++) {
+        auto [ curLen, curCount ] = LIScount[j];
+        
         if (nums[i] < nums[j]) {
-          auto& [ len, count ] = LIScount[j];
-          if (len + 1 > maxLen) {
-            maxLen = len + 1;
-            maxCount = count;
+          if (curLen + 1 > len) {
+            len = curLen + 1;
+            count = curCount;
           }
-          else if (len + 1 == maxLen) {
-            maxCount += count;
+          else if (curLen + 1 == len) {
+            count += curCount;
           }
         }
       }
-
-      if (maxLen > lenLIS) {
-        lenLIS = maxLen;
-        ans = maxCount;
+      
+      if (len > maxLen) {
+        maxLen = len;
+        maxCount = count;
       }
-      else if (maxLen == lenLIS) {
-        ans += maxCount;
+      else if (len == maxLen) {
+        maxCount += count;
       }
-
-      LIScount[i] = { maxLen, maxCount };
+      
+      LIScount[i] = { len, count };
     }
-
-    return ans;
+    
+    return maxCount;
   }
 };
