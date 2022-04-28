@@ -8,21 +8,23 @@ using namespace std;
 
 class Solution {
 public:
-  bool canPlaceFlowers(vector<int>& flowerbed, int n) {
-    int empty = flowerbed[0] ? 0 : 1;
-
-    for (int& flower : flowerbed) {
-      if (flower) {
-        n -= (empty - 1) / 2;
-        empty = 0;
+  bool canPlaceFlowers(vector<int>& flowerbed, int n) {    
+    int i = 0;
+    
+    while (i < flowerbed.size() and n) {
+      if (flowerbed[i] == 0) {
+        bool leftEmpty = i == 0 or flowerbed[i-1] == 0;
+        bool rightEmpty = i == flowerbed.size() - 1 or flowerbed[i+1] == 0;
+        
+        if (leftEmpty and rightEmpty) {
+          flowerbed[i] = 1;
+          n--;
+        }
       }
-      else {
-        empty++;
-      }
+      
+      i++;
     }
-
-    n -= empty / 2;
-
-    return n <= 0;
+    
+    return n == 0;
   }
 };

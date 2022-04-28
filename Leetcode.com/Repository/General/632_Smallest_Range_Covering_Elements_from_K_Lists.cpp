@@ -1,58 +1,49 @@
 // https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/
 
-#include <algorithm>
 #include <vector>
+#include <queue>
 using namespace std;
+
+// n = # of all elements in lists
+// k = # of list
+// time: O(n * log(k))
+// space: O(k)
 
 class Solution {
 public:
   vector<int> smallestRange(vector<vector<int>>& nums) {
-    vector<pair<int, int>> mergedNums;
-
-    for (int i = 0; i < nums.size(); i++) {
+    int k = nums.size();
+    
+    int ansl = 0;
+    int ansr = INT_MAX;
+    int maxNum = INT_MIN;
+    vector<int> next (k); // eg. next[1] = 5 means next position of nums[1] is index 5
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+    
+    for (int i = 0; i < k; i++) {
+      minHeap.emplace(nums[i][0], i);
+      maxNum = max(maxNum, nums[i][0]);
+    }
+    
+    for (int i = 0; i < k; i++) {
       for (int j = 0; j < nums[i].size(); j++) {
-        mergedNums.push_back({nums[i][j], i});
-      }
-    }
-
-    sort(mergedNums.begin(), mergedNums.end());
-
-    int minLeft = mergedNums[0].first;
-    int minRight = mergedNums.back().first;
-    int minRange = minRight - minLeft;
-
-    const int k = nums.size();
-    int total;
-    vector<int> freq (k, 0);
-
-    int left = 0;
-    int right = 0;
-
-    while (right < mergedNums.size()) {
-      freq[mergedNums[right].second]++;
-      if (freq[mergedNums[right].second] == 1) total++;
-
-      if (total == k) {
-        while (left < right && freq[mergedNums[left].second] > 1) {
-          freq[mergedNums[left].second]--;
-          left++;
+        auto [ _, min_i ] = minHeap.top();
+        minHeap.pop();
+        
+        if (ansr - ansl > maxNum - nums[min_i][next[min_i]]) {
+          ansr = maxNum;
+          ansl = nums[min_i][next[min_i]];
         }
-
-        int range = mergedNums[right].first - mergedNums[left].first;
-        if (range < minRange) {
-          minLeft = mergedNums[left].first;
-          minRight = mergedNums[right].first;
-          minRange = range;
-        }
-
-        freq[mergedNums[left].second]--;
-        left++;
-        total--;
+        
+        next[min_i]++;
+        if (next[min_i] == nums[min_i].size())
+          return { ansl, ansr };
+        
+        minHeap.emplace(nums[min_i][next[min_i]], min_i);
+        maxNum = max(maxNum, nums[min_i][next[min_i]]);
       }
-
-      right++;
-    }
-
-    return {minLeft, minRight};
+    } 
+    
+    return { ansl, ansr };
   }
 };

@@ -2,50 +2,50 @@
 
 #include <vector>
 #include <queue>
-#include <unordered_map>
+#include <array>
 using namespace std;
 
 // t = len of tasks
-// m = # of groups in tasks (A - Z at most 26 groups)
 // time: O(t)
-// space: O(m)
+// space: O(1)
 
 class Solution {
 public:
   int leastInterval(vector<char>& tasks, int n) {
-    unordered_map<char, int> taskCount;
+    array<int, 26> charCount { 0 };
+    
+    for (const char& c : tasks) {
+      charCount[c - 'A']++;
+    }
+    
     priority_queue<int> ready; // count
-    queue<pair<int, int>> cooldown; // count, time of ready-to-go
     
-    for (const char& task : tasks) {
-      taskCount[task]++;
+    for (const int& count : charCount) {
+      if (count)
+        ready.emplace(count);
     }
     
-    for (const auto& [ _, count ] : taskCount) {
-      ready.emplace(count);
-    }
+    queue<pair<int, int>> cooldown; // count, next ready time
     
-    int timeNeeded = 0;
+    int ans = 0;
     
-    while (ready.size() || cooldown.size()) {
+    while (ready.size() or cooldown.size()) {
       if (ready.size()) {
-        const int& count = ready.top();
-      
-        if (count - 1) {
-          cooldown.emplace(count - 1, timeNeeded + n);
-        }
-
+        int count = ready.top();
         ready.pop();
-      }      
+        
+        if (--count)
+          cooldown.emplace(count, ans + n);
+      }
       
-      if (cooldown.size() && cooldown.front().second == timeNeeded) {
+      if (cooldown.size() and cooldown.front().second == ans) {
         ready.emplace(cooldown.front().first);
         cooldown.pop();
       }
       
-      timeNeeded++;
+      ans++;
     }
     
-    return timeNeeded;
+    return ans;
   }
 };
