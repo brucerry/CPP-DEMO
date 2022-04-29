@@ -10,26 +10,27 @@ using namespace std;
 
 class Solution {
 public:
-  vector<int> partitionLabels(string s) {
-    array<int, 26> lastIndex;
+  vector<int> partitionLabels(string& s) {
+    array<int, 26> lastIndexOf;
     
     for (int i = 0; i < s.length(); i++) {
-      lastIndex[s[i] - 'a'] = i;
+      lastIndexOf[s[i] - 'a'] = i;
     }
     
-    int size = 0, end = 0;
-    vector<int> ans;
+    vector<int> sizeOfParts;
     
-    for (int i = 0; i < s.length(); i++) {
-      size++;
-      end = max(end, lastIndex[s[i] - 'a']);
+    int end = 0;
+    int l = 0;
+    
+    for (int r = 0; r < s.length(); r++) {
+      end = max(end, lastIndexOf[s[r] - 'a']);
       
-      if (i == end) {
-        ans.emplace_back(size);
-        size = 0;
+      if (r == end) {
+        sizeOfParts.emplace_back(r - l + 1);
+        l = r + 1;
       }
     }
     
-    return ans;
+    return sizeOfParts;
   }
 };

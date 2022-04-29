@@ -8,8 +8,8 @@ using namespace std;
 // space: O(1)
 class OptimizedSpace {
 public:
-  vector<int> dailyTemperatures(vector<int>& temperatures) {
-    vector<int> ans (temperatures.size(), 0);
+  vector<int> dailyTemperatures(vector<int>& temperatures) {    
+    vector<int> daysToWait (temperatures.size());
     
     int hottest = 0;
     
@@ -21,13 +21,14 @@ public:
       
       int days = 1;
       
-      while (temperatures[i] >= temperatures[i + days])
-        days += ans[i + days];
+      while (temperatures[i + days] <= temperatures[i]) {
+        days += daysToWait[i + days];
+      }
       
-      ans[i] = days;
+      daysToWait[i] = days;
     }
     
-    return ans;
+    return daysToWait;
   }
 };
 
@@ -36,18 +37,18 @@ public:
 class MonotonicDecreasingStack {
 public:
   vector<int> dailyTemperatures(vector<int>& temperatures) {
-    vector<int> ans (temperatures.size(), 0);
+    vector<int> daysToWait (temperatures.size(), 0);
     
     stack<pair<int, int>> stack; // (index, temp)
     
     for (int i = 0; i < temperatures.size(); i++) {
       while (stack.size() and temperatures[i] > stack.top().second) {
-        ans[stack.top().first] = i - stack.top().first;
+        daysToWait[stack.top().first] = i - stack.top().first;
         stack.pop();
       }
       stack.emplace(i, temperatures[i]);
     }
     
-    return ans;
+    return daysToWait;
   }
 };

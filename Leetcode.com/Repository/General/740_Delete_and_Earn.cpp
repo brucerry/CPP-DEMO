@@ -14,14 +14,14 @@ public:
     unordered_map<int, int> intCount;
     vector<int> groupNums;
 
-    for (int& num : nums) {
+    for (const int& num : nums) {
       intCount[num]++;
     }
 
     groupNums.reserve(intCount.size());
     
-    for (auto& pair : intCount) {
-      groupNums.emplace_back(pair.first);
+    for (const auto& [ num, _ ] : intCount) {
+      groupNums.emplace_back(num);
     }
 
     sort(groupNums.begin(), groupNums.end());

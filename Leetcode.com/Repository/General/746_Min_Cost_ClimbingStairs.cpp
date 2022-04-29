@@ -9,12 +9,14 @@ using namespace std;
 class Solution {
 public:
   int minCostClimbingStairs(vector<int>& cost) {
-    cost.emplace_back(0);
+    int one = 0, two = 0;
     
-    for (int i = cost.size() - 4; i >= 0; i--) {
-      cost[i] += min(cost[i+1], cost[i+2]);
+    for (int i = cost.size() - 1; i >= 0; i--) {
+      int tmp = cost[i] + min(one, two);
+      two = one;
+      one = tmp;
     }
     
-    return min(cost[0], cost[1]);
+    return min(one, two);
   }
 };

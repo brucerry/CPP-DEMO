@@ -12,16 +12,20 @@ public:
   int networkDelayTime(vector<vector<int>>& times, int n, int k) {
     vector<vector<pair<int, int>>> graph (n + 1);
     
-    for (const auto& time : times) {
-      graph[time[0]].emplace_back(time[2], time[1]);
+    for (const auto& t : times) {
+      int src = t[0];
+      int dst = t[1];
+      int time = t[2];
+      graph[src].emplace_back(time, dst);
     }
     
-    vector<char> visited (n + 1, 0);
-    int visitedCount = 0;
-    int ans = 0;
-    
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-    minHeap.emplace(0, k);
+    minHeap.emplace(0, k); // time, node
+    
+    vector<char> visited (n + 1);
+    int visitedCount = 0;
+    
+    int totalTime = 0;
     
     while (minHeap.size()) {
       auto [ time, node ] = minHeap.top();
@@ -32,15 +36,16 @@ public:
       
       visited[node] = 1;
       visitedCount++;
-      ans = max(ans, time);
+      
+      totalTime = max(totalTime, time);
       
       for (const auto& [ t, neighbor ] : graph[node]) {
-        if (!visited[neighbor]) {
-          minHeap.emplace(time + t, neighbor);
+        if (visited[neighbor] == 0) {
+          minHeap.emplace(t + time, neighbor);
         }
       }
     }
     
-    return visitedCount == n ? ans : -1;
+    return visitedCount == n ? totalTime : -1;
   }
 };

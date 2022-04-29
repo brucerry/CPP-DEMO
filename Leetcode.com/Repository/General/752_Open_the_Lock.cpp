@@ -1,6 +1,5 @@
 // https://leetcode.com/problems/open-the-lock/
 
-
 #include <vector>
 #include <string>
 #include <unordered_set>
@@ -8,46 +7,58 @@
 using namespace std;
 
 class Solution {
-private:
-  char rotateForward(char& ch) {
-    return ((ch - '0') - 1 + 10) % 10 + '0';
-  }
-
-  char rotateBackward(char& ch) {
-    return (ch - '0' + 1) % 10 + '0';
-  }
-
 public:
-
   int openLock(vector<string>& deadends, string& target) {
-    unordered_set<string> dead (deadends.begin(), deadends.end());
-    unordered_set<string> visited;
-    queue<pair<int, string>> queue;
-    queue.push({0, "0000"});
-    visited.insert("0000");
-
+    unordered_set<string> deadSet (deadends.begin(), deadends.end());
+    unordered_set<string> visited { "0000" };
+    
+    if (deadSet.count("0000"))
+      return -1;
+    
+    queue<string> queue;
+    queue.emplace("0000");
+    
+    int turns = 0;
+    
     while (queue.size()) {
-      auto [ dist, myTry ] = queue.front();
-      queue.pop();
-
-      if (myTry == target) return dist;
-      if (dead.count(myTry)) continue;
-
-      for (int i = 0; i < 4; i++) {
-        string forward = myTry, backward = myTry;
-        forward[i] = rotateForward(forward[i]);
-        backward[i] = rotateBackward(backward[i]);
-        if (visited.count(forward) == 0) {
-          visited.insert(forward);
-          queue.push({dist+1, forward});
-        }
-        if (visited.count(backward) == 0) {
-          visited.insert(backward);
-          queue.push({dist+1, backward});
+      int size = queue.size();
+      
+      while (size--) {
+        string myTry = queue.front();
+        queue.pop();
+        
+        if (myTry == target)
+          return turns;
+        
+        for (int i = 0; i < 4; i++) {
+          increase(myTry, i);
+          if (deadSet.count(myTry) == 0 and visited.count(myTry) == 0) {
+            visited.emplace(myTry);
+            queue.emplace(myTry);
+          }
+          decrease(myTry, i);
+          
+          decrease(myTry, i);
+          if (deadSet.count(myTry) == 0 and visited.count(myTry) == 0) {
+            visited.emplace(myTry);
+            queue.emplace(myTry);
+          }
+          increase(myTry, i);
         }
       }
+      
+      turns++;
     }
-
+    
     return -1;
+  }
+  
+private:
+  void increase(string& wheels, char pos) {
+    wheels[pos] = wheels[pos] + 1 > '9' ? '0' : wheels[pos] + 1;
+  }
+  
+  void decrease(string& wheels, char pos) {
+    wheels[pos] = wheels[pos] - 1 < '0' ? '9' : wheels[pos] - 1;
   }
 };

@@ -14,9 +14,7 @@ public:
     int n = grid.size();
     
     priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
-    minHeap.emplace(grid[0][0], 0, 0);
-    
-    int ans = 0;
+    minHeap.emplace(grid[0][0], 0, 0); // elevation, r, c
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
     
@@ -24,21 +22,19 @@ public:
       auto [ elev, r, c ] = minHeap.top();
       minHeap.pop();
       
-      ans = max(ans, elev);
-      
-      if (r == n - 1 && c == n - 1)
-        break;
+      if (r == n - 1 and c == n - 1)
+        return elev;
       
       for (const auto& [ dr, dc ] : moves) {
-        int newr = r + dr;
-        int newc = c + dc;
-        if (0 <= newr && newr < n && 0 <= newc && newc < n && grid[newr][newc] != -1) {
-          minHeap.emplace(grid[newr][newc], newr, newc);
-          grid[newr][newc] = -1; // visited
+        int newr = dr + r;
+        int newc = dc + c;
+        if (0 <= newr and newr < n and 0 <= newc and newc < n and grid[newr][newc] != -1) {
+          minHeap.emplace(max(elev, grid[newr][newc]), newr, newc);
+          grid[newr][newc] = -1;
         }
       }
     }
     
-    return ans;
+    return -1;
   }
 };
