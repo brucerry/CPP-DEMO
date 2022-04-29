@@ -20,9 +20,7 @@ public:
     if (!root)
       return root;
 
-    TreeNode* tmp = root->left;
-    root->left = root->right;
-    root->right = tmp;
+    swap(root->left, root->right);
 
     invertTree(root->left);
     invertTree(root->right);
