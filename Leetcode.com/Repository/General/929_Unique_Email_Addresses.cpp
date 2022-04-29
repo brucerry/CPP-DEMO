@@ -5,27 +5,31 @@
 #include <unordered_set>
 using namespace std;
 
+// n = len of emails
+// m = len of each email
+// time: O(n * m)
+// space: O(n)
+
 class Solution {
 public:
   int numUniqueEmails(vector<string>& emails) {
-    unordered_set<string> emailSet;
+    unordered_set<string> uniqueEmails;
     
     for (const string& email : emails) {
-      string simplifiedEmail;
+      string simplified;
+      
       int i = 0;
-      while (email[i] != '+' && email[i] != '@') {
+      while (email[i] != '+' and email[i] != '@') {
         if (email[i] != '.')
-          simplifiedEmail += email[i];
+          simplified += email[i];
         i++;
       }
       
       i = email.find('@', i);
-      
-      simplifiedEmail += email.substr(i);
-      
-      emailSet.emplace(simplifiedEmail);
+      simplified += email.substr(i);
+      uniqueEmails.emplace(simplified);
     }
     
-    return emailSet.size();
+    return uniqueEmails.size();
   }
 };

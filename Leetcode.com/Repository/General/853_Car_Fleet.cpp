@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <algorithm>
-#include <stack>
 using namespace std;
 
 // time: O(n * log(n))
@@ -11,23 +10,24 @@ using namespace std;
 class Solution {
 public:
   int carFleet(int target, vector<int>& position, vector<int>& speed) {
-    vector<pair<int, int>> groups (position.size());
+    int n = position.size();
     
-    for (int i = 0; i < position.size(); i++) {
-      groups[i] = { position[i], speed[i] };
+    vector<pair<int, int>> cars (n); // pos, speed
+    for (int i = 0; i < n; i++) {
+      cars[i] = { position[i], speed[i] };
     }
     
-    sort(groups.rbegin(), groups.rend());
+    sort(cars.rbegin(), cars.rend());
     
-    stack<float> stack;
+    vector<double> carFleet;
     
-    for (const auto& [ pos, spd ] : groups) {
-      float timeNeeded = (float)(target - pos) / spd;
+    for (const auto& [ pos, speed ] : cars) {
+      double hrs = (double)(target - pos) / speed;
       
-      if (stack.size() == 0 || stack.top() < timeNeeded)
-        stack.emplace(timeNeeded);
+      if (carFleet.size() == 0 or carFleet.back() < hrs)
+        carFleet.emplace_back(hrs);
     }
     
-    return stack.size();
+    return carFleet.size();
   }
 };

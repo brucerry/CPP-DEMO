@@ -19,8 +19,8 @@ public:
       intCount[val]++;
     
     priority_queue<int, vector<int>, greater<>> minHeap;
-    for (const auto& [ num, _ ] : intCount)
-      minHeap.emplace(num);
+    for (const auto& [ val, _ ] : intCount)
+      minHeap.emplace(val);
     
     while (minHeap.size()) {
       int smallestVal = minHeap.top();

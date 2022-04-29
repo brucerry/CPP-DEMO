@@ -4,28 +4,23 @@
 using namespace std;
 
 class StockSpanner {
-private:
-  stack<pair<int, int>> stack;
-
 public:
   StockSpanner() {
     
   }
-    
+  
   int next(int price) {
     int span = 1;
-    while (stack.size()) {
-      auto [ topPrice, topSpan ] = stack.top();
-      if (price >= topPrice) {
-        span += topSpan;
-        stack.pop();
-      } else {
-        break;
-      }
+    while (stocks.size() and stocks.top().first <= price) {
+      span += stocks.top().second;
+      stocks.pop();
     }
-    stack.push({price, span});
+    stocks.emplace(price, span);
     return span;
   }
+  
+private:
+  stack<pair<int, int>> stocks; // price, span
 };
 
 /**

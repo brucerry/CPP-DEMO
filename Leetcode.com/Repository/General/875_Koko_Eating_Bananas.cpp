@@ -4,34 +4,35 @@
 #include <algorithm>
 using namespace std;
 
-// p = len of piles
-// n = max value of piles
-// time: O(log(n) * p)
+// n = len of piles
+// m = max value of piles
+// time: O(log(m) * n)
+// space: O(1)
 
 class Solution {
 public:
-  int minEatingSpeed(vector<int>& piles, int h) {
-    int ans = *max_element(piles.begin(), piles.end());
+  int minEatingSpeed(vector<int>& piles, int h) {    
+    int k = *max_element(piles.begin(), piles.end());
     
-    int l = 1, r = ans;
+    int l = 1, r = k;
     
     while (l <= r) {
       int m = l + ((r - l) >> 1);
       
-      int timeNeeded = 0;
-      for (const int& pile : piles) {
-        timeNeeded += ceil((double)pile / m);
+      int time = 0;
+      for (const double& p : piles) {
+        time += ceil(p / m);
       }
       
-      if (timeNeeded <= h) {
-        ans = min(ans, m);
+      if (time <= h) {
         r = m - 1;
+        k = min(k, m);
       }
       else {
         l = m + 1;
       }
     }
     
-    return ans;
+    return k;
   }
 };

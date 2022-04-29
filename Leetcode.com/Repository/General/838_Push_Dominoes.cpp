@@ -53,26 +53,27 @@ public:
 // space: O(n)
 class Queue {
 public:
-  string pushDominoes(string dominoes) {    
-    queue<pair<int, char>> queue;
+  string pushDominoes(string& dominoes) {    
+    queue<pair<int, char>> queue; // index, domino
+    int n = dominoes.length();
     
-    for (int i = 0; i < dominoes.length(); i++) {
+    for (int i = 0; i < n; i++) {
       if (dominoes[i] != '.') {
         queue.emplace(i, dominoes[i]);
       }
     }
     
     while (queue.size()) {
-      auto [ i, dir ] = queue.front();
+      auto [ i, dom ] = queue.front();
       queue.pop();
       
-      if (dir == 'L' and i > 0 and dominoes[i-1] == '.') {
+      if (dom == 'L' and i > 0 and dominoes[i-1] == '.') {
         dominoes[i-1] = 'L';
         queue.emplace(i - 1, 'L');
       }
-      else if (dir == 'R') {
-        if (i + 1 < dominoes.length() and dominoes[i+1] == '.') {
-          if (i + 2 < dominoes.length() and dominoes[i+2] == 'L') {
+      else if (dom == 'R') {
+        if (i + 1 < n and dominoes[i+1] == '.') {
+          if (i + 2 < n and dominoes[i+2] == 'L') {
             queue.pop();
           }
           else {
