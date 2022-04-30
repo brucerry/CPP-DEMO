@@ -9,39 +9,49 @@ using namespace std;
 // space: O(n)
 
 class TimeMap {
-private:
-  unordered_map<string, vector<pair<string, int>>> m_Map; // key, (value, timestamp)
-  
 public:
   TimeMap() {
     
   }
   
   void set(string key, string value, int timestamp) {
-    m_Map[key].emplace_back(value, timestamp);
+    m_Map[key].emplace_back(timestamp, value);
   }
   
   string get(string key, int timestamp) {
-    string ans;
+    if (m_Map.count(key) == 0)
+      return "";
     
-    auto& values = m_Map[key];
-    
-    int l = 0, r = values.size() - 1;
+    string value;
+    int l = 0, r = m_Map[key].size() - 1;
     
     while (l <= r) {
       int m = l + ((r - l) >> 1);
       
-      if (values[m].second <= timestamp) {
-        ans = values[m].first;
+      const auto& [ time, val ] = m_Map[key][m];
+      
+      if (time <= timestamp) {
+        value = val;
         l = m + 1;
       }
-      else
+      else {
         r = m - 1;
+      }
     }
     
-    return ans;
+    return value;
   }
+  
+private:
+  unordered_map<string, vector<pair<int, string>>> m_Map; // key, (timestamp, value)
 };
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
 
 /**
  * Your TimeMap object will be instantiated and called as such:

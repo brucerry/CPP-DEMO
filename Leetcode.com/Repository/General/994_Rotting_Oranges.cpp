@@ -2,50 +2,55 @@
 
 #include <vector>
 #include <queue>
-#include <tuple>
 using namespace std;
+
+// time: O(r * c)
+// space: O(r * c)
 
 class Solution {
 public:
   int orangesRotting(vector<vector<int>>& grid) {
-    queue<pair<int, int>> queue;
+    int rows = grid.size();
+    int cols = grid[0].size();
+    
     int freshCount = 0;
     
-    for (int r = 0; r < grid.size(); r++) {
-      for (int c = 0; c < grid[0].size(); c++) {
-        if (grid[r][c] == 1) {
+    queue<pair<int, int>> queue;
+    
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        if (grid[r][c] == 1)
           freshCount++;
-        }
-        else if (grid[r][c] == 2) {
+        else if (grid[r][c] == 2)
           queue.emplace(r, c);
-        }
       }
     }
     
-    int ans = 0;
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
     
-    while (queue.size() && freshCount) {
-      int len = queue.size();
+    int mins = 0;
+    
+    while (queue.size() and freshCount) {
+      int size = queue.size();
       
-      while (len--) {
+      while (size--) {
         auto [ r, c ] = queue.front();
         queue.pop();
-      
+        
         for (const auto& [ dr, dc ] : moves) {
-          int newr = r + dr;
-          int newc = c + dc;
-          if (0 <= newr && newr < grid.size() && 0 <= newc && newc < grid[0].size() && grid[newr][newc] == 1) {
+          int newr = dr + r;
+          int newc = dc + c;
+          if (0 <= newr and newr < rows and 0 <= newc and newc < cols and grid[newr][newc] == 1) {
+            freshCount--;
             grid[newr][newc] = 2;
             queue.emplace(newr, newc);
-            freshCount--;
           }
         }
       }
       
-      ans++;
+      mins++;
     }
     
-    return freshCount ? -1 : ans;
+    return freshCount ? -1 : mins;
   }
 };

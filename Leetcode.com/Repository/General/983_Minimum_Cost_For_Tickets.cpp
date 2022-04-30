@@ -10,17 +10,25 @@ using namespace std;
 class Solution {
 public:
   int mincostTickets(vector<int>& days, vector<int>& costs) {
-    vector<int> dp (days.size(), INT_MAX);
-
-    for (int i = days.size() - 1; i >= 0; i--) {
-      for (int c = 0; c < costs.size(); c++) {
+    int n = days.size();
+    
+    vector<int> dp (n, INT_MAX);
+    
+    for (int i = n - 1; i >= 0; i--) {
+      for (int c = 0; c < 3; c++) {
         int day = c == 0 ? 1 : c == 1 ? 7 : 30;
+        
         int j = i;
-        while (j < days.size() && days[j] < days[i] + day) j++;
-        dp[i] = min(dp[i], costs[c] + (j < days.size() && dp[j] != INT_MAX ? dp[j] : 0));
+        while (j < n and days[j] < days[i] + day)
+          j++;
+        
+        if (j == n)
+          dp[i] = min(dp[i], costs[c]);
+        else
+          dp[i] = min(dp[i], costs[c] + dp[j]);
       }
     }
-
+    
     return dp[0];
   }
 };
