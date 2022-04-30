@@ -9,72 +9,36 @@ using namespace std;
 // space: O(k)
 
 class Solution {
-private:
-  struct Point {
-    int dist, i;
-  };
-  
-  struct comp {
-    bool operator()(const Point& a, const Point& b) {
-      return a.dist < b.dist;
-    }
-  };
-  
-  int distance(const vector<int>& point) {
-    return point[0] * point[0] + point[1] * point[1];
-  }
-  
 public:
   vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-    // build a max heap with k capacity
-    priority_queue<Point, vector<Point>, comp> maxHeap;
+    vector<vector<int>> closestPoints;
+    
+    priority_queue<pair<int, int>> maxHeap;
     
     for (int i = 0; i < points.size(); i++) {
-      Point p = { distance(points[i]), i };
+      int dist = distance(points[i]);
+      
       if (maxHeap.size() < k) {
-        maxHeap.emplace(p);
+        maxHeap.emplace(dist, i);
       }
-      else if (p.dist < maxHeap.top().dist) {
+      else if (dist < maxHeap.top().first) {
         maxHeap.pop();
-        maxHeap.emplace(p);
+        maxHeap.emplace(dist, i);
       }
     }
-    
-    vector<vector<int>> ans;
     
     while (maxHeap.size()) {
-      const Point& p = maxHeap.top();
-      ans.push_back(points[p.i]);
+      auto [ _, i ] = maxHeap.top();
       maxHeap.pop();
+      
+      closestPoints.emplace_back(points[i]);
     }
     
-    return ans;
+    return closestPoints;
+  }
+  
+private:  
+  int distance(const vector<int>& p) {
+    return p[0] * p[0] + p[1] * p[1];
   }
 };
-
-// time: O(n * log(n))
-// space: O(n)
-// class _Solution {
-// public:
-//   vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-//     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-
-//     for (int i = 0; i < points.size(); i++) {
-//       int x = points[i][0], y = points[i][1];
-//       int distance = x * x + y * y;
-//       minHeap.push({distance, i});
-//     }
-
-//     vector<vector<int>> result;
-
-//     while (k--) {
-//       int i = minHeap.top().index;
-//       minHeap.pop();
-//       int x = points[i][0];
-//       int y = points[i][1];
-//       result.push_back({x, y});
-//     }
-
-//     return result;
-//   }
-// };

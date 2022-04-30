@@ -51,7 +51,7 @@ private:
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {-1, 0}, {1, 0} };
     
-    int ans = 0;
+    int dist = 0;
     
     while (queue.size()) {
       int size = queue.size();
@@ -65,16 +65,16 @@ private:
           int newc = dc + c;
           if (0 <= newr and newr < n and 0 <= newc and newc < n and visited[newr][newc] == 0) {
             if (grid[newr][newc])
-              return ans;
+              return dist;
             visited[newr][newc] = 1;
             queue.emplace(newr, newc);
           }
         }
       }
       
-      ans++;
+      dist++;
     }
     
-    return ans;
+    return dist;
   }
 };

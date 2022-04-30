@@ -9,26 +9,26 @@ using namespace std;
 class Solution {
 public:
   vector<int> sortedSquares(vector<int>& nums) {
-    vector<int> result;
-    result.reserve(nums.size());
-
+    vector<int> squaredNums;
+    
     int l = 0, r = nums.size() - 1;
-
+    
     while (l <= r) {
-      int squared_l = nums[l] * nums[l];
-      int squared_r = nums[r] * nums[r];
-      if (squared_l > squared_r) {
-        result.emplace_back(squared_l);
+      int squ_l = nums[l] * nums[l];
+      int squ_r = nums[r] * nums[r];
+      
+      if (squ_l > squ_r) {
+        squaredNums.emplace_back(squ_l);
         l++;
       }
       else {
-        result.emplace_back(squared_r);
+        squaredNums.emplace_back(squ_r);
         r--;
       }
     }
-
-    reverse(result.begin(), result.end());
-
-    return result;
+    
+    reverse(squaredNums.begin(), squaredNums.end());
+    
+    return squaredNums;
   }
 };
