@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/minimum-domino-rotations-for-equal-row/
 
 #include <vector>
-#include <array>
 using namespace std;
 
 // time: O(n)
@@ -10,21 +9,24 @@ using namespace std;
 class Solution {
 public:
   int minDominoRotations(vector<int>& tops, vector<int>& bottoms) {
-    array<int, 2> tryNums { tops[0], bottoms[0] };
+    int n = tops.size();
     
-    for (const int& tn : tryNums) {
+    vector<int> targets { tops[0], bottoms[0] };
+    
+    for (const int& target : targets) {
       int topRotates = 0;
       int bottomRotates = 0;
       
-      for (int i = 0; i < tops.size(); i++) {
-        if (tops[i] != tn and bottoms[i] != tn)
+      for (int i = 0; i < n; i++) {
+        if (tops[i] != target and bottoms[i] != target)
           break;
-        if (tops[i] != tn)
+        
+        if (tops[i] != target)
           topRotates++;
-        if (bottoms[i] != tn)
+        if (bottoms[i] != target)
           bottomRotates++;
         
-        if (i + 1 == tops.size())
+        if (i + 1 == n)
           return min(topRotates, bottomRotates);
       }
     }

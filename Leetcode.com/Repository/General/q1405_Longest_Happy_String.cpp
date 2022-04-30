@@ -11,36 +11,41 @@ using namespace std;
 class Solution {
 public:
   string longestDiverseString(int a, int b, int c) {
-    priority_queue<pair<int, char>> pq;
-    if (a > 0) pq.push({a, 'a'});
-    if (b > 0) pq.push({b, 'b'});
-    if (c > 0) pq.push({c, 'c'});
-
-    string ans;
-
-    while (pq.size()) {
-      auto [ count, ch ] = pq.top();
-      pq.pop();
-
-      if (ans.length() >= 2 && ch == ans[ans.size() - 1] && ch == ans[ans.size() - 2]) {
-        if (pq.size() == 0) break;
+    priority_queue<pair<int, char>> maxHeap;
+    if (a)
+      maxHeap.emplace(a, 'a');
+    if (b)
+      maxHeap.emplace(b, 'b');
+    if (c)
+      maxHeap.emplace(c, 'c');
+    
+    string happy;
+    
+    while (maxHeap.size()) {
+      auto [ count, ch ] = maxHeap.top();
+      maxHeap.pop();
+      
+      if (happy.length() >= 2 and ch == happy.back() and ch == happy[happy.length() - 2]) {
+        if (maxHeap.size() == 0)
+          break;
         
-        int nextCount = pq.top().first;
-        char nextCh = pq.top().second;
-        pq.pop();
-
-        ans += nextCh;
+        auto [ nextCount, nextCh ] = maxHeap.top();
+        maxHeap.pop();
+        
+        happy += nextCh;
         nextCount--;
-        if (nextCount > 0) pq.push({nextCount, nextCh});
+        if (nextCount)
+          maxHeap.emplace(nextCount, nextCh);
       }
       else {
-        ans += ch;
+        happy += ch;
         count--;
       }
-
-      if (count > 0) pq.push({count, ch});
+      
+      if (count)
+        maxHeap.emplace(count, ch);
     }
-
-    return ans;
+    
+    return happy;
   }
 };

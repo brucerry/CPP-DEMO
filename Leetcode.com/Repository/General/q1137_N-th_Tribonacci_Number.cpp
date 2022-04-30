@@ -6,7 +6,8 @@
 class Solution {
 public:
   int tribonacci(int n) {
-    if (n < 2) return n;
+    if (n < 2)
+      return n;
     
     int one = 0, two = 1, ans = 1;
     

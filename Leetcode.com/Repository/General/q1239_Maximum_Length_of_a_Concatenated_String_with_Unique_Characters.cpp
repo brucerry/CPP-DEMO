@@ -12,28 +12,39 @@ using namespace std;
 class Solution {
 public:
   int maxLength(vector<string>& arr) {
-    int charSet = 0;
-    return dfs(arr, 0, charSet);
+    return solve(arr, 0, 0);
   }
   
 private:
-  int dfs(vector<string>& arr, int i, int& charSet) {
+  int solve(vector<string>& arr, int i, int charSet) {
     if (i == arr.size())
       return countingBits(charSet);
     
     int len = 0;
     
-    if (!isDuplicated(charSet, arr[i])) {
-      for (const char& ch : arr[i])
-        charSet |= (1 << (ch - 'a'));
+    if (!isDuplicated(arr[i], charSet)) {
+      for (const char& c : arr[i])
+        charSet |= (1 << (c - 'a'));
       
-      len = dfs(arr, i + 1, charSet);
-
-      for (const char& ch : arr[i])
-        charSet &= ~(1 << (ch - 'a'));
+      len = solve(arr, i + 1, charSet);
+      
+      for (const char& c : arr[i])
+        charSet &= ~(1 << (c - 'a'));
     }
     
-    return max(len, dfs(arr, i + 1, charSet));
+    return max(len, solve(arr, i + 1, charSet));
+  }
+  
+  bool isDuplicated(string& str, int charSet) {
+    int tmpSet = 0;
+    for (const char& c : str) {
+      if (tmpSet & (1 << (c - 'a')))
+        return true;
+      if (charSet & (1 << (c - 'a')))
+        return true;
+      tmpSet |= (1 << (c - 'a'));
+    }
+    return false;
   }
   
   int countingBits(int n) {
@@ -43,19 +54,5 @@ private:
       count++;
     }
     return count;
-  }
-  
-  bool isDuplicated(int& charSet, string& str) {
-    int strSet = 0;
-    
-    for (const char& ch : str) {
-      if (strSet & (1 << (ch - 'a')))
-        return true;
-      strSet |= (1 << (ch - 'a'));
-      
-      if (charSet & (1 << (ch - 'a')))
-        return true;
-    }
-    return false;
   }
 };

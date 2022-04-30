@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/
 
 #include <vector>
-#include <numeric>
 using namespace std;
 
 // time: O(k)
@@ -10,17 +9,22 @@ using namespace std;
 class Solution {
 public:
   int maxScore(vector<int>& cardPoints, int k) {
-    int l = 0, r = cardPoints.size() - k;
-    int sum = accumulate(cardPoints.begin() + r, cardPoints.end(), 0);
-    int ans = sum;
-
-    while (r < cardPoints.size()) {
-      sum += cardPoints[l] - cardPoints[r];
-      ans = max(ans, sum);
-      l++;
-      r++;
+    int l = k - 1, r = cardPoints.size() - 1;
+    
+    int sum = 0;
+    for (int i = 0; i < k; i++) {
+      sum += cardPoints[i];
     }
-
-    return ans;
+    
+    int score = sum;
+    
+    while (l >= 0) {
+      sum += cardPoints[r] - cardPoints[l];
+      score = max(score, sum);
+      l--;
+      r--;
+    }
+    
+    return score;
   }
 };
