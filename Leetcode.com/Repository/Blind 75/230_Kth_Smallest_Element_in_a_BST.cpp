@@ -1,7 +1,7 @@
 // https://leetcode.com/problems/kth-smallest-element-in-a-bst/
 
-
 #include <stack>
+#include <vector>
 using namespace std;
 
 struct TreeNode {
@@ -15,8 +15,7 @@ struct TreeNode {
 
 // time: O(n + k)
 // space: O(n)
-
-class Solution {
+class Iterative {
 public:
   int kthSmallest(TreeNode* root, int k) {
     stack<TreeNode*> stack;
@@ -34,6 +33,26 @@ public:
         return root->val;
       
       root = root->right;
+    }
+  }
+};
+
+// time: O(n)
+// space: O(n)
+class Recursive {
+public:
+  int kthSmallest(TreeNode* root, int k) {
+    vector<int> inorder;
+    traverse(root, inorder);
+    return inorder[k-1];
+  }
+  
+private:
+  void traverse(TreeNode* node, vector<int>& inorder) {
+    if (node) {
+      traverse(node->left, inorder);
+      inorder.emplace_back(node->val);
+      traverse(node->right, inorder);
     }
   }
 };
