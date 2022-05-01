@@ -14,26 +14,23 @@ struct TreeNode {
 // space: O(height of tree)
 
 class Solution {
-private:  
-  int traverse(TreeNode* root, int prevMax) {
-    if (!root)
+public:
+  int goodNodes(TreeNode* root) {
+    return solve(root, INT_MIN);
+  }
+  
+private:
+  int solve(TreeNode* node, int curMax) {
+    if (!node)
       return 0;
     
     int count = 0;
     
-    if (prevMax <= root->val) {
+    if (curMax <= node->val) {
+      curMax = node->val;
       count = 1;
-      prevMax = root->val;
     }
     
-    count += traverse(root->left, prevMax);
-    count += traverse(root->right, prevMax);
-    
-    return count;
-  }
-  
-public:
-  int goodNodes(TreeNode* root) {
-    return traverse(root, INT_MIN);
+    return count + solve(node->left, curMax) + solve(node->right, curMax);
   }
 };

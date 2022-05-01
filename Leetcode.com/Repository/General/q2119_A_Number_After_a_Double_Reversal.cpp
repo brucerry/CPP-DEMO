@@ -6,6 +6,6 @@
 class Solution {
 public:
   bool isSameAfterReversals(int num) {
-    return num == 0 ? true : num % 10;
+    return num == 0 or num % 10;
   }
 };
