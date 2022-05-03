@@ -13,22 +13,21 @@ using namespace std;
 class Solution {
 public:
   vector<vector<string>> groupAnagrams(vector<string>& strs) {
-    unordered_map<string, vector<string>> map;
-    
-    for (const string& str : strs) {
+    unordered_map<string, vector<string>> groups;
+    for (const string& word : strs) {
       string s = "00000000000000000000000000";
-      for (const char& ch : str) {
-        s[ch - 'a']++;
+      for (const char& c : word) {
+        s[c - 'a']++;
       }
-      map[s].emplace_back(str);
+      groups[s].emplace_back(word);
     }
     
-    vector<vector<string>> ans;
+    vector<vector<string>> result;
     
-    for (const auto& [ _, group ] : map) {
-      ans.emplace_back(group);
+    for (const auto& [ _, group ] : groups) {
+      result.emplace_back(group);
     }
     
-    return ans;
+    return result;
   }
 };
