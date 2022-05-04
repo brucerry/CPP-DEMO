@@ -12,7 +12,7 @@ public:
     int rows = matrix.size();
     int cols = matrix[0].size();
     
-    vector<int> dp (cols + 1, 0);
+    vector<int> dp (cols + 1);
     
     int maxsqrlen = 0;
     

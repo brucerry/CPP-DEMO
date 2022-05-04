@@ -9,18 +9,20 @@ using namespace std;
 
 class Solution {
 public:
-  int minDistance(string word1, string word2) {
-    vector<int> dp (word2.length() + 1);
+  int minDistance(string& word1, string& word2) {
+    int rows = word1.length();
+    int cols = word2.length();
     
-    for (int i = 0; i < dp.size(); i++) {
-      dp[i] = word2.length() - i;
-    }
+    vector<int> dp (cols + 1);
     
-    for (int r = word1.length() - 1; r >= 0; r--) {
+    for (int c = 0; c <= cols; c++)
+      dp[c] = word2.length() - c;
+    
+    for (int r = rows - 1; r >= 0; r--) {
       int prev = dp.back();
-      dp.back() = word1.length() - r;
+      dp.back()++;
       
-      for (int c = word2.length() - 1; c >= 0; c--) {
+      for (int c = cols - 1; c >= 0; c--) {
         int tmp = dp[c];
         
         if (word1[r] == word2[c])
