@@ -9,25 +9,21 @@ using namespace std;
 
 class Solution {
 public:
-  int characterReplacement(string s, int k) {
+  int characterReplacement(string& s, int k) {
     array<int, 26> charCount { 0 };
     
-    int maxFreq = 0;
-    int ans = 0;
+    int len = 0, mostFreq = 0;
     int l = 0;
-    
     for (int r = 0; r < s.length(); r++) {
       charCount[s[r] - 'A']++;
-      maxFreq = max(maxFreq, charCount[s[r] - 'A']);
-      
-      while (r - l + 1 - maxFreq > k) {
+      mostFreq = max(mostFreq, charCount[s[r] - 'A']);
+      while (r - l + 1 - mostFreq > k) {
         charCount[s[l] - 'A']--;
         l++;
       }
-      
-      ans = max(ans, r - l + 1);
+      len = max(len, r - l + 1);
     }
     
-    return ans;
+    return len;
   }
 };

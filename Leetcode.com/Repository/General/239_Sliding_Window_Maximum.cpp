@@ -10,14 +10,13 @@ using namespace std;
 class Solution {
 public:
   vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-    vector<int> ans;
     deque<int> deque; // monotonic decreasing queue, store indices
 
+    vector<int> maxSlidingWnd;
     int l = 0, r = 0;
-
     while (r < nums.size()) {
       // remove smaller values from the back
-      while (deque.size() && nums[r] > nums[deque.back()])
+      while (deque.size() && nums[r] >= nums[deque.back()])
         deque.pop_back();
 
       deque.emplace_back(r);
@@ -28,13 +27,13 @@ public:
 
       // update when window size is k
       if (r - l + 1 == k) {
-        ans.emplace_back(nums[deque.front()]);
+        maxSlidingWnd.emplace_back(nums[deque.front()]);
         l++;
       }
 
       r++;
     }
 
-    return ans;
+    return maxSlidingWnd;
   }
 };

@@ -13,27 +13,23 @@ using namespace std;
 class Solution {
 public:
   vector<int> topKFrequent(vector<int>& nums, int k) {
-    unordered_map<int, int> intCount;
-    
+    unordered_map<int, int> numCount;
     for (const int& num : nums) {
-      intCount[num]++;
+      numCount[num]++;
     }
     
-    vector<vector<int>> freqs (nums.size() + 1);
-    
-    for (const auto& [ num, count ] : intCount) {
-      freqs[count].emplace_back(num);
+    vector<vector<int>> freqCount (nums.size() + 1);
+    for (const auto& [ num, count ] : numCount) {
+      freqCount[count].emplace_back(num);
     }
     
-    vector<int> result;
-    result.reserve(k);
-    
-    for (int i = freqs.size() - 1; i >= 0 && result.size() < k; i--) {
-      for (const int& num : freqs[i]) {
-        result.emplace_back(num);
+    vector<int> kMostFreq;
+    for (int i = freqCount.size() - 1; i >= 0 and kMostFreq.size() < k; i--) {
+      for (const auto& num : freqCount[i]) {
+        kMostFreq.emplace_back(num);
       }
     }
     
-    return result;
+    return kMostFreq;
   }
 };

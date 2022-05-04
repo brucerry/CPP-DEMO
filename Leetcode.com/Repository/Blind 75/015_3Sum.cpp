@@ -12,31 +12,29 @@ public:
   vector<vector<int>> threeSum(vector<int>& nums) {
     sort(nums.begin(), nums.end());
     
-    vector<vector<int>> ans;
-    
+    vector<vector<int>> triplets;
     for (int i = 0; i < nums.size(); i++) {
       if (nums[i] > 0)
         break;
-      if (i > 0 && nums[i-1] == nums[i])
+      if (i > 0 and nums[i-1] == nums[i])
         continue;
       
       int l = i + 1, r = nums.size() - 1;
-      
       while (l < r) {
         int sum = nums[i] + nums[l] + nums[r];
-        if (sum < 0)
-          l++;
-        else if (sum > 0)
+        if (sum > 0)
           r--;
-        else {
-          ans.push_back({ nums[i], nums[l], nums[r] });
+        else if (sum < 0)
           l++;
-          while (l < r && nums[l-1] == nums[l])
+        else {
+          triplets.push_back({ nums[i], nums[l], nums[r] });
+          l++;
+          while (l < r and nums[l-1] == nums[l])
             l++;
         }
       }
     }
     
-    return ans;
+    return triplets;
   }
 };
