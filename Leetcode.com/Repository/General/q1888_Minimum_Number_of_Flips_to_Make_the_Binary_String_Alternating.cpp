@@ -1,10 +1,11 @@
 // https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/
 
 #include <string>
+#include <vector>
 using namespace std;
 
 // time: O(s)
-// space: O(1)
+// space: O(s)
 
 class Solution {
 public:
@@ -13,15 +14,16 @@ public:
     
     s += s;
     
-    string alt1, alt2;
+    vector<char> alt1 (s.length());
+    vector<char> alt2 (s.length());
     for (int i = 0; i < s.length(); i++) {
-      alt1 += (i & 1) ? "0" : "1";
-      alt2 += (i & 1) ? "1" : "0";
+      alt1[i] = (i & 1) ? '0' : '1';
+      alt2[i] = (i & 1) ? '1' : '0';
     }
     
-    int l = 0;
-    int count = s.length();
+    int count = n;
     int diff1 = 0, diff2 = 0;
+    int l = 0;
     for (int r = 0; r < s.length(); r++) {
       if (s[r] != alt1[r])
         diff1++;
