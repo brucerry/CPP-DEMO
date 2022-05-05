@@ -19,9 +19,9 @@ public:
       int i = queue.front();
       queue.pop();
       
-      int start = max(i + minJump, farthestIndex + 1);
-      int end = min(i + maxJump, (int)s.length() - 1);
-      for (int j = start; j <= end; j++) {
+      int l = max(i + minJump, farthestIndex + 1);
+      int r = min(i + maxJump, (int)s.length() - 1);
+      for (int j = l; j <= r; j++) {
         if (s[j] == '0') {
           queue.emplace(j);
           if (j == s.length() - 1)
