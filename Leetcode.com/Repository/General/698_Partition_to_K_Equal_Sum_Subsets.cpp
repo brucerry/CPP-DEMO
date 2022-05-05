@@ -1,16 +1,16 @@
 // https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
 
 #include <vector>
+#include <algorithm>
 using namespace std;
 
-// time: O(2^(n*k))
-// space: O(n*k)
+// time: O(n * 2^n)
+// space: O(2^n)
 
 class Solution {
 public:
   bool canPartitionKSubsets(vector<int>& nums, int k) {
     int sum = 0;
-    
     for (const int& num : nums) {
       sum += num;
     }
@@ -19,10 +19,10 @@ public:
       return false;
     
     int target = sum / k;
-    
     int all = (1 << nums.size()) - 1;
-    
     vector<char> memo (all, -1);
+    
+    sort(nums.rbegin(), nums.rend()); // slightly speed optimized
     
     return solve(nums, k, target, all, memo, 0, 0);
   }
