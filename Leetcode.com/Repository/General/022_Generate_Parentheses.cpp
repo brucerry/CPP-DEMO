@@ -5,31 +5,31 @@
 using namespace std;
 
 class Solution {
+public:
+  vector<string> generateParenthesis(int n) {
+    vector<string> solution;
+    string state;
+    solve(n, solution, state, 0, 0);
+    return solution;
+  }
+  
 private:
-  void solve(vector<string>& ans, string& comb, int n, int open, int close) {
-    if (close == n) {
-      ans.emplace_back(comb);
+  void solve(int n, vector<string>& solution, string& state, int open, int close) {
+    if (n == close) {
+      solution.emplace_back(state);
       return;
     }
     
-    if (open < n) {
-      comb += '(';
-      solve(ans, comb, n, open + 1, close);
-      comb.pop_back();
+    if (n > open) {
+      state += '(';
+      solve(n, solution, state, open + 1, close);
+      state.pop_back();
     }
     
-    if (close < open) {
-      comb += ')';
-      solve(ans, comb, n, open, close + 1);
-      comb.pop_back();
+    if (open > close) {
+      state += ')';
+      solve(n, solution, state, open, close + 1);
+      state.pop_back();
     }
-  }
-  
-public:
-  vector<string> generateParenthesis(int n) {
-    vector<string> ans;
-    string comb;
-    solve(ans, comb, n, 0, 0);
-    return ans;
   }
 };

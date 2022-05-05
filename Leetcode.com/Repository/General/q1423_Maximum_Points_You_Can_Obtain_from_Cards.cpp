@@ -9,22 +9,21 @@ using namespace std;
 class Solution {
 public:
   int maxScore(vector<int>& cardPoints, int k) {
+    int curSum = 0;
     int l = k - 1, r = cardPoints.size() - 1;
     
-    int sum = 0;
     for (int i = 0; i < k; i++) {
-      sum += cardPoints[i];
+      curSum += cardPoints[i];
     }
     
-    int score = sum;
-    
+    int points = curSum;
     while (l >= 0) {
-      sum += cardPoints[r] - cardPoints[l];
-      score = max(score, sum);
+      curSum += cardPoints[r] - cardPoints[l];
       l--;
       r--;
+      points = max(points, curSum);
     }
     
-    return score;
+    return points;
   }
 };

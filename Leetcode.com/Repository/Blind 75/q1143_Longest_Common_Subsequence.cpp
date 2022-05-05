@@ -14,10 +14,11 @@ public:
   int longestCommonSubsequence(string text1, string text2) {
     int m = text1.length();
     int n = text2.length();
-    vector<int> dp (n + 1, 0);
-    
+
+    vector<int> dp (n + 1);
     for (int r = m - 1; r >= 0; r--) {
       int prev = 0;
+      
       for (int c = n - 1; c >= 0; c--) {
         int tmp = dp[c];
 

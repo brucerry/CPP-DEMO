@@ -47,6 +47,6 @@ pair<int, int> firstAndLast(vector<int> nums, int target) {
 }
 
 int main() {
-  auto& [ i1, i2 ] = firstAndLast({2,4,5,5,5,7,9,10,11,12,12,12,12,12,12,12,12,13,13,13,14,99,100}, 12);
+  auto [ i1, i2 ] = firstAndLast({2,4,5,5,5,7,9,10,11,12,12,12,12,12,12,12,12,13,13,13,14,99,100}, 12);
   cout << i1 << ' ' << i2;
 }
