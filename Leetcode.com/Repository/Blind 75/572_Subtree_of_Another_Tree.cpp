@@ -1,7 +1,5 @@
 // https://leetcode.com/problems/subtree-of-another-tree/
 
-
-
 struct TreeNode {
   int val;
   TreeNode *left;
@@ -18,17 +16,6 @@ struct TreeNode {
 // space: O(height of root tree * m)
 
 class Solution {
-private:
-  bool isSameTree(TreeNode* p, TreeNode* q) {
-    if (!p && !q)
-      return true;
-    
-    if (p && q && p->val == q->val)
-      return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
-    
-    return false;
-  }
-  
 public:
   bool isSubtree(TreeNode* root, TreeNode* subRoot) {
     if (!subRoot)
@@ -40,6 +27,17 @@ public:
     if (isSameTree(root, subRoot))
       return true;
     
-    return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+    return isSubtree(root->left, subRoot) or isSubtree(root->right, subRoot);
+  }
+  
+private:
+  bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (!p and !q)
+      return true;
+    
+    if (p and q and p->val == q->val)
+      return isSameTree(p->left, q->left) and isSameTree(p->right, q->right);
+    
+    return false;
   }
 };

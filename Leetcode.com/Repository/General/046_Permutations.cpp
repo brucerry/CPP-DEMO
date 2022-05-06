@@ -13,20 +13,19 @@ public:
       return { nums };
     
     int numTaken = nums[0];
-    vector<int> remain = vector<int>(nums.begin() + 1, nums.end());
+    nums.erase(nums.begin());
     
-    vector<vector<int>> ans;
-    
-    for (auto& remainPermute : permute(remain)) {
-      int len = remainPermute.size();
+    vector<vector<int>> result;
+    for (auto& rp : permute(nums)) {
+      int len = rp.size();
       for (int i = 0; i <= len; i++) {
-        remainPermute.insert(remainPermute.begin() + i, numTaken);
-        ans.emplace_back(remainPermute);
-        remainPermute.erase(remainPermute.begin() + i);
+        rp.emplace(rp.begin() + i, numTaken);
+        result.emplace_back(rp);
+        rp.erase(rp.begin() + i);
       }
     }
     
-    return ans;
+    return result;
   }
 
   // vector<vector<int>> permute(vector<int>& nums) {
@@ -34,13 +33,12 @@ public:
   //     return { nums };
 
   //   vector<vector<int>> result;
-
   //   for (int i = 0; i < nums.size(); i++) {
   //     int numTaken = nums[0];
   //     nums.erase(nums.begin());
-  //     for (auto& remainPermute : permute(nums)) {
-  //       remainPermute.emplace_back(numTaken);
-  //       result.emplace_back(remainPermute);
+  //     for (auto& rp : permute(nums)) {
+  //       rp.emplace_back(numTaken);
+  //       result.emplace_back(rp);
   //     }
   //     nums.emplace_back(numTaken);
   //   }

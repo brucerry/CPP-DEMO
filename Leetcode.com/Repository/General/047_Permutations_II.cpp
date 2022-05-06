@@ -10,31 +10,30 @@ using namespace std;
 class Solution {
 public:
   vector<vector<int>> permuteUnique(vector<int>& nums) {
-    unordered_map<int, int> intCount;
-    for (const int& num : nums)
-      intCount[num]++;
+    unordered_map<int, int> numCount; // num, count
+    for (const int& num : nums) {
+      numCount[num]++;
+    }
     
-    vector<vector<int>> ans;
-    vector<int> perm;
-    solve(nums, intCount, ans, perm);
-    return ans;
+    vector<vector<int>> solution;
+    vector<int> permute;
+    solve(nums.size(), numCount, solution, permute);
+    return solution;
   }
   
 private:
-  void solve(vector<int>& nums, unordered_map<int, int>& intCount, vector<vector<int>>& ans, vector<int>& perm) {
-    if (perm.size() == nums.size()) {
-      ans.emplace_back(perm);
+  void solve(int size, unordered_map<int, int>& numCount, vector<vector<int>>& solution, vector<int>& permute) {
+    if (permute.size() == size) {
+      solution.emplace_back(permute);
       return;
     }
     
-    for (auto& [ num, count ] : intCount) {
+    for (auto& [ num, count ] : numCount) {
       if (count) {
         count--;
-        
-        perm.emplace_back(num);
-        solve(nums, intCount, ans, perm);
-        perm.pop_back();
-        
+        permute.emplace_back(num);
+        solve(size, numCount, solution, permute);
+        permute.pop_back();
         count++;
       }
     }
