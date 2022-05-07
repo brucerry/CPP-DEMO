@@ -9,10 +9,10 @@ using namespace std;
 
 // general
 // time: O(n^2)
-// space: O(n^2)
+// space: O(n^2) 2d array, O(n) 1d array
 
 // if sum(piles) is not necessarily odd
-class BottomUpDP {
+class BottomUpDP_2D {
 public:
   bool stoneGame(vector<int>& piles) {
     int n = piles.size();
@@ -37,7 +37,36 @@ public:
       }
     }
     
-    return dp[0][n-1] > half;
+    return dp[0][n] > half;
+  }
+};
+
+class BottomUpDP_1D {
+public:
+  bool stoneGame(vector<int>& piles) {
+    int n = piles.size();
+    
+    int sum = 0;
+    for (const int& p : piles)
+      sum += p;
+    
+    int half = sum >> 1;
+    
+    vector<int> dp (n + 1);
+    for (int l = n - 1; l >= 0; l--){
+      for (int r = 1; r <= n; r++) {
+        if (l > r)
+          continue;
+        
+        bool even = (r - l) ^ 1; // even len = alice round, else bob round
+        int leftVal = even ? piles[l] : 0;
+        int rightVal = even ? piles[r-1] : 0; // r is shifted 1 for dp[], thus have to -1 for getting value in piles[]
+        
+        dp[r] = max(dp[r] + leftVal, dp[r-1] + rightVal);
+      }
+    }
+    
+    return dp[n] > half;
   }
 };
 
@@ -53,7 +82,7 @@ public:
     int half = sum >> 1;
     
     vector<vector<int>> memo (n, vector<int>(n, -1));
-    return solve(piles, 0, piles.size() - 1, memo) > half;
+    return solve(piles, 0, n - 1, memo) > half;
   }
   
 private:
