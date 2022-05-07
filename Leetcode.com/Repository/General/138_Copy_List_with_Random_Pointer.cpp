@@ -19,7 +19,6 @@ public:
 // n = len of list
 // time: O(n)
 // space: O(n)
-
 class Iterative {
 public:
   Node* copyRandomList(Node* head) {
@@ -40,6 +39,7 @@ public:
       Node* copy = nodeToCopy[cur];
       copy->next = nodeToCopy[cur->next];
       copy->random = nodeToCopy[cur->random];
+
       cur = cur->next;
     }
     
@@ -47,6 +47,9 @@ public:
   }
 };
 
+// n = len of list
+// time: O(n)
+// space: O(n)
 class Recursive {
 public:
   Node* copyRandomList(Node* head) {    
