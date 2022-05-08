@@ -10,25 +10,23 @@ using namespace std;
 class Solution {
 public:
   string removeKdigits(string& num, int k) {
-    string ans;
+    string result;
     
-    for (const char& n : num) {
-      while (k and ans.length() and ans.back() > n) {
-        ans.pop_back();
+    for (const char& c : num) {
+      while (result.length() and result.back() > c and k) {
+        result.pop_back();
         k--;
       }
-      ans += n;
+      result += c;
     }
     
     int i = 0;
-    while (i < ans.length() and ans[i] == '0') {
+    while (i < result.length() and result[i] == '0')
       i++;
-    }
     
-    while (k-- and ans.length()) {
-      ans.pop_back();
-    }
+    while (k-- and result.length())
+      result.pop_back();
     
-    return i < ans.length() ? ans.substr(i) : "0";
+    return i < result.length() ? result.substr(i) : "0";
   }
 };
