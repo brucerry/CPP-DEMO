@@ -16,22 +16,22 @@ struct TreeNode {
 class Solution {
 public:
   int diameterOfBinaryTree(TreeNode* root) {
-    int ans = 0;
-    maxHeight(root, ans);
-    return ans;
+    int maxDiameter = 0;
+    maxHeight(root, maxDiameter);
+    return maxDiameter;
   }
 
 private:
-  int maxHeight(TreeNode* node, int& ans) {
+  int maxHeight(TreeNode* node, int& maxDiameter) {
     if (!node)
       return -1;
     
-    int leftHeight = maxHeight(node->left, ans);
-    int rightHeight = maxHeight(node->right, ans);
+    int leftHeight = maxHeight(node->left, maxDiameter);
+    int rightHeight = maxHeight(node->right, maxDiameter);
     
     int height = 1 + max(leftHeight, rightHeight);
     int diameter = 2 + leftHeight + rightHeight;
-    ans = max(ans, diameter);
+    maxDiameter = max(maxDiameter, diameter);
     
     return height;
   }

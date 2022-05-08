@@ -7,21 +7,22 @@ using namespace std;
 // space: O(n)
 
 class Solution {
-private:
-  void solve(vector<int>& nums, vector<int> &candidate, vector<vector<int>> &solutions, int start) {
-    solutions.emplace_back(candidate);
-    for (int i = start; i < nums.size(); i++) {
-      candidate.emplace_back(nums[i]);
-      solve(nums, candidate, solutions, i + 1);
-      candidate.pop_back();
-    }
-  }
-
 public:
   vector<vector<int>> subsets(vector<int>& nums) {
-    vector<vector<int>> solutions;
-    vector<int> candidate;
-    solve(nums, candidate, solutions, 0);
-    return solutions;
+    vector<vector<int>> solution;
+    vector<int> state;
+    solve(nums, solution, state, 0);
+    return solution;
+  }
+  
+private:
+  void solve(vector<int>& nums, vector<vector<int>>& solution, vector<int>& state, int start) {
+    solution.emplace_back(state);
+    
+    for (int i = start; i < nums.size(); i++) {
+      state.emplace_back(nums[i]);
+      solve(nums, solution, state, i + 1);
+      state.pop_back();
+    }
   }
 };
