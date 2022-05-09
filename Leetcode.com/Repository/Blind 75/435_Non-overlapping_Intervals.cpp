@@ -5,7 +5,7 @@
 using namespace std;
 
 // time: O(n * log(n))
-// space: O(log(n)) to O(n) for sorting
+// space: O(log(n)) for sorting
 
 class Solution {
 public:
