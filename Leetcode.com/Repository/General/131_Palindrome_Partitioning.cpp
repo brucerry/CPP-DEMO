@@ -9,25 +9,25 @@ using namespace std;
 
 class Solution {
 public:
-  vector<vector<string>> partition(string s) {
-    vector<vector<string>> ans;
-    vector<string> part;
-    solve(s, ans, part, 0);
-    return ans;
+  vector<vector<string>> partition(string& s) {
+    vector<vector<string>> solution;
+    vector<string> state;
+    solve(s, solution, state, 0);
+    return solution;
   }
   
 private:
-  void solve(string& s, vector<vector<string>>& ans, vector<string>& part, int start) {
+  void solve(string& s, vector<vector<string>>& solution, vector<string>& state, int start) {
     if (start == s.length()) {
-      ans.emplace_back(part);
+      solution.emplace_back(state);
       return;
     }
     
     for (int i = start; i < s.length(); i++) {
       if (isPalindrome(s, start, i)) {
-        part.emplace_back(s.substr(start, i - start + 1));
-        solve(s, ans, part, i + 1);
-        part.pop_back();
+        state.emplace_back(s.substr(start, i - start + 1));
+        solve(s, solution, state, i + 1);
+        state.pop_back();
       }
     }
   }
