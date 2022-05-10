@@ -15,15 +15,15 @@ public:
   
 private:
   int solve(int n, unordered_map<int, int>& memo) {
-    if (n <= 2)
+    if (n <= 1)
       return n;
     
     if (memo.count(n))
       return memo[n];
     
-    int divisible_2 = 1 + (n % 2) + solve(n >> 1, memo);
-    int divisible_3 = 1 + (n % 3) + solve(n / 3, memo);
+    int div_2 = 1 + (n & 1) + solve(n >> 1, memo);
+    int div_3 = 1 + (n % 3) + solve(n / 3, memo);
     
-    return memo[n] = min(divisible_2, divisible_3);
+    return memo[n] = min(div_2, div_3);
   }
 };
