@@ -14,7 +14,7 @@ public:
     
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        if (board[r][c] == 'O' && (r == 0 || r == rows - 1 || c == 0 || c == cols - 1))
+        if ((r == 0 or r == rows - 1 or c == 0 or c == cols - 1) and board[r][c] == 'O')
           traverse(board, r, c);
       }
     }
@@ -36,7 +36,7 @@ public:
   
 private:
   void traverse(vector<vector<char>>& board, int r, int c) {
-    if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != 'O')
+    if (r < 0 or r >= board.size() or c < 0 or c >= board[0].size() or board[r][c] != 'O')
       return;
     
     board[r][c] = '*';

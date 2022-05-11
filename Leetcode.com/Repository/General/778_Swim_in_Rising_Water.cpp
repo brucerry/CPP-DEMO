@@ -15,6 +15,7 @@ public:
     
     priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
     minHeap.emplace(grid[0][0], 0, 0); // elevation, r, c
+    grid[0][0] = -1;
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
     

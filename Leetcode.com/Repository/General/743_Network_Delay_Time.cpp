@@ -11,24 +11,22 @@ class Solution {
 public:
   int networkDelayTime(vector<vector<int>>& times, int n, int k) {
     vector<vector<pair<int, int>>> graph (n + 1);
-    
     for (const auto& t : times) {
       int src = t[0];
       int dst = t[1];
-      int time = t[2];
-      graph[src].emplace_back(time, dst);
+      int cost = t[2];
+      graph[src].emplace_back(cost, dst);
     }
-    
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-    minHeap.emplace(0, k); // time, node
     
     vector<char> visited (n + 1);
     int visitedCount = 0;
     
-    int totalTime = 0;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // cost, node
+    minHeap.emplace(0, k);
     
+    int totalTime = 0;
     while (minHeap.size()) {
-      auto [ time, node ] = minHeap.top();
+      auto [ cost, node ] = minHeap.top();
       minHeap.pop();
       
       if (visited[node])
@@ -37,12 +35,11 @@ public:
       visited[node] = 1;
       visitedCount++;
       
-      totalTime = max(totalTime, time);
+      totalTime = max(totalTime, cost);
       
       for (const auto& [ t, neighbor ] : graph[node]) {
-        if (visited[neighbor] == 0) {
-          minHeap.emplace(t + time, neighbor);
-        }
+        if (visited[neighbor] == 0)
+          minHeap.emplace(cost + t, neighbor);
       }
     }
     

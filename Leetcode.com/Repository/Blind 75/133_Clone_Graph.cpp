@@ -29,23 +29,22 @@ public:
 class Solution {
 public:
   Node* cloneGraph(Node* node) {
-    unordered_map<Node*, Node*> originalToCopy {
+    unordered_map<Node*, Node*> nodeToCopy {
       { nullptr, nullptr }
     };
-    return clone(node, originalToCopy);
+    return clone(node, nodeToCopy);
   }
   
 private:
-  Node* clone(Node* node, unordered_map<Node*, Node*>& originalToCopy) {
-    if (originalToCopy.count(node))
-      return originalToCopy[node];
+  Node* clone(Node* node, unordered_map<Node*, Node*>& nodeToCopy) {
+    if (nodeToCopy.count(node))
+      return nodeToCopy[node];
     
     Node* copy = new Node(node->val);
-    originalToCopy[node] = copy;
+    nodeToCopy[node] = copy;
     
-    for (const auto& neighbor : node->neighbors) {
-      copy->neighbors.emplace_back(clone(neighbor, originalToCopy));
-    }
+    for (const auto& neighbor : node->neighbors)
+      copy->neighbors.emplace_back(clone(neighbor, nodeToCopy));
     
     return copy;
   }
