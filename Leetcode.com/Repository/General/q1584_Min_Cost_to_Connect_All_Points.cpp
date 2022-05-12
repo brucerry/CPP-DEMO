@@ -15,11 +15,10 @@ public:
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // cost, index
     minHeap.emplace(0, 0);
     
-    int totalCost = 0;
-    
     vector<char> visited (n);
     int visitedCount = 0;
     
+    int totalCost = 0;
     while (visitedCount < n) {
       auto [ cost, node ] = minHeap.top();
       minHeap.pop();

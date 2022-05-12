@@ -6,16 +6,16 @@
 class Solution {
 public:
   int climbStairs(int n) {
-    if (n < 3) return n;
+    if (n <= 2)
+      return n;
     
-    int one = 1, ans = 2;
-    
+    int one = 1, two = 2;
     for (int i = 3; i <= n; i++) {
-      int tmp = ans;
-      ans += one;
-      one = tmp;
+      int tmp = one + two;
+      one = two;
+      two = tmp;
     }
     
-    return ans;
+    return two;
   }
 };

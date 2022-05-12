@@ -15,20 +15,19 @@ public:
     sort(tickets.begin(), tickets.end());
     
     unordered_map<string, vector<string>> graph;
-    
     for (const auto& ticket : tickets) {
       graph[ticket[0]].emplace_back(ticket[1]);
     }
     
-    vector<string> ans { "JFK" };
+    vector<string> result { "JFK" };
     string src = "JFK";
-    traverse(tickets.size(), graph, ans, src);
-    return ans;
+    traverse(tickets.size(), graph, result, src);
+    return result;
   }
   
 private:
-  bool traverse(int n, unordered_map<string, vector<string>>& graph, vector<string>& ans, string& src) {    
-    if (ans.size() == n + 1) {
+  bool traverse(int n, unordered_map<string, vector<string>>& graph, vector<string>& result, string& src) {    
+    if (result.size() == n + 1) {
       return true;
     }
     
@@ -36,17 +35,17 @@ private:
       return false;
     }
     
-    int len = graph[src].size();
-    for (int i = 0; i < len; i++) {
+    int size = graph[src].size();
+    for (int i = 0; i < size; i++) {
       string tmp = graph[src][i];
       
-      ans.emplace_back(tmp);
+      result.emplace_back(tmp);
       graph[src].erase(graph[src].begin() + i);
       
-      if (traverse(n, graph, ans, tmp))
+      if (traverse(n, graph, result, tmp))
         return true;
       
-      ans.pop_back();
+      result.pop_back();
       graph[src].emplace(graph[src].begin() + i, tmp);
     }
     

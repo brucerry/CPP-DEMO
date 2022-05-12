@@ -7,10 +7,6 @@ using namespace std;
 // space: O(n)
 
 class MedianFinder {
-private:
-  priority_queue<int> maxHeap;
-  priority_queue<int, vector<int>, greater<>> minHeap;
-
 public:
   MedianFinder() {
     
@@ -19,7 +15,7 @@ public:
   void addNum(int num) {
     maxHeap.emplace(num);
 
-    if (minHeap.size() && maxHeap.top() > minHeap.top()) {
+    if (minHeap.size() and maxHeap.top() > minHeap.top()) {
       minHeap.emplace(maxHeap.top());
       maxHeap.pop();
     }
@@ -44,6 +40,10 @@ public:
 
     return (maxHeap.top() + minHeap.top()) / 2.0;
   }
+
+private:
+  priority_queue<int> maxHeap;
+  priority_queue<int, vector<int>, greater<>> minHeap;
 };
 
 /**
