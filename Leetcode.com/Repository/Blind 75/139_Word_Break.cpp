@@ -9,16 +9,15 @@ using namespace std;
 
 class Solution {
 public:
-  bool wordBreak(string s, vector<string>& wordDict) {
-    vector<char> dp (s.length() + 1, 0);
+  bool wordBreak(string& s, vector<string>& wordDict) {
+    vector<char> dp (s.length() + 1);
     dp.back() = 1;
     
     for (int i = s.length() - 1; i >= 0; i--) {
       for (const string& word : wordDict) {
-        if (s.find(word, i) == i) {
-          dp[i] = dp[i + word.length()];
-          if (dp[i])
-            break;
+        if (i == s.find(word, i) and dp[i + word.length()]) {
+          dp[i] = 1;
+          break;
         }
       }
     }

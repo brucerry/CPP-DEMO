@@ -11,27 +11,24 @@ class Solution {
 public:
   bool canPartition(vector<int>& nums) {
     int sum = 0;
-    for (const int& num : nums) {
+    for (const int& num : nums)
       sum += num;
-    }
     
     if (sum & 1)
       return false;
     
-    sum >>= 1;
+    int half = sum >> 1;
     
-    vector<char> dp (sum + 1);
+    vector<char> dp (half + 1);
     dp[0] = 1;
     
     for (const int& num : nums) {
-      for (int s = sum; s >= 0; s--) {
-        if (num > s)
-          continue;
-        
-        dp[s] |= dp[s - num];
+      for (int h = half; h >= 1; h--) {
+        if (num <= h)
+          dp[h] |= dp[h - num];
       }
     }
     
-    return dp.back();
+    return dp[half];
   }
 };
