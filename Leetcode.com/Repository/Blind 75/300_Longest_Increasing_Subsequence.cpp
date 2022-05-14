@@ -4,11 +4,10 @@
 #include <algorithm>
 using namespace std;
 
-class Solution {
+// time: O(n * log(n))
+// space: O(n)
+class BinarySearch {
 public:
-  // binary search
-  // time: O(n * log(n))
-  // space: O(n)
   int lengthOfLIS(vector<int>& nums) {
     vector<int> dp;
     
@@ -22,22 +21,25 @@ public:
     
     return dp.size();
   }
+};
 
-  // time: O(n^2)
-  // space: O(n)
-  // int lengthOfLIS(vector<int>& nums) {
-  //   vector<int> dp (nums.size(), 1);
-  //   int ans = 1;
+// time: O(n^2)
+// space: O(n)
+class NestedLoops {
+public:
+  int lengthOfLIS(vector<int>& nums) {
+    vector<int> dp (nums.size(), 1);
+    int ans = 1;
 
-  //   for (int i = nums.size() - 1; i >= 0; i--) {
-  //     for (int j = i + 1; j < nums.size(); j++) {
-  //       if (nums[i] < nums[j]) {
-  //         dp[i] = max(dp[i], 1 + dp[j]);
-  //       }
-  //     }
-  //     ans = max(ans, dp[i]);
-  //   }
+    for (int i = nums.size() - 1; i >= 0; i--) {
+      for (int j = i + 1; j < nums.size(); j++) {
+        if (nums[i] < nums[j]) {
+          dp[i] = max(dp[i], 1 + dp[j]);
+        }
+      }
+      ans = max(ans, dp[i]);
+    }
 
-  //   return ans;
-  // }
+    return ans;
+  }
 };

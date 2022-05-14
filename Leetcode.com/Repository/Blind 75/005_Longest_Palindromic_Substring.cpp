@@ -8,16 +8,16 @@ using namespace std;
 
 class Solution {
 public:
-  string longestPalindrome(string s) {
+  string longestPalindrome(string& s) {
     int startIndex = 0, maxLen = 0;
     
     for (int i = 0; i < s.length(); i++) {
       // odd
       int l = i, r = i;
-      while (0 <= l && r < s.length() && s[l] == s[r]) {
-        if (r - l + 1 > maxLen) {
-          startIndex = l;
+      while (0 <= l and r < s.length() and s[l] == s[r]) {
+        if (maxLen < r - l + 1) {
           maxLen = r - l + 1;
+          startIndex = l;
         }
         l--;
         r++;
@@ -25,10 +25,10 @@ public:
       
       // even
       l = i, r = i + 1;
-      while (0 <= l && r < s.length() && s[l] == s[r]) {
-        if (r - l + 1 > maxLen) {
-          startIndex = l;
+      while (0 <= l and r < s.length() and s[l] == s[r]) {
+        if (maxLen < r - l + 1) {
           maxLen = r - l + 1;
+          startIndex = l;
         }
         l--;
         r++;

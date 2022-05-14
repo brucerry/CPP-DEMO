@@ -9,31 +9,31 @@ using namespace std;
 
 class Solution {
 public:
-  vector<vector<int>> permuteUnique(vector<int>& nums) {
+  vector<vector<int>> stateUnique(vector<int>& nums) {
     unordered_map<int, int> numCount; // num, count
     for (const int& num : nums) {
       numCount[num]++;
     }
     
     vector<vector<int>> solution;
-    vector<int> permute;
-    solve(nums.size(), numCount, solution, permute);
+    vector<int> state;
+    solve(nums.size(), numCount, solution, state);
     return solution;
   }
   
 private:
-  void solve(int size, unordered_map<int, int>& numCount, vector<vector<int>>& solution, vector<int>& permute) {
-    if (permute.size() == size) {
-      solution.emplace_back(permute);
+  void solve(int size, unordered_map<int, int>& numCount, vector<vector<int>>& solution, vector<int>& state) {
+    if (state.size() == size) {
+      solution.emplace_back(state);
       return;
     }
     
     for (auto& [ num, count ] : numCount) {
       if (count) {
         count--;
-        permute.emplace_back(num);
-        solve(size, numCount, solution, permute);
-        permute.pop_back();
+        state.emplace_back(num);
+        solve(size, numCount, solution, state);
+        state.pop_back();
         count++;
       }
     }

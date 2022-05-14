@@ -8,13 +8,14 @@ using namespace std;
 
 class Solution {
 public:
-  int maxProfit(vector<int>& prices) {    
-    vector<vector<int>> dp (2, vector<int>(prices.size() + 2));
+  int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<int>> dp (2, vector<int>(n + 2));
     // rows: days
     // col 0: have no stock
     // col 1: have stock
     
-    for (int i = prices.size() - 1; i >= 0; i--) {
+    for (int i = n - 1; i >= 0; i--) {
       // to buy or cooldown
       dp[0][i] = max(dp[0][i+1], dp[1][i+1] - prices[i]);
       
