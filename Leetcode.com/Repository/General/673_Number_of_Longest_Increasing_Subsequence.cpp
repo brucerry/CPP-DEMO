@@ -9,39 +9,36 @@ using namespace std;
 class Solution {
 public:
   int findNumberOfLIS(vector<int>& nums) {
-    vector<pair<int, int>> LIScount (nums.size()); // len, count
-    LIScount.back() = { 1, 1 };
+    int LIScount = 0, maxLen = 0;
+    int n = nums.size();
+    vector<pair<int, int>> dp (n); // len, count
     
-    int maxLen = 1, maxCount = 1;
-    
-    for (int i = nums.size() - 2; i >= 0; i--) {
+    for (int i = n - 1; i >= 0; i--) {
       int len = 1, count = 1;
       
-      for (int j = i + 1; j < nums.size(); j++) {
-        auto [ curLen, curCount ] = LIScount[j];
-        
+      for (int j = i + 1; j < n; j++) {
+        auto [ len_j, count_j ] = dp[j];
         if (nums[i] < nums[j]) {
-          if (curLen + 1 > len) {
-            len = curLen + 1;
-            count = curCount;
+          if (len < len_j + 1) {
+            len = len_j + 1;
+            count = count_j;
           }
-          else if (curLen + 1 == len) {
-            count += curCount;
+          else if (len == len_j + 1) {
+            count += count_j;
           }
         }
       }
       
       if (len > maxLen) {
         maxLen = len;
-        maxCount = count;
+        LIScount = count;
       }
-      else if (len == maxLen) {
-        maxCount += count;
-      }
+      else if (len == maxLen)
+        LIScount += count;
       
-      LIScount[i] = { len, count };
+      dp[i] = { len, count };
     }
     
-    return maxCount;
+    return LIScount;
   }
 };
