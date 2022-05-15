@@ -94,8 +94,8 @@ private:
       return memo[left][right];
     
     bool even = (right - left) ^ 1; // even len = alice round, else bob round
-    int leftVal = even ? piles[right] : 0;
-    int rightVal = even ? piles[left] : 0;
+    int leftVal = even ? piles[left] : 0;
+    int rightVal = even ? piles[right] : 0;
     
     return memo[left][right] = max(leftVal + solve(piles, left + 1, right, memo),
                                    rightVal + solve(piles, left, right - 1, memo));
