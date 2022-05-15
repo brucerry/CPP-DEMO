@@ -10,11 +10,10 @@ using namespace std;
 class Solution {
 public:
   bool canReach(string& s, int minJump, int maxJump) {
-    queue<int> queue;
-    queue.emplace(0);
-    
     int farthestIndex = 0;
     
+    queue<int> queue;
+    queue.emplace(0);
     while (queue.size()) {
       int i = queue.front();
       queue.pop();
