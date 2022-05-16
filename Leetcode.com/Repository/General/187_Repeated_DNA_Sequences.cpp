@@ -17,7 +17,7 @@ public:
     unordered_set<string> DNAs;
     unordered_set<string> result;
     
-    for (int i = 0; i < s.length() - 9; i++) {
+    for (int i = 0; i < s.length() - 10 + 1; i++) {
       string dna = s.substr(i, 10);
       if (DNAs.count(dna))
         result.emplace(dna);

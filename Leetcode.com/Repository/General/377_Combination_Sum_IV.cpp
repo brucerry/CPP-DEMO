@@ -40,16 +40,13 @@ private:
     if (target == 0)
       return 1;
     
-    if (memo[target] != -1) {
+    if (memo[target] != -1)
       return memo[target];
-    }
     
     int count = 0;
-    
-    for (int i = 0; i < nums.size(); i++) {
-      if (target >= nums[i]) {
-        count += solve(nums, target - nums[i], memo);
-      }
+    for (const int& num : nums) {
+      if (num <= target)
+        count += solve(nums, target - num, memo);
     }
     
     return memo[target] = count;
