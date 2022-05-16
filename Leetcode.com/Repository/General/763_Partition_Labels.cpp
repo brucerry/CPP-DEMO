@@ -11,26 +11,21 @@ using namespace std;
 class Solution {
 public:
   vector<int> partitionLabels(string& s) {
-    array<int, 26> lastIndexOf;
+    array<int, 26> charLastIndex;
+    for (int i = 0; i < s.length(); i++)
+      charLastIndex[s[i] - 'a'] = i;
     
-    for (int i = 0; i < s.length(); i++) {
-      lastIndexOf[s[i] - 'a'] = i;
-    }
-    
-    vector<int> sizeOfParts;
-    
-    int end = 0;
+    vector<int> partition;
+    int lastIndex = -1;
     int l = 0;
-    
     for (int r = 0; r < s.length(); r++) {
-      end = max(end, lastIndexOf[s[r] - 'a']);
-      
-      if (r == end) {
-        sizeOfParts.emplace_back(r - l + 1);
+      lastIndex = max(lastIndex, charLastIndex[s[r] - 'a']);
+      if (r == lastIndex) {
+        partition.emplace_back(r - l + 1);
         l = r + 1;
       }
     }
     
-    return sizeOfParts;
+    return partition;
   }
 };
