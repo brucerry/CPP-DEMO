@@ -9,19 +9,22 @@ using namespace std;
 
 class Solution {
 public:
-  int numDistinct(string s, string t) {
-    vector<unsigned int> dp (t.length() + 1, 0);
+  int numDistinct(string& s, string& t) {
+    int rows = s.length();
+    int cols = t.length();
+    
+    vector<unsigned int> dp (cols + 1);
     dp.back() = 1;
-
-    for (int i = s.length() - 1; i >= 0; i--) {
-      for (int j = 0; j < t.length(); j++) {
-        if (s[i] == t[j])
-          dp[j] += dp[j+1];
-        if (i == 0 && j == 0)
+    
+    for (int r = rows - 1; r >= 0; r--) {
+      for (int c = 0; c < cols; c++) {
+        if (s[r] == t[c])
+          dp[c] += dp[c+1];
+        if (r == 0 and c == 0)
           break;
       }
     }
-
+    
     return dp[0];
   }
 };

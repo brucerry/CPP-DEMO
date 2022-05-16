@@ -8,22 +8,23 @@ using namespace std;
 
 class Solution {
 public:
-  int longestIncreasingPath(vector<vector<int>>& matrix) {    
-    vector<vector<int>> dp (matrix.size(), vector<int>(matrix[0].size()));
+  int longestIncreasingPath(vector<vector<int>>& matrix) {
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    vector<vector<int>> memo (rows, vector<int>(cols));
     
-    int ans = 0;
-    
-    for (int r = 0; r < matrix.size(); r++) {
-      for (int c = 0; c < matrix[0].size(); c++) {
-        ans = max(ans, solve(matrix, r, c, -1, dp));
+    int longest = 0;
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        longest = max(longest, traversePath(matrix, r, c, -1, memo));
       }
     }
     
-    return ans;
+    return longest;
   }
   
 private:
-  int solve(vector<vector<int>>& matrix, int r, int c, int prev, vector<vector<int>>& memo) {
+  int traversePath(vector<vector<int>>& matrix, int r, int c, int prev, vector<vector<int>>& memo) {
     if (r < 0 or r >= matrix.size() or c < 0 or c >= matrix[0].size() or matrix[r][c] <= prev)
       return 0;
     
@@ -31,10 +32,9 @@ private:
       return memo[r][c];
     
     return memo[r][c] = 1 + max({
-      solve(matrix, r+1, c, matrix[r][c], memo),
-      solve(matrix, r-1, c, matrix[r][c], memo),
-      solve(matrix, r, c+1, matrix[r][c], memo),
-      solve(matrix, r, c-1, matrix[r][c], memo)
-    });
+      traversePath(matrix, r+1, c, matrix[r][c], memo),
+      traversePath(matrix, r-1, c, matrix[r][c], memo),
+      traversePath(matrix, r, c+1, matrix[r][c], memo),
+      traversePath(matrix, r, c-1, matrix[r][c], memo) });
   }
 };

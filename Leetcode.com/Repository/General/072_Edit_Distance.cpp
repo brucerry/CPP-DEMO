@@ -14,9 +14,8 @@ public:
     int cols = word2.length();
     
     vector<int> dp (cols + 1);
-    
-    for (int c = 0; c <= cols; c++)
-      dp[c] = word2.length() - c;
+    for (int c = 0; c < cols; c++)
+      dp[c] = cols - c;
     
     for (int r = rows - 1; r >= 0; r--) {
       int prev = dp.back();

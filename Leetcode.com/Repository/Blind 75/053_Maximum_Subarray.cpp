@@ -9,14 +9,14 @@ using namespace std;
 class Solution {
 public:
   int maxSubArray(vector<int>& nums) {
-    int ans = nums[0];
+    int largest = nums[0];
     int curSum = 0;
-
-    for (int& num : nums) {
+    
+    for (const int& num : nums) {
       curSum = max(curSum + num, num);
-      ans = max(ans, curSum);
+      largest = max(largest, curSum);
     }
-
-    return ans;
+    
+    return largest;
   }
 };
