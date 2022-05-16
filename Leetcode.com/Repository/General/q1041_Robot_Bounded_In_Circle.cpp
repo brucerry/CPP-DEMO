@@ -9,26 +9,26 @@ using namespace std;
 class Solution {
 public:
   bool isRobotBounded(string& instructions) {
-    int dirX = 0, dirY = 1;
     int x = 0, y = 0;
+    int moveX = 0, moveY = 1;
     
     for (const char& c : instructions) {
-      if (c == 'G') {
-        x += dirX;
-        y += dirY;
+      if (c == 'L') {
+        int tmp = moveX;
+        moveX = -moveY;
+        moveY = tmp;
       }
-      else if (c == 'L') {
-        int tmp = dirX;
-        dirX = -dirY;
-        dirY = tmp;
+      else if (c == 'R') {
+        int tmp = moveX;
+        moveX = moveY;
+        moveY = -tmp;
       }
       else {
-        int tmp = dirX;
-        dirX = dirY;
-        dirY = -tmp;
+        x += moveX;
+        y += moveY;
       }
     }
     
-    return (x == 0 and y == 0) or not(dirX == 0 and dirY == 1);
+    return (x == 0 and y == 0) or moveX != 0 or moveY != 1;
   }
 };

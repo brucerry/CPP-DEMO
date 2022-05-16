@@ -15,30 +15,35 @@ public:
     int cols = grid[0].size();
     
     vector<vector<int>> lives (rows, vector<int>(cols, -1));
-    
-    queue<tuple<int, int, int, int>> queue; // step, live, r, c
-    queue.emplace(0, k, 0, 0);
-    
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
     
+    queue<tuple<int, int, int>> queue; // live, r, c
+    queue.emplace(k, 0, 0);
+    int step = 0;
     while (queue.size()) {
-      auto [ step, live, r, c ] = queue.front();
-      queue.pop();
+      int size = queue.size();
       
-      if (r == rows - 1 and c == cols - 1)
-        return step;
-      
-      if (grid[r][c])
-        live--;
-      
-      for (const auto& [ dr, dc ] : moves) {
-        int newr = dr + r;
-        int newc = dc + c;
-        if (0 <= newr and newr < rows and 0 <= newc and newc < cols and lives[newr][newc] < live) {
-          lives[newr][newc] = live;
-          queue.emplace(step + 1, live, newr, newc);
+      while (size--) {
+        auto [ live, r, c ] = queue.front();
+        queue.pop();
+        
+        if (r == rows - 1 and c == cols - 1)
+          return step;
+        
+        if (grid[r][c])
+          live--;
+        
+        for (const auto& [ dr, dc ] : moves) {
+          int newr = r + dr;
+          int newc = c + dc;
+          if (0 <= newr and newr < rows and 0 <= newc and newc < cols and lives[newr][newc] < live) {
+            lives[newr][newc] = live;
+            queue.emplace(live, newr, newc);
+          }
         }
       }
+      
+      step++;
     }
     
     return -1;

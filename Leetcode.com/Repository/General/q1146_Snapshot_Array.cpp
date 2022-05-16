@@ -18,7 +18,6 @@ public:
   
   int snap() {
     m_SnapRecord[snapCount] = m_IndexRecord;
-    
     snapCount++;
     return snapCount - 1;
   }
@@ -28,9 +27,9 @@ public:
   }
   
 private:  
-  unordered_map<int, unordered_map<int, int>> m_SnapRecord; // snap_id, m_IndexRecord
-  unordered_map<int, int> m_IndexRecord; // index, value
   int snapCount;
+  unordered_map<int, int> m_IndexRecord; // index, value
+  unordered_map<int, unordered_map<int, int>> m_SnapRecord; // snap_id, m_IndexRecord
 };
 
 /**

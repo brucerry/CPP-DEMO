@@ -18,7 +18,7 @@ public:
     
     queue<int> queue;
     queue.emplace(1);
-    int moves = 0;
+    int move = 0;
     while (queue.size()) {
       int size = queue.size();
       
@@ -29,10 +29,13 @@ public:
         for (int step = 1; step <= 6; step++) {
           int next = cur + step;
           auto [ r, c ] = valToCoord(n, next);
+
           if (board[r][c] != -1)
             next = board[r][c];
+
           if (next == n * n)
-            return moves + 1;
+            return move + 1;
+
           if (visited[next] == 0) {
             visited[next] = 1;
             queue.emplace(next);
@@ -40,7 +43,7 @@ public:
         }
       }
       
-      moves++;
+      move++;
     }
     
     return -1;

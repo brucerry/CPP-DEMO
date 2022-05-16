@@ -40,11 +40,10 @@ public:
     dummy.left = root;
     
     TreeNode* prev = &dummy, *cur = root;
-    
     while (cur) {
       if (cur->val < low) {
-        prev->left = cur->right;
-        cur = prev->left;
+        cur = cur->right;
+        prev->left = cur;
       }
       else {
         prev = cur;
@@ -53,13 +52,12 @@ public:
     }
     
     dummy.right = dummy.left;
-    prev = &dummy;
-    cur = dummy.right;
+    prev = &dummy, cur = dummy.right;
     
     while (cur) {
       if (cur->val > high) {
-        prev->right = cur->left;
-        cur = prev->right;
+        cur = cur->left;
+        prev->right = cur;
       }
       else {
         prev = cur;

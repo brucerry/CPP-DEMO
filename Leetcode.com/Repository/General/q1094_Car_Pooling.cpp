@@ -10,19 +10,18 @@ using namespace std;
 class BruteForce {
 public:
   bool carPooling(vector<vector<int>>& trips, int capacity) {
-    vector<int> passChange (1001);
-    
+    vector<int> capChange (1001);
     for (const auto& trip : trips) {
       int numPass = trip[0];
       int start = trip[1];
       int end = trip[2];
       
-      passChange[start] -= numPass;
-      passChange[end] += numPass;
+      capChange[start] -= numPass;
+      capChange[end] += numPass;
     }
     
-    for (const int& pc : passChange) {
-      capacity += pc;
+    for (const int& cc : capChange) {
+      capacity += cc;
       if (capacity < 0)
         return false;
     }
