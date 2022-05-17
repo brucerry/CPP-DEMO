@@ -10,24 +10,26 @@ using namespace std;
 class Solution {
 public:
   bool canReach(string& s, int minJump, int maxJump) {
+    queue<int> queue; // index
+    queue.emplace(0);
+    
     int farthestIndex = 0;
     
-    queue<int> queue;
-    queue.emplace(0);
     while (queue.size()) {
-      int i = queue.front();
+      int cur = queue.front();
       queue.pop();
       
-      int l = max(i + minJump, farthestIndex + 1);
-      int r = min(i + maxJump, (int)s.length() - 1);
-      for (int j = l; j <= r; j++) {
-        if (s[j] == '0') {
-          queue.emplace(j);
-          if (j == s.length() - 1)
+      int l = max(cur + minJump, farthestIndex + 1);
+      int r = min(cur + maxJump, (int)s.length() - 1);
+      for (int i = l; i <= r; i++) {
+        if (s[i] == '0') {
+          if (i == s.length() - 1)
             return true;
+          queue.emplace(i);
         }
       }
-      farthestIndex = i + maxJump;
+      
+      farthestIndex = cur + maxJump;
     }
     
     return false;

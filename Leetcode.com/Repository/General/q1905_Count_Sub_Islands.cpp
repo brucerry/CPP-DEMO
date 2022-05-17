@@ -9,39 +9,34 @@ using namespace std;
 class Solution {
 public:
   int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
-    int rows = grid2.size();
-    int cols = grid2[0].size();
+    int rows = grid1.size();
+    int cols = grid1[0].size();
     
-    vector<vector<char>> visited (rows, vector<char>(cols));
-    
-    int subIslands = 0;
+    int subIsland = 0;
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        if (grid2[r][c] and visited[r][c] == 0 and exploreIslands(grid1, grid2, r, c, visited))
-          subIslands++;
+        if (grid2[r][c] and exploreSubIsland(grid1, grid2, r, c))
+          subIsland++;
       }
     }
     
-    return subIslands;
+    return subIsland;
   }
   
 private:
-  bool exploreIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int r, int c, vector<vector<char>>& visited) {
-    if (r < 0 or r >= grid2.size() or c < 0 or c >= grid2[0].size() or grid2[r][c] == 0 or visited[r][c])
+  // return 0 if and only if it is not a sub-island (i.e grid1[r][c] == 0 and grid2[r][c] == 1)
+  bool exploreSubIsland(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int r, int c) {
+    if (r < 0 or r >= grid1.size() or c < 0 or c >= grid1[0].size() or grid2[r][c] == 0)
       return true;
     
-    visited[r][c] = 1;
+    grid2[r][c] = 0;
     
-    bool result = true;
+    char result = 1;
+    result &= exploreSubIsland(grid1, grid2, r+1, c);
+    result &= exploreSubIsland(grid1, grid2, r-1, c);
+    result &= exploreSubIsland(grid1, grid2, r, c+1);
+    result &= exploreSubIsland(grid1, grid2, r, c-1);
     
-    if (grid1[r][c] == 0)
-      result = false;
-    
-    result = exploreIslands(grid1, grid2, r+1, c, visited) and result;
-    result = exploreIslands(grid1, grid2, r-1, c, visited) and result;
-    result = exploreIslands(grid1, grid2, r, c+1, visited) and result;
-    result = exploreIslands(grid1, grid2, r, c-1, visited) and result;
-    
-    return result;
+    return result & grid1[r][c];
   }
 };
