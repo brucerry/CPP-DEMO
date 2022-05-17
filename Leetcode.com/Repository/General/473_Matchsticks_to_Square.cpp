@@ -10,40 +10,40 @@ using namespace std;
 class Solution {
 public:
   bool makesquare(vector<int>& matchsticks) {
+    int n = matchsticks.size();
+    
     int sum = 0;
-    for (const int& len : matchsticks) {
+    for (const int& len : matchsticks)
       sum += len;
-    }
     
     if (sum % 4)
       return false;
     
-    int target = sum >> 2;
-    int all = (1 << matchsticks.size()) - 1;
+    int targetLen = sum >> 2;
+    int all = (1 << n) - 1;
     vector<char> memo (all, -1);
     
     sort(matchsticks.rbegin(), matchsticks.rend()); // slightly speed optimized
     
-    return solve(matchsticks, target, all, memo, 4, 0, 0);
+    return solve(matchsticks, targetLen, all, memo, 4, 0, 0);
   }
   
 private:
-  bool solve(vector<int>& matchsticks, int target, int all, vector<char>& memo, int count, int subsum, int usedMask) {
-    if (subsum == target) {
-      count--;
-      subsum = 0;
+  bool solve(vector<int>& matchsticks, int targetLen, int all, vector<char>& memo, int side, int usedMask, int curLen) {
+    if (curLen == targetLen) {
+      curLen = 0;
+      side--;
     }
     
-    if (usedMask == all)
-      return count == 0 and subsum == 0;
+    if (all == usedMask)
+      return curLen == 0 and side == 0;
     
     if (memo[usedMask] != -1)
       return memo[usedMask];
     
     for (int i = 0; i < matchsticks.size(); i++) {
-      if (subsum + matchsticks[i] <= target and (usedMask & (1 << i)) == 0 and solve(matchsticks, target, all, memo, count, subsum + matchsticks[i], usedMask | (1 << i))) {
+      if (curLen + matchsticks[i] <= targetLen and (usedMask & (1 << i)) == 0 and solve(matchsticks, targetLen, all, memo, side, usedMask | (1 << i), curLen + matchsticks[i]))
         return memo[usedMask] = true;
-      }
     }
     
     return memo[usedMask] = false;
