@@ -15,16 +15,17 @@ public:
     unordered_map<int, int> gapCount; // gap position, count
     for (int r = 0; r < rows; r++) {
       int gap_pos = 0;
-      for (int c = 1; c < wall[r].size(); c++) {
-        gap_pos += wall[r][c-1];
+      
+      for (int c = 0; c < wall[r].size() - 1; c++) {
+        gap_pos += wall[r][c];
         gapCount[gap_pos]++;
       }
     }
     
-    int count = 0;
-    for (const auto& [ _, c ] : gapCount)
-      count = max(count, c);
+    int maxCount = 0;
+    for (const auto& [ _, count ] : gapCount)
+      maxCount = max(maxCount, count);
     
-    return rows - count;
+    return rows - maxCount;
   }
 };

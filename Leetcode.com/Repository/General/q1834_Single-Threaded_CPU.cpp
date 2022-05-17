@@ -14,25 +14,24 @@ public:
     for (int i = 0; i < tasks.size(); i++) {
       tasks[i].emplace_back(i);
     }
-    sort(tasks.begin(), tasks.end());
+    sort(tasks.begin(), tasks.end()); // start, duration, task index
     
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> availableTasks; // duration, task
-    
-    vector<int> tasksOrder;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> ready; // duration, task index
     
     int i = 0;
     unsigned int curTime = tasks[0][0];
-    while (i < tasks.size() or availableTasks.size()) {
+    vector<int> tasksOrder;
+    while (i < tasks.size() or ready.size()) {
       while (i < tasks.size() and tasks[i][0] <= curTime) {
-        availableTasks.emplace(tasks[i][1], tasks[i][2]);
+        ready.emplace(tasks[i][1], tasks[i][2]);
         i++;
       }
       
-      if (availableTasks.size()) {
-        auto [ duration, task ] = availableTasks.top();
-        availableTasks.pop();
+      if (ready.size()) {
+        auto [ duration, taskIndex ] = ready.top();
+        ready.pop();
         
-        tasksOrder.emplace_back(task);
+        tasksOrder.emplace_back(taskIndex);
         curTime += duration;
       }
       else {

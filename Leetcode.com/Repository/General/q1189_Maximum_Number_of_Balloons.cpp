@@ -12,11 +12,9 @@ class Solution {
 public:
   int maxNumberOfBalloons(string& text) {
     array<int, 26> charCount { 0 };
-    
-    for (const char& c : text) {
+    for (const char& c : text)
       charCount[c - 'a']++;
-    }
     
-    return min({ charCount['b' - 'a'], charCount['a' - 'a'], charCount['l' - 'a'] / 2, charCount['o' - 'a'] / 2, charCount['n' - 'a'] });
+    return min({ charCount['b' - 'a'], charCount['a' - 'a'], charCount['l' - 'a'] >> 1, charCount['o' - 'a'] >> 1, charCount['n' - 'a'] });
   }
 };

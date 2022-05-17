@@ -5,8 +5,88 @@
 using namespace std;
 
 // time: O(s)
-// space: O(s)
+// space: O(1)
+class OptimizeSpace {
+public:
+  int minFlips(string& s) {
+    int n = s.length();
+    int totalLen = n << 1;
+    
+    char flip1_l = '0', flip2_l = '1';
+    char flip1_r = '0', flip2_r = '1';
+    
+    int result = n, diff1 = 0, diff2 = 0;
+    int l = 0;
+    for (int r = 0; r < totalLen; r++) {
+      if (flip1_r != s[r % n])
+        diff1++;
+      if (flip2_r != s[r % n])
+        diff2++;
+      
+      if (r - l + 1 > n) {
+        if (flip1_l != s[l])
+          diff1--;
+        if (flip2_l != s[l])
+          diff2--;
+        l++;
+        flip1_l = (flip1_l - '0') ^ 1 + '0';
+        flip2_l = (flip2_l - '0') ^ 1 + '0';
+      }
+      
+      if (r - l + 1 == n)
+        result = min({ result, diff1, diff2 });
+      
+      flip1_r = (flip1_r - '0') ^ 1 + '0';
+      flip2_r = (flip2_r - '0') ^ 1 + '0';
+    }
+    
+    return result;
+  }
+};
 
+// time: O(s)
+// space: O(s)
+class SubOptimizeSpace {
+public:
+  int minFlips(string& s) {
+    int n = s.length();
+    
+    s += s;
+    
+    char flip1_l = '0', flip2_l = '1';
+    char flip1_r = '0', flip2_r = '1';
+    
+    int result = n, diff1 = 0, diff2 = 0;
+    int l = 0;
+    for (int r = 0; r < s.length(); r++) {
+      if (flip1_r != s[r])
+        diff1++;
+      if (flip2_r != s[r])
+        diff2++;
+      
+      if (r - l + 1 > n) {
+        if (flip1_l != s[l])
+          diff1--;
+        if (flip2_l != s[l])
+          diff2--;
+        l++;
+        flip1_l = flip1_l == '0' ? '1' : '0';
+        flip2_l = flip2_l == '0' ? '1' : '0';
+      }
+      
+      if (r - l + 1 == n)
+        result = min({ result, diff1, diff2 });
+      
+      flip1_r = flip1_r == '0' ? '1' : '0';
+      flip2_r = flip2_r == '0' ? '1' : '0';
+    }
+    
+    return result;
+  }
+};
+
+// time: O(s)
+// space: O(s)
 class Solution {
 public:
   int minFlips(string& s) {

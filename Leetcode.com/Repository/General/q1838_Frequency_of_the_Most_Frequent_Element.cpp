@@ -14,7 +14,7 @@ public:
     
     int l = 0;
     unsigned long curSum = 0;
-    int len = 0;
+    int maxFreq = 0;
     for (int r = 0; r < nums.size(); r++) {
       curSum += nums[r];
       
@@ -23,9 +23,9 @@ public:
         l++;
       }
       
-      len = max(len, r - l + 1);
+      maxFreq = max(maxFreq, r - l + 1);
     }
     
-    return len;
+    return maxFreq;
   }
 };

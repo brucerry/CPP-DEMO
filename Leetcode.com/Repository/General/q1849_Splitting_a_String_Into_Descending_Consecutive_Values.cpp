@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-// time: O(s^s)
+// time: O(s^s) -> pruning to O(s^2)
 // space: O(s)
 
 class Solution {
