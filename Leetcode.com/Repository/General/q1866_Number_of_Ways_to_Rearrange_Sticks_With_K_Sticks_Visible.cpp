@@ -4,9 +4,26 @@
 using namespace std;
 
 // time: O(n * k)
-// space: O(n * k)
+// space: O(k)
+class TopDownDP_1D {
+public:
+  int rearrangeSticks(int n, int k) {
+    vector<long> dp (k + 1);
+    dp[1] = 1;
+    
+    for (int r = 2; r <= n; r++) {
+      for (int c = k; c >= 1; c--) {
+        dp[c] = (dp[c-1] + (r - 1) * dp[c]) % 1000000007;
+      }
+    }
+    
+    return dp[k];
+  }
+};
 
-class Solution {
+// time: O(n * k)
+// space: O(n * k)
+class TopDownDP_2D {
 public:
   int rearrangeSticks(int n, int k) {
     vector<vector<long>> dp (n + 1, vector<long>(k + 1));
@@ -18,6 +35,30 @@ public:
       }
     }
     
-    return dp[n][k] % 1000000007;
+    return dp[n][k];
+  }
+};
+
+// time: O(n * k)
+// space: O(n * k)
+class TopDownMemo {
+public:
+  int rearrangeSticks(int n, int k) {
+    vector<vector<long>> memo (n + 1, vector<long>(k + 1, -1));
+    return solve(n, k, memo);
+  }
+  
+private:
+  long solve(int n, int k, vector<vector<long>>& memo) {
+    if (n == 0 or k == 0)
+      return 0;
+    
+    if (n == k)
+      return 1;
+    
+    if (memo[n][k] != -1)
+      return memo[n][k];
+    
+    return memo[n][k] = (solve(n - 1, k - 1, memo) + (n - 1) * solve(n - 1, k, memo)) % 1000000007;
   }
 };
