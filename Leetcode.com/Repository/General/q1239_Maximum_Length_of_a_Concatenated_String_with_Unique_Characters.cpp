@@ -16,41 +16,38 @@ public:
   }
   
 private:
-  int solve(vector<string>& arr, int i, int charSet) {
+  int solve(vector<string>& arr, int i, int charMask) {
     if (i == arr.size())
-      return countingBits(charSet);
+      return countingBits(charMask);
     
-    int len = 0;
+    int skip = solve(arr, i + 1, charMask);
+    int apply = 0;
     
-    if (!isDuplicated(arr[i], charSet)) {
+    if (!isDuplicated(arr[i], charMask)) {
       for (const char& c : arr[i])
-        charSet |= (1 << (c - 'a'));
-      
-      len = solve(arr, i + 1, charSet);
-      
-      for (const char& c : arr[i])
-        charSet &= ~(1 << (c - 'a'));
+        charMask |= (1 << (c - 'a'));
+      apply = solve(arr, i + 1, charMask);
     }
     
-    return max(len, solve(arr, i + 1, charSet));
+    return max(skip, apply);
   }
   
-  bool isDuplicated(string& str, int charSet) {
-    int tmpSet = 0;
+  bool isDuplicated(string& str, int charMask) {
+    int strMask = 0;
     for (const char& c : str) {
-      if (tmpSet & (1 << (c - 'a')))
+      if (charMask & (1 << (c - 'a')))
         return true;
-      if (charSet & (1 << (c - 'a')))
+      if (strMask & (1 << (c - 'a')))
         return true;
-      tmpSet |= (1 << (c - 'a'));
+      strMask |= (1 << (c - 'a'));
     }
     return false;
   }
   
-  int countingBits(int n) {
+  int countingBits(int charMask) {
     int count = 0;
-    while (n) {
-      n &= (n - 1);
+    while (charMask) {
+      charMask &= (charMask - 1);
       count++;
     }
     return count;
