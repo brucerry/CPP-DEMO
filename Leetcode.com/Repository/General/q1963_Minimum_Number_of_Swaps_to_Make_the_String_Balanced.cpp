@@ -20,6 +20,6 @@ public:
       }
     }
     
-    return (maxClose + 1) / 2;
+    return (maxClose + 1) >> 1;
   }
 };

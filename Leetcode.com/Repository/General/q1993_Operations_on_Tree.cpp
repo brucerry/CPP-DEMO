@@ -15,8 +15,7 @@ public:
     m_Child.resize(n);
     for (int i = 1; i < n; i++)
       m_Child[parent[i]].emplace_back(i);
-    for (int i = 0; i < n; i++)
-      m_Locked.emplace_back(0);
+    m_Locked.resize(n);
   }
   
   bool lock(int num, int user) {
@@ -49,17 +48,14 @@ public:
     for (const int& child : m_Child[num])
       queue.emplace(child);
     while (queue.size()) {
-      int size = queue.size();
-      while (size--) {
-        int node = queue.front();
-        queue.pop();
-        if (m_Locked[node]) {
-          m_Locked[node] = 0;
-          success = true;
-        }
-        for (const int& child : m_Child[node])
-          queue.emplace(child);
+      int node = queue.front();
+      queue.pop();
+      if (m_Locked[node]) {
+        m_Locked[node] = 0;
+        success = true;
       }
+      for (const int& child : m_Child[node])
+        queue.emplace(child);
     }
     
     // if true, lock the node by user

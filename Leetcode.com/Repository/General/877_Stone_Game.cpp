@@ -29,9 +29,9 @@ public:
         if (l > r)
           continue;
         
-        bool even = (r - l) ^ 1; // even len = alice round, else bob round
-        int leftVal = even ? piles[l] : 0;
-        int rightVal = even ? piles[r-1] : 0; // r is shifted 1 for dp[][], thus have to -1 for getting value in piles[]
+        bool aliceTurn = (r - l) & 1;
+        int leftVal = aliceTurn ? piles[l] : 0;
+        int rightVal = aliceTurn ? piles[r-1] : 0; // r is shifted 1 for dp[], thus have to -1 for getting value in piles[]
         
         dp[l][r] = max(dp[l+1][r] + leftVal, dp[l][r-1] + rightVal);
       }
@@ -58,9 +58,9 @@ public:
         if (l > r)
           continue;
         
-        bool even = (r - l) ^ 1; // even len = alice round, else bob round
-        int leftVal = even ? piles[l] : 0;
-        int rightVal = even ? piles[r-1] : 0; // r is shifted 1 for dp[], thus have to -1 for getting value in piles[]
+        bool aliceTurn = (r - l) & 1;
+        int leftVal = aliceTurn ? piles[l] : 0;
+        int rightVal = aliceTurn ? piles[r-1] : 0; // r is shifted 1 for dp[], thus have to -1 for getting value in piles[]
         
         dp[r] = max(dp[r] + leftVal, dp[r-1] + rightVal);
       }
@@ -76,29 +76,29 @@ public:
     int n = piles.size();
     
     int sum = 0;
-    for (const int& p : piles)
-      sum += p;
+    for (const int& num : piles)
+      sum += num;
     
     int half = sum >> 1;
     
     vector<vector<int>> memo (n, vector<int>(n, -1));
-    return solve(piles, 0, n - 1, memo) > half;
+    return solve(piles, 0, piles.size() - 1, memo) > half;
   }
   
 private:
-  int solve(vector<int>& piles, int left, int right, vector<vector<int>>& memo) {
-    if (left > right)
+  int solve(vector<int>& piles, int l, int r, vector<vector<int>>& memo) {
+    if (l > r)
       return 0;
     
-    if (memo[left][right] != -1)
-      return memo[left][right];
+    if (memo[l][r] != -1)
+      return memo[l][r];
     
-    bool even = (right - left) ^ 1; // even len = alice round, else bob round
-    int leftVal = even ? piles[left] : 0;
-    int rightVal = even ? piles[right] : 0;
+    bool aliceTurn = (r - l) & 1;
+    int leftVal = aliceTurn ? piles[l] : 0;
+    int rightVal = aliceTurn ? piles[r] : 0;
     
-    return memo[left][right] = max(leftVal + solve(piles, left + 1, right, memo),
-                                   rightVal + solve(piles, left, right - 1, memo));
+    return memo[l][r] = max(leftVal + solve(piles, l + 1, r, memo),
+                            rightVal + solve(piles, l, r - 1, memo));
   }
 };
 
