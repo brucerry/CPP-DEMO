@@ -3,6 +3,8 @@
 #include <stack>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
+#include <algorithm>
 using namespace std;
 
 struct TreeNode {
@@ -31,7 +33,7 @@ private:
     bool rightFound = traverse(node->right, p, q, lca);
     bool midFound = node == p or node == q;
     
-    if (leftFound + rightFound + midFound >= 2)
+    if (leftFound + rightFound + midFound == 2)
       lca = node;
     
     return leftFound or rightFound or midFound;
@@ -75,5 +77,40 @@ public:
       q = parent[q];
     
     return q;
+  }
+};
+
+// time: O(n)
+// space: O(height of tree)
+class OriginalRecursive {
+public:
+  TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    vector<TreeNode*> path_p, path_q;
+    findPath(root, p, path_p);
+    findPath(root, q, path_q);
+    
+    reverse(path_p.begin(), path_p.end());
+    reverse(path_q.begin(), path_q.end());
+    
+    TreeNode* lca = root;
+    for (int i = 0; i < min(path_p.size(), path_q.size()); i++) {
+      if (path_p[i] == path_q[i])
+        lca = path_p[i];
+    }
+    
+    return lca;
+  }
+  
+private:
+  TreeNode* findPath(TreeNode* node, TreeNode* target, vector<TreeNode*>& path) {
+    if (!node)
+      return node;
+    
+    if (node == target or findPath(node->left, target, path) or findPath(node->right, target, path)) {
+      path.emplace_back(node);
+      return node;
+    }
+    
+    return nullptr;
   }
 };
