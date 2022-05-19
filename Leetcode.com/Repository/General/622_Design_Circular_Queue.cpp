@@ -13,9 +13,8 @@ public:
     if (isFull())
       return false;
     
-    Node* tmp = m_Rear->front;
-    Node* node = new Node(value, tmp, m_Rear);
-    tmp->back = m_Rear->front = node;
+    Node* newNode = new Node(value, m_Rear->front, m_Rear);
+    newNode->front->back = m_Rear->front = newNode;
     
     m_Size++;
     return true;
@@ -25,9 +24,8 @@ public:
     if (isEmpty())
       return false;
     
-    Node* tmp = m_Front->back->back;
-    m_Front->back = tmp;
-    tmp->front = m_Front;
+    m_Front->back = m_Front->back->back;
+    m_Front->back->front = m_Front;
     
     m_Size--;
     return true;

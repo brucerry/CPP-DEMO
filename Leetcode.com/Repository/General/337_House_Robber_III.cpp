@@ -18,21 +18,21 @@ struct TreeNode {
 class Solution {
 public:
   int rob(TreeNode* root) {
-    pair<int, int> ans = helper(root);
-    return max(ans.first, ans.second);
+    auto [ rob, skip ] = solve(root);
+    return max(rob, skip);
   }
   
 private:
-  pair<int, int> helper(TreeNode* node) {
+  pair<int, int> solve(TreeNode* node) {
     if (!node)
       return { 0, 0 };
     
-    auto [ leftRob, leftIgnore ] = helper(node->left);
-    auto [ rightRob, rightIgnore ] = helper(node->right);
-  
-    int rob = node->val + leftIgnore + rightIgnore;
-    int ignore = max(leftRob, leftIgnore) + max(rightRob, rightIgnore);
+    auto [ leftrob, leftskip ] = solve(node->left);
+    auto [ rightrob, rightskip ] = solve(node->right);
     
-    return { rob, ignore };
+    int rob = node->val + leftskip + rightskip;
+    int skip = max(leftrob, leftskip) + max(rightrob, rightskip);
+    
+    return { rob, skip };
   }
 };

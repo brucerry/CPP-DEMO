@@ -80,11 +80,10 @@ public:
 class Iterative {
 public:
   vector<int> inorderTraversal(TreeNode* root) {
-    vector<int> ans;
-    
     stack<TreeNode*> stack;
     
-    while (stack.size() || root) {
+    vector<int> inorder;
+    while (root or stack.size()) {
       while (root) {
         stack.emplace(root);
         root = root->left;
@@ -93,12 +92,11 @@ public:
       root = stack.top();
       stack.pop();
       
-      ans.emplace_back(root->val);
-      
+      inorder.emplace_back(root->val);
       root = root->right;
     }
     
-    return ans;
+    return inorder;
   }
 };
 
@@ -107,18 +105,18 @@ public:
 class Recursive {
 public:
   vector<int> inorderTraversal(TreeNode* root) {
-    vector<int> ans;
-    solve(root, ans);
-    return ans;
+    vector<int> inorder;
+    solve(root, inorder);
+    return inorder;
   }
   
 private:
-  void solve(TreeNode* root, vector<int>& ans) {
-    if (!root)
+  void solve(TreeNode* node, vector<int>& inorder) {
+    if (!node)
       return;
     
-    solve(root->left, ans);
-    ans.emplace_back(root->val);
-    solve(root->right, ans);
+    solve(node->left, inorder);
+    inorder.emplace_back(node->val);
+    solve(node->right, inorder);
   }
 };

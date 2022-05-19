@@ -12,16 +12,16 @@ using namespace std;
 class Solution {
 public:
   string longestCommonPrefix(vector<string>& strs) {
-    string commonPrefix;
+    string lcp;
     
-    for (int i = 0; i < strs[0].length(); i++) {
+    for (int i = 0; i < strs[0].size(); i++) {
       for (const string& s : strs) {
-        if (i == s.length() or s[i] != strs[0][i])
-          return commonPrefix;
+        if (i == s.length() or strs[0][i] != s[i])
+          return lcp;
       }
-      commonPrefix += strs[0][i];
+      lcp += strs[0][i];
     }
     
-    return commonPrefix;
+    return lcp;
   }
 };

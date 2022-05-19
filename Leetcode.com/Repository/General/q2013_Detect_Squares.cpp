@@ -24,24 +24,20 @@ public:
     int px = point[0];
     int py = point[1];
     
-    int ans = 0;
-    
-    for (const auto& [ p, count ] : pointCount) {
-      int x = p.first;
-      int y = p.second;
-      
-      if (x != px && y != py && abs(x - px) == abs(y - py) && pointCount.count({ x, py }) && pointCount.count({ px, y })) {
-        ans += count * pointCount[{ x, py }] * pointCount[{ px, y }];
-      }
+    int squareCount = 0;
+    for (const auto& [ point, cnt ] : pointCount) {
+      auto& [ x, y ] = point;
+      if (x != px and y != py and abs(x - px) == abs(y - py) and pointCount.count({ x, py }) and pointCount.count({ px, y }))
+        squareCount += cnt * pointCount[{ x, py }] * pointCount[{ px, y }];
     }
     
-    return ans;
+    return squareCount;
   }
   
 private:
   struct Hash {
     int operator()(const pair<int, int>& p) const {
-      return hash<int>()(p.first) & hash<int>()(p.second);
+      return hash<int>()(p.first) ^ hash<int>()(p.second);
     }
   };
   
