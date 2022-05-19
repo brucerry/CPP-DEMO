@@ -21,19 +21,19 @@ public:
     for (const int& num : changed)
       numCount[num]++;
     
-    vector<int> originalArray;
+    vector<int> original;
     for (const int& num : changed) {
       if (num == 0 and numCount[num] >= 2) {
-        originalArray.emplace_back(num);
+        original.emplace_back(num);
         numCount[num] -= 2;
       }
       else if (num and numCount[num] and numCount.count(num << 1) and numCount[num << 1]) {
-        originalArray.emplace_back(num);
+        original.emplace_back(num);
         numCount[num]--;
         numCount[num << 1]--;
       }
     }
     
-    return originalArray.size() == (n >> 1) ? originalArray : vector<int>();
+    return original.size() == (n >> 1) ? original : vector<int>();
   }
 };

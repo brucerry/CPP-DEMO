@@ -33,8 +33,7 @@ private:
     
     if (memo.count(n))
       return memo[n];
-    
-    vector<TreeNode*> fbt;    
+       
     for (int lCount = 0; lCount < n; lCount++) {
       int rCount = n - lCount - 1;
       
@@ -43,11 +42,11 @@ private:
       
       for (const auto& lc : leftChildren) {
         for (const auto& rc : rightChildren) {
-          fbt.emplace_back(new TreeNode(0, lc, rc));
+          memo[n].emplace_back(new TreeNode(0, lc, rc));
         }
       }
     }
     
-    return memo[n] = fbt;
+    return memo[n];
   }
 };

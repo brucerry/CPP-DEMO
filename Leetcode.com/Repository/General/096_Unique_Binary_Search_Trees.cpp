@@ -3,23 +3,23 @@
 #include <vector>
 using namespace std;
 
-// time: O(n ^ 2)
+// time: O(n^2)
 // space: O(n)
 
 class Solution {
 public:
   int numTrees(int n) {
-    vector<int> nums (n + 1, 0);
-    nums[0] = 1;
-
-    for (int each_n = 1; each_n <= n; each_n++) {
-      for (int i = 1; i <= each_n; i++) {
-        int countLeft = i - 1;
-        int countRight = each_n - i;
-        nums[each_n] += nums[countLeft] * nums[countRight];
+    vector<int> dp (n + 1);
+    dp[0] = 1;
+    
+    for (int each_n = 1; each_n <= n; each_n++) {      
+      for (int root = 1; root <= each_n; root++) {
+        int lCount = root - 1;
+        int rCount = each_n - root;
+        dp[each_n] += dp[lCount] * dp[rCount];
       }
     }
-
-    return nums[n];
+    
+    return dp[n];
   }
 };

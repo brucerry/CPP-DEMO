@@ -9,30 +9,30 @@ using namespace std;
 
 class FreqStack {
 public:
-  FreqStack() : maxFreq(0) {
+  FreqStack() : m_MaxCount(0) {
     
   }
   
   void push(int val) {
-    numCount[val]++;
-    if (numCount[val] > maxFreq)
-      maxFreq = numCount[val];
-    countGroup[numCount[val]].emplace_back(val);
+    int count = ++m_NumCount[val];
+    m_CountGroup[count].emplace_back(val);
+    if (count > m_MaxCount)
+      m_MaxCount = count;
   }
   
   int pop() {
-    int num = countGroup[maxFreq].back();
-    countGroup[maxFreq].pop_back();
-    numCount[num]--;
-    if (countGroup[maxFreq].size() == 0)
-      maxFreq--;
+    int num = m_CountGroup[m_MaxCount].back();
+    m_CountGroup[m_MaxCount].pop_back();
+    m_NumCount[num]--;
+    if (m_CountGroup[m_MaxCount].size() == 0)
+      m_MaxCount--;
     return num;
   }
 
 private:
-  int maxFreq;
-  unordered_map<int, vector<int>> countGroup; // count, group members
-  unordered_map<int, int> numCount; // num, count
+  int m_MaxCount;
+  unordered_map<int, vector<int>> m_CountGroup; // count, group members
+  unordered_map<int, int> m_NumCount; // num, count
 };
 
 /**

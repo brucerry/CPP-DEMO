@@ -26,15 +26,15 @@ public:
         palinLen[mask] = subseq.length();
     }
     
-    int len = 0;
+    int maxProduct = 0;
     for (const auto& [ mask1, len1 ] : palinLen) {
       for (const auto& [ mask2, len2 ] : palinLen) {
         if ((mask1 & mask2) == 0)
-          len = max(len, len1 * len2);
+          maxProduct = max(maxProduct, len1 * len2);
       }
     }
     
-    return len;
+    return maxProduct;
   }
   
 private:
@@ -42,7 +42,6 @@ private:
     for (int l = 0, r = s.length() - 1; l < r; l++, r--) {
       if (s[l] != s[r])
         return false;
-      
     }
     return true;
   }
