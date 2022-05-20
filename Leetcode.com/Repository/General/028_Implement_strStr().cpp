@@ -31,7 +31,7 @@ public:
 // m = len of needle
 // time: O(n + m)
 // space: O(m)
-class Solution {
+class KnuthMorrisPratt {
 public:
   int strStr(string& haystack, string& needle) {
     int n = haystack.length();

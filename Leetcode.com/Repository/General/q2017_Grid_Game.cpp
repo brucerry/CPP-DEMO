@@ -15,15 +15,15 @@ public:
     for (int i = 1; i < n; i++)
       top += grid[0][i];
     
-    long long result = top;
+    long long point = top;
     for (int l = 0, r = 1; r < n; l++, r++) {
       top -= grid[0][r];
       bottom += grid[1][l];
       
-      long long secondRobot = max(top, bottom);
-      result = min(result, secondRobot);
+      long long get = max(top, bottom);
+      point = min(point, get);
     }
     
-    return result;
+    return point;
   }
 };

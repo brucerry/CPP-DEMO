@@ -25,14 +25,12 @@ public:
       return root;
     
     Node* cur = root, *next = root->left;
-    
-    while (cur and next) {
+    while (next) {
       cur->left->next = cur->right;
-
       if (cur->next)
         cur->right->next = cur->next->left;
-
       cur = cur->next;
+
       if (!cur) {
         cur = next;
         next = next->left;
@@ -48,22 +46,20 @@ public:
 class Recursive {
 public:
   Node* connect(Node* root) {
-    if (!root or !root->left)
-      return root;
-    
-    populate(root->left, root->right);
+    if (root)
+      populate(root->left, root->right);
     return root;
   }
   
 private:
-  void populate(Node* leftChild, Node* rightChild) {
-    if (!leftChild)
+  void populate(Node* lNode, Node* rNode) {
+    if (!lNode)
       return;
     
-    leftChild->next = rightChild;
+    lNode->next = rNode;
     
-    populate(leftChild->left, leftChild->right);
-    populate(leftChild->right, rightChild->left);
-    populate(rightChild->left, rightChild->right);
+    populate(lNode->left, lNode->right);
+    populate(lNode->right, rNode->left);
+    populate(rNode->left, rNode->right);
   }
 };
