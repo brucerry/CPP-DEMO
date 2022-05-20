@@ -21,8 +21,8 @@ public:
       return {};
     
     vector<int> missing;
-    for (int i = 1; i <= n; i++) {
-      int val = min(6, sum_n - (n - i));
+    for (int apply = 1; apply <= n; apply++) {
+      int val = min(6, sum_n - (n - apply));
       missing.emplace_back(val);
       sum_n -= val;
     }

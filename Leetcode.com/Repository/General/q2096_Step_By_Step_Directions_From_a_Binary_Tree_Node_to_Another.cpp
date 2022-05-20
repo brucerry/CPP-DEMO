@@ -19,37 +19,36 @@ struct TreeNode {
 class Solution {
 public:
   string getDirections(TreeNode* root, int startValue, int destValue) {
-    string path_s, path_t;
+    string path_src, path_dst;
+    findPath(root, startValue, path_src);
+    findPath(root, destValue, path_dst);
     
-    traverse(root, startValue, path_s);
-    traverse(root, destValue, path_t);
-    
-    reverse(path_s.begin(), path_s.end());
-    reverse(path_t.begin(), path_t.end());
+    reverse(path_src.begin(), path_src.end());
+    reverse(path_dst.begin(), path_dst.end());
     
     int s = 0, t = 0;
-    while (s < path_s.length() and t < path_t.length() and path_s[s] == path_t[t]) {
+    while (s < path_src.length() and t < path_dst.length() and path_src[s] == path_dst[t]) {
       s++;
       t++;
     }
     
-    return string(path_s.length() - s, 'U') + path_t.substr(t);
+    return string(path_src.length() - s, 'U') + path_dst.substr(t);
   }
   
 private:
-  bool traverse(TreeNode* node, int target, string& path) {
+  bool findPath(TreeNode* node, int target, string& path) {
     if (!node)
       return false;
     
     if (node->val == target)
       return true;
     
-    if (traverse(node->left, target, path)) {
+    if (findPath(node->left, target, path)) {
       path += 'L';
       return true;
     }
     
-    if (traverse(node->right, target, path)) {
+    if (findPath(node->right, target, path)) {
       path += 'R';
       return true;
     }

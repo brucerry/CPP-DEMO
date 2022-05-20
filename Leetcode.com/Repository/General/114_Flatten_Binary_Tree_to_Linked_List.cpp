@@ -16,16 +16,16 @@ struct TreeNode {
 class Solution {
 public:
   void flatten(TreeNode* root) {
-    helper(root);
+    solve(root);
   }
   
 private:
-  TreeNode* helper(TreeNode* node) {
+  TreeNode* solve(TreeNode* node) {
     if (!node)
-      return nullptr;
+      return node;
     
-    TreeNode* leftTail = helper(node->left);
-    TreeNode* rightTail = helper(node->right);
+    TreeNode* leftTail = solve(node->left);
+    TreeNode* rightTail = solve(node->right);
     
     if (node->left) {
       leftTail->right = node->right;
