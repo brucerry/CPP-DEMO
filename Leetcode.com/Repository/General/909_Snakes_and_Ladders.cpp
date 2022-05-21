@@ -15,6 +15,7 @@ public:
     reverse(board.begin(), board.end());
     
     vector<char> visited (n * n + 1);
+    visited[1] = 1;
     
     queue<int> queue;
     queue.emplace(1);

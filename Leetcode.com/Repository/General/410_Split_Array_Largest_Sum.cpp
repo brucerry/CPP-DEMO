@@ -51,28 +51,31 @@ class TopDownMemo {
 public:
   int splitArray(vector<int>& nums, int m) {
     int n = nums.size();
+
+    vector<int> prefixSum (n + 1);
+    for (int i = 1; i <= n; i++) {
+      prefixSum[i] = prefixSum[i-1] + nums[i-1];
+    }
+
     vector<vector<int>> memo (n, vector<int>(m + 1, INT_MAX));
-    return solve(nums, m, 0, memo);
+    return solve(nums, m, 0, prefixSum, memo);
   }
   
 private:
-  int solve(vector<int>& nums, int m, int start, vector<vector<int>>& memo) {
-    if (m == 1) {
-      int sum = 0;
-      for (int i = start; i < nums.size(); i++)
-        sum += nums[i];
-      return sum;
-    }
+  int solve(vector<int>& nums, int m, int start, vector<int>& prefixSum, vector<vector<int>>& memo) {
+    int n = nums.size();
+    
+    if (m == 1)
+      return prefixSum[n] - prefixSum[start];
     
     if (memo[start][m] != INT_MAX)
       return memo[start][m];
     
-    int curSum = 0;
-    for (int i = start; i < nums.size() - m + 1; i++) {
-      curSum += nums[i];
-      int maxSum = max(curSum, solve(nums, m - 1, i + 1, memo));
-      memo[start][m] = min(memo[start][m], maxSum);
-      if (curSum > memo[start][m])
+    for (int i = start; i < n - m + 1; i++) {
+      int splitSum = prefixSum[i+1] - prefixSum[start];
+      int maxSplitSum = max(splitSum, solve(nums, m - 1, i + 1, prefixSum, memo));
+      memo[start][m] = min(memo[start][m], maxSplitSum);
+      if (splitSum >= memo[start][m])
         break;
     }
     

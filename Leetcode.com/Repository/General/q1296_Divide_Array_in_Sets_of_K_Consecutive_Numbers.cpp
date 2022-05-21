@@ -14,23 +14,23 @@ public:
     if (nums.size() % k)
       return false;
     
-    unordered_map<int, int> intCount;
-    for (const int& val : nums)
-      intCount[val]++;
+    unordered_map<int, int> numCount;
+    for (const int& num : nums)
+      numCount[num]++;
     
-    priority_queue<int, vector<int>, greater<>> minHeap;
-    for (const auto& [ num, _ ] : intCount)
+    priority_queue<int, vector<int>, greater<>> minHeap; // num
+    for (const auto& [ num, _ ] : numCount)
       minHeap.emplace(num);
     
     while (minHeap.size()) {
-      int smallestVal = minHeap.top();
+      int num = minHeap.top();
       
-      for (int num = smallestVal; num < smallestVal + k; num++) {
-        if (intCount.count(num) == 0)
+      for (int val = num; val < num + k; val++) {
+        if (numCount.count(val) == 0)
           return false;
         
-        if (--intCount[num] == 0) {
-          if (num != minHeap.top())
+        if (--numCount[val] == 0) {
+          if (val != minHeap.top())
             return false;
           minHeap.pop();
         }

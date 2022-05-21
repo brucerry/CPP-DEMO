@@ -20,7 +20,6 @@ public:
       maxHeap.emplace(c, 'c');
     
     string happy;
-    
     while (maxHeap.size()) {
       auto [ count, ch ] = maxHeap.top();
       maxHeap.pop();
@@ -33,16 +32,12 @@ public:
         maxHeap.pop();
         
         happy += nextCh;
-        nextCount--;
-        if (nextCount)
+        if (--nextCount)
           maxHeap.emplace(nextCount, nextCh);
       }
-      else {
-        happy += ch;
-        count--;
-      }
       
-      if (count)
+      happy += ch;
+      if (--count)
         maxHeap.emplace(count, ch);
     }
     

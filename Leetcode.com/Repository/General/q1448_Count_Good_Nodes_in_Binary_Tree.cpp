@@ -24,13 +24,12 @@ private:
     if (!node)
       return 0;
     
-    int count = 0;
-    
+    int good = 0;
     if (curMax <= node->val) {
       curMax = node->val;
-      count = 1;
+      good = 1;
     }
     
-    return count + solve(node->left, curMax) + solve(node->right, curMax);
+    return good + solve(node->left, curMax) + solve(node->right, curMax);
   }
 };

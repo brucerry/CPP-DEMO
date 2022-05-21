@@ -8,33 +8,29 @@ using namespace std;
 // space: O(n)
 class CalculateForce {
 public:
-  string pushDominoes(string dominoes) {
-    int n = dominoes.length();
-    vector<int> forces (n, 0);
+  string pushDominoes(string& dominoes) {
+    int n = dominoes.size();
+    vector<int> forces (n);
     
     int force = 0;
-    
     for (int i = 0; i < n; i++) {
       if (dominoes[i] == 'R')
         force = n;
       else if (dominoes[i] == 'L')
         force = 0;
       else
-        force = max(0, force - 1);
-      
+        force = max(force - 1, 0);
       forces[i] += force;
     }
     
     force = 0;
-    
     for (int i = n - 1; i >= 0; i--) {
       if (dominoes[i] == 'R')
         force = 0;
       else if (dominoes[i] == 'L')
         force = n;
       else
-        force = max(0, force - 1);
-      
+        force = max(force - 1, 0);
       forces[i] -= force;
     }
     

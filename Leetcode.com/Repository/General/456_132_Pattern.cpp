@@ -10,14 +10,14 @@ using namespace std;
 class Solution {
 public:
   bool find132pattern(vector<int>& nums) {
-    int midVal = INT_MIN; // mid value but larger index
-    stack<int> stack; // larger values but smaller indices
+    stack<int> stack; // smaller indices with larger values
+    int nums_k = INT_MIN; // larger index with mid value
     
     for (int i = nums.size() - 1; i >= 0; i--) {
-      if (nums[i] < midVal)
+      if (nums[i] < nums_k)
         return true;
       while (stack.size() and nums[i] > stack.top()) {
-        midVal = stack.top();
+        nums_k = stack.top();
         stack.pop();
       }
       stack.emplace(nums[i]);

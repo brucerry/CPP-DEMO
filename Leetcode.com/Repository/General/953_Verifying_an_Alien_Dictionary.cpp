@@ -13,9 +13,9 @@ using namespace std;
 class Solution {
 public:
   bool isAlienSorted(vector<string>& words, string& order) {
-    array<char, 26> orderIndex;
+    array<char, 26> charIndex;
     for (int i = 0; i < order.length(); i++)
-      orderIndex[order[i] - 'a'] = i;
+      charIndex[order[i] - 'a'] = i;
     
     for (int i = 1; i < words.size(); i++) {
       string& w1 = words[i-1];
@@ -26,7 +26,7 @@ public:
           return false;
         
         if (w1[j] != w2[j]) {
-          if (orderIndex[w1[j] - 'a'] > orderIndex[w2[j] - 'a'])
+          if (charIndex[w1[j] - 'a'] > charIndex[w2[j] - 'a'])
             return false;
           break;
         }
