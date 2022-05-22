@@ -18,15 +18,15 @@ class Recursive {
 public:
   TreeNode* bstToGst(TreeNode* root) {
     int curSum = 0;
-    return helper(root, curSum);
+    return solve(root, curSum);
   }
   
 private:
-  TreeNode* helper(TreeNode* node, int& curSum) {
+  TreeNode* solve(TreeNode* node, int& curSum) {
     if (node) {
-      helper(node->right, curSum);
+      solve(node->right, curSum);
       curSum = node->val = node->val + curSum;
-      helper(node->left, curSum);
+      solve(node->left, curSum);
     }
     return node;
   }
@@ -38,9 +38,7 @@ class Iterative {
 public:
   TreeNode* bstToGst(TreeNode* root) {
     stack<TreeNode*> stack;
-
     TreeNode* cur = root;
-
     int curSum = 0;
 
     while (stack.size() or cur) {
@@ -53,7 +51,6 @@ public:
       stack.pop();
 
       curSum = cur->val += curSum;
-
       cur = cur->left;
     }
 

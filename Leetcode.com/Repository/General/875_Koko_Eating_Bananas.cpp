@@ -12,27 +12,22 @@ using namespace std;
 class Solution {
 public:
   int minEatingSpeed(vector<int>& piles, int h) {    
-    int k = *max_element(piles.begin(), piles.end());
+    int l = 1, r = *max_element(piles.begin(), piles.end());
     
-    int l = 1, r = k;
-    
-    while (l <= r) {
+    while (l < r) {
       int m = l + ((r - l) >> 1);
       
-      int time = 0;
-      for (const double& p : piles) {
-        time += ceil(p / m);
+      int hour = 0;
+      for (const double& pile : piles) {
+        hour += ceil(pile / m);
       }
       
-      if (time <= h) {
-        r = m - 1;
-        k = min(k, m);
-      }
-      else {
+      if (hour <= h)
+        r = m;
+      else
         l = m + 1;
-      }
     }
     
-    return k;
+    return r;
   }
 };

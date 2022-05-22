@@ -3,6 +3,9 @@
 #include <stack>
 using namespace std;
 
+// time: O(n)
+// space: O(n)
+
 class StockSpanner {
 public:
   StockSpanner() {
@@ -11,16 +14,16 @@ public:
   
   int next(int price) {
     int span = 1;
-    while (stocks.size() and stocks.top().first <= price) {
-      span += stocks.top().second;
-      stocks.pop();
+    while (m_Stock.size() and m_Stock.top().first <= price) {
+      span += m_Stock.top().second;
+      m_Stock.pop();
     }
-    stocks.emplace(price, span);
+    m_Stock.emplace(price, span);
     return span;
   }
   
 private:
-  stack<pair<int, int>> stocks; // price, span
+  stack<pair<int, int>> m_Stock; // price, span
 };
 
 /**

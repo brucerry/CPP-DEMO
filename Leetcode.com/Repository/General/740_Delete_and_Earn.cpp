@@ -10,38 +10,30 @@ using namespace std;
 
 class Solution {
 public:
-  int deleteAndEarn(vector<int>& nums) {
-    unordered_map<int, int> intCount;
-    vector<int> groupNums;
-
-    for (const int& num : nums) {
-      intCount[num]++;
-    }
-
-    groupNums.reserve(intCount.size());
+  int deleteAndEarn(vector<int>& nums) {    
+    unordered_map<int, int> numCount; // num, count
+    for (const int& num : nums)
+      numCount[num]++;
     
-    for (const auto& [ num, _ ] : intCount) {
+    vector<int> groupNums;
+    for (const auto& [ num, _ ] : numCount)
       groupNums.emplace_back(num);
-    }
-
     sort(groupNums.begin(), groupNums.end());
-
-    int one = 0;
-    int two = 0;
-
-    for (int i = 0; i < groupNums.size(); i++) {
-      int earn = groupNums[i] * intCount[groupNums[i]];
-      int tmp;
-      if (i > 0 && groupNums[i - 1] == groupNums[i] - 1) {
-        tmp = max(earn + one, two);
-      }
-      else {
-        tmp = earn + two;
-      }
+    
+    int n = groupNums.size();
+    int one = 0, two = 0;
+    for (int i = 0; i < n; i++) {
+      int earn = groupNums[i] * numCount[groupNums[i]];
+      
+      if (i > 0 and groupNums[i-1] + 1 == groupNums[i])
+        earn = max(earn + one, two);
+      else
+        earn += two;
+      
       one = two;
-      two = tmp;
+      two = earn;
     }
-
+    
     return two;
   }
 };

@@ -13,7 +13,6 @@ public:
     int n = grid.size();
     
     vector<vector<char>> visited (n, vector<char>(n));
-    
     for (int r = 0; r < n; r++) {
       for (int c = 0; c < n; c++) {
         if (grid[r][c]) {
@@ -41,7 +40,6 @@ private:
   
   int exploreBridge(vector<vector<int>>& grid, int n, vector<vector<char>>& visited) {
     queue<pair<int, int>> queue; // r, c
-    
     for (int r = 0; r < n; r++) {
       for (int c = 0; c < n; c++) {
         if (visited[r][c])
@@ -51,8 +49,7 @@ private:
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {-1, 0}, {1, 0} };
     
-    int dist = 0;
-    
+    int len = 0;
     while (queue.size()) {
       int size = queue.size();
       
@@ -65,16 +62,15 @@ private:
           int newc = dc + c;
           if (0 <= newr and newr < n and 0 <= newc and newc < n and visited[newr][newc] == 0) {
             if (grid[newr][newc])
-              return dist;
+              return len;
             visited[newr][newc] = 1;
             queue.emplace(newr, newc);
           }
         }
       }
-      
-      dist++;
+      len++;
     }
     
-    return dist;
+    return len;
   }
 };

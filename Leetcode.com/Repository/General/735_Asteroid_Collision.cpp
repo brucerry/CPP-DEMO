@@ -9,28 +9,26 @@ using namespace std;
 class Solution {
 public:
   vector<int> asteroidCollision(vector<int>& asteroids) {
-    vector<int> ans;
+    vector<int> result;
     
-    for (int& asteroid : asteroids) {
-      while (ans.size() and ans.back() > 0 and asteroid < 0) {
-        int diff = ans.back() + asteroid;
+    for (int& ast : asteroids) {
+      while (result.size() and result.back() > 0 and ast < 0) {
+        int diff = result.back() + ast;
         
-        if (diff > 0) {
-          asteroid = 0;
-        }
-        else if (diff < 0) {
-          ans.pop_back();
-        }
+        if (diff > 0)
+          ast = 0;
+        else if (diff < 0)
+          result.pop_back();
         else {
-          asteroid = 0;
-          ans.pop_back();
+          ast = 0;
+          result.pop_back();
         }
       }
       
-      if (asteroid)
-        ans.emplace_back(asteroid);
+      if (ast)
+        result.emplace_back(ast);
     }
     
-    return ans;
+    return result;
   }
 };

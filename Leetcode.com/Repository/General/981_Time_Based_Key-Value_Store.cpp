@@ -24,13 +24,12 @@ public:
     
     string value;
     int l = 0, r = m_Map[key].size() - 1;
-    
     while (l <= r) {
       int m = l + ((r - l) >> 1);
       
-      const auto& [ time, val ] = m_Map[key][m];
+      const auto& [ ts, val ] = m_Map[key][m];
       
-      if (time <= timestamp) {
+      if (ts <= timestamp) {
         value = val;
         l = m + 1;
       }

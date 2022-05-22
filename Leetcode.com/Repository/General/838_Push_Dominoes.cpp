@@ -50,9 +50,9 @@ public:
 class Queue {
 public:
   string pushDominoes(string& dominoes) {    
-    queue<pair<int, char>> queue; // index, domino
     int n = dominoes.length();
     
+    queue<pair<int, char>> queue; // index, domino
     for (int i = 0; i < n; i++) {
       if (dominoes[i] != '.') {
         queue.emplace(i, dominoes[i]);

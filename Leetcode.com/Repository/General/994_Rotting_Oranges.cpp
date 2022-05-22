@@ -24,7 +24,7 @@ public:
       }
     }
     
-    vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
+    vector<pair<int, int>> moves { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
     
     int mins = 0;
     while (queue.size() and freshCount) {
@@ -35,8 +35,8 @@ public:
         queue.pop();
         
         for (const auto& [ dr, dc ] : moves) {
-          int newr = dr + r;
-          int newc = dc + c;
+          int newr = r + dr;
+          int newc = c + dc;
           if (0 <= newr and newr < rows and 0 <= newc and newc < cols and grid[newr][newc] == 1) {
             grid[newr][newc] = 2;
             freshCount--;
@@ -44,7 +44,6 @@ public:
           }
         }
       }
-      
       mins++;
     }
     
