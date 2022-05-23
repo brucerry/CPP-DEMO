@@ -1,34 +1,31 @@
 // https://leetcode.com/problems/daily-temperatures/
 
 #include <vector>
-#include <stack>
 using namespace std;
 
 // time: O(n)
 // space: O(1)
 class OptimizedSpace {
 public:
-  vector<int> dailyTemperatures(vector<int>& temperatures) {    
-    vector<int> daysToWait (temperatures.size());
+  vector<int> dailyTemperatures(vector<int>& temperatures) {
+    int n = temperatures.size();
     
     int hottest = 0;
-    
-    for (int i = temperatures.size() - 1; i >= 0; i--) {
+    vector<int> waitDays (n);
+    for (int i = n - 1; i >= 0; i--) {
       if (temperatures[i] >= hottest) {
         hottest = temperatures[i];
         continue;
       }
       
-      int days = 1;
+      int day = 1;
+      while (temperatures[i] >= temperatures[i + day])
+        day += waitDays[i + day];
       
-      while (temperatures[i + days] <= temperatures[i]) {
-        days += daysToWait[i + days];
-      }
-      
-      daysToWait[i] = days;
+      waitDays[i] = day;
     }
     
-    return daysToWait;
+    return waitDays;
   }
 };
 
@@ -37,18 +34,19 @@ public:
 class MonotonicDecreasingStack {
 public:
   vector<int> dailyTemperatures(vector<int>& temperatures) {
-    vector<int> daysToWait (temperatures.size(), 0);
+    int n = temperatures.size();
+    vector<pair<int, int>> buffer; // temp, index
     
-    stack<pair<int, int>> stack; // (index, temp)
-    
-    for (int i = 0; i < temperatures.size(); i++) {
-      while (stack.size() and temperatures[i] > stack.top().second) {
-        daysToWait[stack.top().first] = i - stack.top().first;
-        stack.pop();
+    vector<int> waitDays (n);
+    for (int i = 0; i < n; i++) {
+      while (buffer.size() and buffer.back().first < temperatures[i]) {
+        int index = buffer.back().second;
+        waitDays[index] = i - index;
+        buffer.pop_back();
       }
-      stack.emplace(i, temperatures[i]);
+      buffer.emplace_back(temperatures[i], i);
     }
     
-    return daysToWait;
+    return waitDays;
   }
 };

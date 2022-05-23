@@ -14,11 +14,10 @@ public:
   vector<int> smallestRange(vector<vector<int>>& nums) {
     int k = nums.size();
     
-    int ansl = 0;
-    int ansr = INT_MAX;
+    int ansl = 0, ansr = INT_MAX;
     int maxNum = INT_MIN;
     vector<int> next (k); // eg. next[1] = 5 means next position of nums[1] is index 5
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // val at index of nums, index of nums
     
     for (int i = 0; i < k; i++) {
       minHeap.emplace(nums[i][0], i);

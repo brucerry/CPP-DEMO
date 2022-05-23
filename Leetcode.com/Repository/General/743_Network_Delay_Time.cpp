@@ -10,11 +10,11 @@ using namespace std;
 class Solution {
 public:
   int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-    vector<vector<pair<int, int>>> graph (n + 1);
-    for (const auto& t : times) {
-      int src = t[0];
-      int dst = t[1];
-      int cost = t[2];
+    vector<vector<pair<int, int>>> graph (n + 1); // cost, dst
+    for (const auto& time : times) {
+      int src = time[0];
+      int dst = time[1];
+      int cost = time[2];
       graph[src].emplace_back(cost, dst);
     }
     
@@ -24,25 +24,27 @@ public:
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // cost, node
     minHeap.emplace(0, k);
     
-    int totalTime = 0;
+    int time = 0;
     while (minHeap.size()) {
       auto [ cost, node ] = minHeap.top();
       minHeap.pop();
       
       if (visited[node])
         continue;
-      
       visited[node] = 1;
       visitedCount++;
       
-      totalTime = max(totalTime, cost);
+      time = max(time, cost);
       
-      for (const auto& [ t, neighbor ] : graph[node]) {
+      if (visitedCount == n)
+        return time;
+      
+      for (const auto& [ c, neighbor ] : graph[node]) {
         if (visited[neighbor] == 0)
-          minHeap.emplace(cost + t, neighbor);
+          minHeap.emplace(cost + c, neighbor);
       }
     }
     
-    return visitedCount == n ? totalTime : -1;
+    return -1;
   }
 };

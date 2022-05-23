@@ -8,20 +8,20 @@ using namespace std;
 
 class Solution {
 public:
-  bool checkValidString(string s) {
-    int countMin = 0, countMax = 0;
+  bool checkValidString(string& s) {
+    int minCount = 0, maxCount = 0;
     
-    for (const int& ch : s) {
-      countMin += ch == '(' ? 1 : -1;
-      countMax += ch == ')' ? -1 : 1;
+    for (const char& c : s) {
+      minCount += c == '(' ? 1 : -1;
+      maxCount += c == ')' ? -1 : 1;
       
-      if (countMax < 0)
+      if (maxCount < 0)
         return false;
       
-      if (countMin < 0)
-        countMin = 0;
+      if (minCount < 0)
+        minCount = 0;
     }
     
-    return countMin == 0;
+    return minCount == 0;
   }
 };

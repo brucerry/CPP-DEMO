@@ -13,9 +13,8 @@ public:
     
     vector<int> parents (n + 1);
     vector<int> ranks (n + 1, 1);
-    
-    for (int i = 1; i <= n; i++) {
-      parents[i] = i;
+    for (int node = 1; node <= n; node++) {
+      parents[node] = node;
     }
     
     for (const auto& edge : edges) {

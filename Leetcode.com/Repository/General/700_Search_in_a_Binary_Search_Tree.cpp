@@ -1,7 +1,5 @@
 // https://leetcode.com/problems/search-in-a-binary-search-tree/
 
-
-
 struct TreeNode {
   int val;
   TreeNode *left;
@@ -12,10 +10,9 @@ struct TreeNode {
 };
 
 
-// iterative
 // time: O(height of tree)
 // space: O(1)
-class Solution {
+class Iterative {
 public:
   TreeNode* searchBST(TreeNode* root, int val) {
     while (root) {
@@ -31,22 +28,17 @@ public:
   }
 };
 
-
-
-// recursive
 // time: O(height of tree)
 // space: O(height of tree)
-class Solution {
+class Recursive {
 public:
   TreeNode* searchBST(TreeNode* root, int val) {
-    if (!root)
+    if (!root or root->val == val)
       return root;
     
     if (val < root->val)
       return searchBST(root->left, val);
-    else if (val > root->val)
-      return searchBST(root->right, val);
     
-    return root;
+    return searchBST(root->right, val);
   }
 };

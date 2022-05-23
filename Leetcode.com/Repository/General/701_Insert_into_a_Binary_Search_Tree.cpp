@@ -11,20 +11,17 @@ struct TreeNode {
 };
 
 
-
-// iterative
 // time: O(height of tree)
 // space: O(1)
-class Solution {
+class Iterative {
 public:
   TreeNode* insertIntoBST(TreeNode* root, int val) {    
-    TreeNode* node = new TreeNode(val);
+    TreeNode* newNode = new TreeNode(val);
     
     if (!root)
-      return node;
+      return newNode;
     
     TreeNode* prev = nullptr, *cur = root;
-    
     while (cur) {
       prev = cur;
       if (val < cur->val)
@@ -34,19 +31,17 @@ public:
     }
     
     if (val < prev->val)
-      prev->left = node;
+      prev->left = newNode;
     else
-      prev->right = node;
+      prev->right = newNode;
     
     return root;
   }
 };
 
-
-// recursive
 // time: O(height of tree)
 // space: O(height of tree)
-class Solution {
+class Recursive {
 public:
   TreeNode* insertIntoBST(TreeNode* root, int val) {
     if (!root)

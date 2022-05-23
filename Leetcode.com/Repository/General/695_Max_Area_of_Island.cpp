@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/max-area-of-island/
 
 #include <vector>
-#include <stack>
 using namespace std;
 
 // time: O(r * c)
@@ -40,7 +39,7 @@ private:
 class Iterative {
 public:
   int maxAreaOfIsland(vector<vector<int>>& grid) {
-    stack<pair<int, int>> stack; // r, c
+    vector<pair<int, int>> buffer; // r, c
     int maxArea = 0;
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
@@ -50,11 +49,11 @@ public:
         if (grid[r][c]) {
           int area = 0;
           grid[r][c] = 0;
-          stack.emplace(r, c);
+          buffer.emplace_back(r, c);
           
-          while (stack.size()) {
-            auto [ _r, _c ] = stack.top();
-            stack.pop();
+          while (buffer.size()) {
+            auto [ _r, _c ] = buffer.back();
+            buffer.pop_back();
             
             area++;
             
@@ -63,7 +62,7 @@ public:
               int newc = _c + dc;
               if (0 <= newr and newr < grid.size() and 0 <= newc and newc < grid[0].size() and grid[newr][newc]) {
                 grid[newr][newc] = 0;
-                stack.emplace(newr, newc);
+                buffer.emplace_back(newr, newc);
               }
             }
           }

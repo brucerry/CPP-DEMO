@@ -9,56 +9,53 @@ using namespace std;
 class Solution {
 public:
   int openLock(vector<string>& deadends, string& target) {
-    unordered_set<string> deadSet (deadends.begin(), deadends.end());
-    unordered_set<string> visited { "0000" };
-    
-    if (deadSet.count("0000"))
+    unordered_set<string> deadendSet (deadends.begin(), deadends.end());
+    if (deadendSet.count("0000"))
       return -1;
     
     queue<string> queue;
     queue.emplace("0000");
     
-    int turns = 0;
+    unordered_set<string> visited;
+    visited.emplace("0000");
     
+    int turn = 0;
     while (queue.size()) {
       int size = queue.size();
       
       while (size--) {
-        string myTry = queue.front();
+        string code = queue.front();
         queue.pop();
         
-        if (myTry == target)
-          return turns;
+        if (code == target)
+          return turn;
         
         for (int i = 0; i < 4; i++) {
-          increase(myTry, i);
-          if (deadSet.count(myTry) == 0 and visited.count(myTry) == 0) {
-            visited.emplace(myTry);
-            queue.emplace(myTry);
+          rotate(code, i, true);
+          if (visited.count(code) == 0 and deadendSet.count(code) == 0) {
+            visited.emplace(code);
+            queue.emplace(code);
           }
-          decrease(myTry, i);
-          
-          decrease(myTry, i);
-          if (deadSet.count(myTry) == 0 and visited.count(myTry) == 0) {
-            visited.emplace(myTry);
-            queue.emplace(myTry);
+          rotate(code, i, false);
+          rotate(code, i, false);
+          if (visited.count(code) == 0 and deadendSet.count(code) == 0) {
+            visited.emplace(code);
+            queue.emplace(code);
           }
-          increase(myTry, i);
+          rotate(code, i, true);
         }
       }
-      
-      turns++;
+      turn++;
     }
     
     return -1;
   }
   
 private:
-  void increase(string& wheels, char pos) {
-    wheels[pos] = wheels[pos] + 1 > '9' ? '0' : wheels[pos] + 1;
-  }
-  
-  void decrease(string& wheels, char pos) {
-    wheels[pos] = wheels[pos] - 1 < '0' ? '9' : wheels[pos] - 1;
+  void rotate(string& code, int i, bool inc) {
+    if (inc)
+      code[i] = code[i] == '9' ? '0' : code[i] + 1;
+    else
+      code[i] = code[i] == '0' ? '9' : code[i] - 1;
   }
 };
