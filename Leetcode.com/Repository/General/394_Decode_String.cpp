@@ -11,13 +11,13 @@ using namespace std;
 
 class Solution {
 public:
-  string decodeString(string s) {
+  string decodeString(string& s) {
     stack<string> stack;
     
     for (const char& c : s) {
-      if (c != ']')
+      if (c != ']') {
         stack.emplace(string(1, c));
-      
+      }
       else {
         string str;
         while (stack.size() and stack.top() != "[") {
@@ -25,7 +25,7 @@ public:
           stack.pop();
         }
         
-        stack.pop(); // pop the "["
+        stack.pop(); // pop "["
         
         string num;
         while (stack.size() and "0" <= stack.top() and stack.top() <= "9") {
@@ -35,19 +35,18 @@ public:
         
         int count = stoi(num);
         string newStr;
-        while (count--) {
-          newStr.insert(0, str);
-        }
+        while (count--)
+          newStr.append(str);
         stack.emplace(newStr);
       }
     }
     
-    string ans;
+    string decoded;
     while (stack.size()) {
-      ans.insert(0, stack.top());
+      decoded.insert(0, stack.top());
       stack.pop();
     }
     
-    return ans;
+    return decoded;
   }
 };

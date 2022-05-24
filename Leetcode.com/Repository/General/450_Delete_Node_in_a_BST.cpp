@@ -15,26 +15,6 @@ struct TreeNode {
 // space: O(1)
 
 class Solution {
-private:
-  TreeNode* rightMostNode(TreeNode* node) {
-    while (node->right)
-      node = node->right;
-    return node;
-  }
-
-  TreeNode* helper(TreeNode* targetNode) {
-    if (!targetNode->left)
-      return targetNode->right;
-
-    if (!targetNode->right)
-      return targetNode->left;
-
-    TreeNode* rightMost = rightMostNode(targetNode->left);
-    rightMost->right = targetNode->right;
-    
-    return targetNode->left;
-  }
-
 public:
   TreeNode* deleteNode(TreeNode* root, int key) {
     if (!root)
@@ -65,5 +45,25 @@ public:
     }
     
     return root;
+  }
+
+private:
+  TreeNode* rightMostNode(TreeNode* node) {
+    while (node->right)
+      node = node->right;
+    return node;
+  }
+
+  TreeNode* helper(TreeNode* targetNode) {
+    if (!targetNode->left)
+      return targetNode->right;
+
+    if (!targetNode->right)
+      return targetNode->left;
+
+    TreeNode* rightMost = rightMostNode(targetNode->left);
+    rightMost->right = targetNode->right;
+    
+    return targetNode->left;
   }
 };

@@ -12,26 +12,20 @@ using namespace std;
 class Solution {
 public:
   string frequencySort(string& s) {
-    unordered_map<char, int> charCount;
-
-    for (char& ch : s) {
-      charCount[ch]++;
-    }
-
-    vector<pair<int, char>> buffer;
-
-    for (auto& pair : charCount) {
-      buffer.emplace_back(pair.second, pair.first);
-    }
-
+    unordered_map<char, int> charCount; // char, count
+    for (const char& c : s)
+      charCount[c]++;
+    
+    vector<pair<int, char>> buffer; // count, char
+    for (const auto& [ c, count ] : charCount)
+      buffer.emplace_back(count, c);
     sort(buffer.rbegin(), buffer.rend());
-
-    string ans;
-
-    for (auto& pair : buffer) {
-      ans.append(pair.first, pair.second);
+    
+    string result;
+    for (const auto& [ count, c ] : buffer) {
+      result.append(count, c);
     }
-
-    return ans;
+    
+    return result;
   }
 };

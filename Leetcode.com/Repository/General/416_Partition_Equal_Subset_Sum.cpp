@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/partition-equal-subset-sum/
 
 #include <vector>
-#include <numeric>
 using namespace std;
 
 // time: O(n * sum/2)
@@ -17,18 +16,20 @@ public:
     if (sum & 1)
       return false;
     
-    int half = sum >> 1;
-    
-    vector<char> dp (half + 1);
+    int target = sum >> 1;
+    vector<char> dp (target + 1);
     dp[0] = 1;
     
     for (const int& num : nums) {
-      for (int h = half; h >= 1; h--) {
-        if (num <= h)
-          dp[h] |= dp[h - num];
+      for (int t = target; t >= 0; t--) {
+        if (num <= t)
+          dp[t] |= dp[t - num];
+        
+        if (dp[target])
+          return true;
       }
     }
     
-    return dp[half];
+    return dp[target];
   }
 };
