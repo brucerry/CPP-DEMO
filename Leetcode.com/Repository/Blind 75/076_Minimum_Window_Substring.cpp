@@ -9,35 +9,33 @@ using namespace std;
 
 class Solution {
 public:
-  string minWindow(string s, string t) {
-    unordered_map<char, int> charCountS, charCountT;
+  string minWindow(string& s, string& t) {
+    unordered_map<char, int> sCount, tCount; // char, count
+    for (const char& c : t)
+      tCount[c]++;
     
-    for (const char& ch : t) {
-      charCountT[ch]++;
-    }
-    
+    int len = INT_MAX, startIndex = -1;
+    int match = 0;
     int l = 0;
-    int matches = 0;
-    int startIndex = 0, minLen = INT_MAX;
-    
     for (int r = 0; r < s.length(); r++) {
-      charCountS[s[r]]++;
+      char c = s[r];
+      sCount[c]++;
       
-      if (matches < charCountT.size() && charCountT.count(s[r]) && charCountS[s[r]] == charCountT[s[r]])
-        matches++;
+      if (match < tCount.size() and tCount.count(c) and sCount[c] == tCount[c])
+        match++;
       
-      if (matches == charCountT.size()) {
-        while (charCountT.count(s[l]) == 0 || charCountS[s[l]] > charCountT[s[l]]) {
-          charCountS[s[l]]--;
+      if (match == tCount.size()) {
+        while (tCount.count(s[l]) == 0 or sCount[s[l]] > tCount[s[l]]) {
+          sCount[s[l]]--;
           l++;
         }
-        if (r - l + 1 < minLen) {
-          minLen = r - l + 1;
+        if (r - l + 1 < len) {
+          len = r - l + 1;
           startIndex = l;
         }
       }
     }
     
-    return minLen == INT_MAX ? "" : s.substr(startIndex, minLen);
+    return startIndex == -1 ? "" : s.substr(startIndex, len);
   }
 };

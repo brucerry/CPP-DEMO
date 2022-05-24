@@ -21,21 +21,19 @@ public:
     queue<TreeNode*> queue;
     queue.emplace(root);
 
-    int ans = root->val;
-
+    int val = root->val;
     while (queue.size()) {
       TreeNode* node = queue.front();
       queue.pop();
 
-      ans = node->val;
+      val = node->val;
 
       if (node->right)
         queue.emplace(node->right);
-        
       if (node->left)
         queue.emplace(node->left);
     }
 
-    return ans;
+    return val;
   }
 };

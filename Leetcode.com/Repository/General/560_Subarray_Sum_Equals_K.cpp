@@ -10,18 +10,19 @@ using namespace std;
 class Solution {
 public:
   int subarraySum(vector<int>& nums, int k) {
-    unordered_map<int, int> prefixSum { {0, 1} }; // prefixSum, count
-    int sum = 0;
-    int ans = 0;
-
+    unordered_map<int, int> prefixCount { // prefixSum, count
+      { 0, 1 }
+    };
+    
+    int result = 0;
+    int curSum = 0;
     for (const int& num : nums) {
-      sum += num;
-      if (prefixSum.count(sum - k)) {
-        ans += prefixSum[sum - k];
-      }
-      prefixSum[sum]++;
+      curSum += num;
+      if (prefixCount.count(curSum - k))
+        result += prefixCount[curSum - k];
+      prefixCount[curSum]++;
     }
-
-    return ans;
+    
+    return result;
   }
 };
