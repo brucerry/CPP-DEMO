@@ -5,8 +5,7 @@ using namespace std;
 
 // time: O(n)
 // space: O(n)
-
-class Solution {
+class BottomUpDP {
 public:
   int maxProfit(vector<int>& prices) {
     int n = prices.size();
@@ -24,5 +23,32 @@ public:
     }
     
     return dp[0][0]; // return col 0 at day 0
+  }
+};
+
+// time: O(n)
+// space: O(n)
+class TopDownMemo {
+public:
+  int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<int>> memo (2, vector<int>(n, -1));
+    return solve(prices, 0, true, memo);
+  }
+  
+private:
+  int solve(vector<int>& prices, int i, bool buy, vector<vector<int>>& memo) {
+    if (i >= prices.size())
+      return 0;
+    
+    if (memo[buy][i] != -1)
+      return memo[buy][i];
+    
+    int cooldown = solve(prices, i+1, buy, memo);
+    
+    if (buy)
+      return memo[buy][i] = max(-prices[i] + solve(prices, i+1, !buy, memo), cooldown);
+    
+    return memo[buy][i] = max(prices[i] + solve(prices, i+2, !buy, memo), cooldown);
   }
 };

@@ -8,26 +8,27 @@ using namespace std;
 class TopDownMemo {
 public:
   int maxCoins(vector<int>& nums) {
-    vector<vector<int>> dp (nums.size(), vector<int>(nums.size(), -1));
-    return solve(nums, 0, nums.size() - 1, dp);
+    int n = nums.size();
+    vector<vector<int>> memo (n, vector<int>(n, -1));
+    return solve(nums, 0, n - 1, memo);
   }
   
 private:
-  int solve(vector<int>& nums, int left, int right, vector<vector<int>>& dp) {
-    if (left > right)
+  int solve(vector<int>& nums, int l, int r, vector<vector<int>>& memo) {
+    if (l > r)
       return 0;
     
-    if (dp[left][right] != -1)
-      return dp[left][right];
+    if (memo[l][r] != -1)
+      return memo[l][r];
     
-    for (int i = left; i <= right; i++) {
-      int leftCoin = left - 1 < 0 ? 1 : nums[left - 1];
-      int rightCoin = right + 1 >= nums.size() ? 1 : nums[right + 1];
-      int totalCoin = nums[i] * leftCoin * rightCoin + solve(nums, left, i - 1, dp) + solve(nums, i + 1, right, dp);
-      dp[left][right] = max(dp[left][right], totalCoin);
+    for (int i = l; i <= r; i++) {
+      int leftcoin = l - 1 < 0 ? 1 : nums[l-1];
+      int rightcoin = r + 1 >= nums.size() ? 1 : nums[r+1];
+      int totalcoin = nums[i] * leftcoin * rightcoin + solve(nums, l, i-1, memo) + solve(nums, i+1, r, memo);
+      memo[l][r] = max(memo[l][r], totalcoin);
     }
     
-    return dp[left][right];
+    return memo[l][r];
   }
 };
 
@@ -48,8 +49,8 @@ public:
           continue;
         
         for (int i = l; i <= r; i++) {
-          int totalCoin = nums[i] * nums[l-1] * nums[r+1] + dp[l][i-1] + dp[i+1][r];
-          dp[l][r] = max(dp[l][r], totalCoin);
+          int totalcoin = nums[i] * nums[l-1] * nums[r+1] + dp[l][i-1] + dp[i+1][r];
+          dp[l][r] = max(dp[l][r], totalcoin);
         }
       }
     }
