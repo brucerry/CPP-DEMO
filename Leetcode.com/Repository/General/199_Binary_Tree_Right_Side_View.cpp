@@ -23,8 +23,7 @@ public:
     if (root)
       queue.emplace(root);
     
-    vector<int> ans;
-    
+    vector<int> result;
     while (queue.size()) {
       int size = queue.size();
       
@@ -33,16 +32,15 @@ public:
         queue.pop();
         
         if (size == 0)
-          ans.emplace_back(node->val);
+          result.emplace_back(node->val);
         
         if (node->left)
           queue.emplace(node->left);
-        
         if (node->right)
           queue.emplace(node->right);
       }
     }
     
-    return ans;
+    return result;
   }
 };

@@ -9,13 +9,15 @@ using namespace std;
 class Solution {
 public:
   bool searchMatrix(vector<vector<int>>& matrix, int target) {
-    int r = 0, c = matrix[0].size() - 1;
+    int rows = matrix.size();
+    int cols = matrix[0].size();
     
-    while (r < matrix.size() and c >= 0) {
-      if (matrix[r][c] < target)
-        r++;
-      else if (matrix[r][c] > target)
+    int r = 0, c = cols - 1;
+    while (r < rows and c >= 0) {
+      if (target < matrix[r][c])
         c--;
+      else if (target > matrix[r][c])
+        r++;
       else
         return true;
     }

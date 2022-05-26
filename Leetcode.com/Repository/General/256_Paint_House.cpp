@@ -9,11 +9,20 @@ using namespace std;
 
 class Solution {
 public:
-  int minCost(vector<vector<int>>& costs) {
-    for (int r = 1; r < costs.size(); r++) {
-      costs[r][0] += min(costs[r-1][1], costs[r-1][2]);
-      costs[r][1] += min(costs[r-1][0], costs[r-1][2]);
-      costs[r][2] += min(costs[r-1][0], costs[r-1][1]);
+  int minCost(vector<vector<int>> &costs) {
+    int n = costs.size();
+
+    if (!n)
+      return n;
+
+    for (int house = 1; house < n; house++) {
+      int cost0 = min(costs[house-1][1], costs[house-1][2]);
+      int cost1 = min(costs[house-1][0], costs[house-1][2]);
+      int cost2 = min(costs[house-1][0], costs[house-1][1]);
+
+      costs[house][0] += cost0;
+      costs[house][1] += cost1;
+      costs[house][2] += cost2;
     }
 
     return *min_element(costs.back().begin(), costs.back().end());

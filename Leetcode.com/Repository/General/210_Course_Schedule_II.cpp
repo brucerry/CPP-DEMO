@@ -9,36 +9,35 @@ using namespace std;
 class Solution {
 public:
   vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-    vector<vector<int>> graph (numCourses);
-    vector<int> parentCount (numCourses, 0);
+    vector<int> parentCount (numCourses);
     
-    for (const auto& p : prerequisites) {
-      graph[p[1]].emplace_back(p[0]);
-      parentCount[p[0]]++;
+    vector<vector<int>> graph (numCourses);
+    for (const auto& prq : prerequisites) {
+      int from = prq[1];
+      int to = prq[0];
+      graph[from].emplace_back(to);
+      parentCount[to]++;
     }
     
     vector<int> ready;
-    
     for (int node = 0; node < numCourses; node++) {
       if (parentCount[node] == 0)
         ready.emplace_back(node);
     }
     
-    vector<int> ans;
-    
+    vector<int> coursesOrder;
     while (ready.size()) {
       int node = ready.back();
       ready.pop_back();
       
-      ans.emplace_back(node);
+      coursesOrder.emplace_back(node);
       
       for (const int& neighbor : graph[node]) {
-        if (--parentCount[neighbor] == 0) {
+        if (--parentCount[neighbor] == 0)
           ready.emplace_back(neighbor);
-        }
       }
     }
     
-    return ans.size() == numCourses ? ans : vector<int>();
+    return coursesOrder.size() == numCourses ? coursesOrder : vector<int>();
   }
 };

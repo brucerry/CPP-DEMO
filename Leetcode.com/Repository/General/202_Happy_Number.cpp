@@ -6,25 +6,24 @@
 class Solution {
 public:
   bool isHappy(int n) {
-    int slow = sumOfSquare(n);
-    int fast = sumOfSquare(sumOfSquare(n));
+    int slow = cal(n), fast = cal(cal(n));
     
     while (slow != fast) {
-      slow = sumOfSquare(slow);
-      fast = sumOfSquare(sumOfSquare(fast));
+      slow = cal(slow);
+      fast = cal(cal(fast));
     }
     
-    return fast == 1;
+    return slow == 1;
   }
   
 private:
-  int sumOfSquare(int n) {
-    int sum = 0;
+  int cal(int n) {
+    int result = 0;
     while (n) {
-      int d = n % 10;
-      sum += d * d;
+      int x = n % 10;
+      result += x * x;
       n /= 10;
     }
-    return sum;
+    return result;
   }
 };
