@@ -9,14 +9,15 @@ using namespace std;
 class Solution {
 public:
   vector<int> getRow(int rowIndex) {
-    vector<int> result (rowIndex + 1, 1);
-
-    for (int i = 1; i <= rowIndex; i++) {
-      for (int j = i - 1; j >= 1; j--) {
-        result[j] += result[j - 1];
+    vector<int> result (rowIndex + 1);
+    result[0] = result.back() = 1;
+    
+    for (int r = 0; r < rowIndex; r++) {
+      for (int i = rowIndex - 1; i >= 1; i--) {
+        result[i] += result[i-1];
       }
     }
-
+    
     return result;
   }
 };

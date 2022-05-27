@@ -11,22 +11,21 @@ using namespace std;
 class Solution {
 public:
   string largestNumber(vector<int>& nums) {
-    vector<string> strs (nums.size());
-
-    for (int i = 0; i < nums.size(); i++) {
+    int n = nums.size();
+    
+    vector<string> strs (n);
+    for (int i = 0; i < n; i++) {
       strs[i] = to_string(nums[i]);
     }
-
     sort(strs.begin(), strs.end(), [](const string& a, const string& b) -> bool {
       return a + b > b + a;
     });
-
-    string ans;
     
-    for (const string& s : strs) {
-      ans += s;
+    string number;
+    for (const string& num : strs) {
+      number += num;
     }
-
-    return ans[0] == '0' ? "0" : ans;
+    
+    return number[0] == '0' ? "0" : number;
   }
 };

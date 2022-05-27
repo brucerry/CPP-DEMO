@@ -9,12 +9,10 @@ using namespace std;
 class Solution {
 public:
   int singleNumber(vector<int>& nums) {
-    int ans = 0;
-
+    int result = 0;
     for (const int& num : nums) {
-      ans ^= num;
+      result ^= num;
     }
-
-    return ans;
+    return result;
   }
 };

@@ -22,28 +22,26 @@ public:
 class Iterative {
 public:
   Node* copyRandomList(Node* head) {
-    unordered_map<Node*, Node*> nodeToCopy { // originalNode, copyNode
+    unordered_map<Node*, Node*> nodeCopy { // originalNode, copyNode
       { nullptr, nullptr }
     };
     
     Node* cur = head;
-    
     while (cur) {
-      nodeToCopy[cur] = new Node(cur->val);
+      nodeCopy[cur] = new Node(cur->val);
       cur = cur->next;
     }
     
     cur = head;
-    
     while (cur) {
-      Node* copy = nodeToCopy[cur];
-      copy->next = nodeToCopy[cur->next];
-      copy->random = nodeToCopy[cur->random];
+      Node* copy = nodeCopy[cur];
+      copy->next = nodeCopy[cur->next];
+      copy->random = nodeCopy[cur->random];
 
       cur = cur->next;
     }
     
-    return nodeToCopy[head];
+    return nodeCopy[head];
   }
 };
 
@@ -53,24 +51,22 @@ public:
 class Recursive {
 public:
   Node* copyRandomList(Node* head) {    
-    unordered_map<Node*, Node*> nodeToCopy {
+    unordered_map<Node*, Node*> nodeCopy {
       { nullptr, nullptr }
     };
-    
-    return solve(head, nodeToCopy);
+    return solve(head, nodeCopy);
   }
   
 private:
-  Node* solve(Node* node, unordered_map<Node*, Node*>& nodeToCopy) {
-    if (nodeToCopy.count(node))
-      return nodeToCopy[node];
+  Node* solve(Node* node, unordered_map<Node*, Node*>& nodeCopy) {
+    if (nodeCopy.count(node))
+      return nodeCopy[node];
     
     Node* copy = new Node(node->val);
+    nodeCopy[node] = copy;
     
-    nodeToCopy[node] = copy;
-    
-    copy->next = solve(node->next, nodeToCopy);
-    copy->random = solve(node->random, nodeToCopy);
+    copy->next = solve(node->next, nodeCopy);
+    copy->random = solve(node->random, nodeCopy);
     
     return copy;
   }

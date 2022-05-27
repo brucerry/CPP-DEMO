@@ -7,26 +7,23 @@
 #include <queue>
 using namespace std;
 
-// n = len of wordList (# of nodes)
+// n = len of wordList
 // m = len of each word
-// time: O(n * m^2)
+// time: O(n^2 * m)
 // space: O(n * m)
 
 class Solution {
 public:
-  int ladderLength(string beginWord, string endWord, vector<string>& wordList) {    
-    wordList.emplace_back(beginWord);
-    
-    unordered_map<string, vector<string>> patternMap; // pattern, words
-    
-    for (string& word : wordList) {
-      string copy = word;
+  int ladderLength(string& beginWord, string& endWord, vector<string>& wordList) {
+    unordered_map<string, vector<string>> graph; // pattern, words
+    for (const string& word : wordList) {
+      string pattern = word;
       
-      for (char& ch : word) {
-        char tmp_ch = ch;
-        ch = '*';
-        patternMap[word].emplace_back(copy);
-        ch = tmp_ch;
+      for (int i = 0; i < word.length(); i++) {
+        char c = pattern[i];
+        pattern[i] = '*';
+        graph[pattern].emplace_back(word);
+        pattern[i] = c;
       }
     }
     
@@ -34,34 +31,32 @@ public:
     
     queue<string> queue;
     queue.emplace(beginWord);
-
-    int ans = 1;
-    
+    int wordsCount = 1;
     while (queue.size()) {
-      int len = queue.size();
+      int size = queue.size();
       
-      while (len--) {
-        string& word = queue.front();
+      while (size--) {
+        string word = queue.front();
+        queue.pop();
         
         if (word == endWord)
-          return ans;
+          return wordsCount;
         
-        for (char& ch : word) {
-          char tmp_ch = ch;
-          ch = '*';
-          for (const string& neighbor : patternMap[word]) {
+        string pattern = word;
+        for (int i = 0; i < word.length(); i++) {
+          char c = pattern[i];
+          pattern[i] = '*';
+          
+          for (const string& neighbor : graph[pattern]) {
             if (visited.count(neighbor) == 0) {
               visited.emplace(neighbor);
               queue.emplace(neighbor);
             }
           }
-          ch = tmp_ch;
+          pattern[i] = c;
         }
-
-        queue.pop();
       }
-      
-      ans++;
+      wordsCount++;
     }
     
     return 0;

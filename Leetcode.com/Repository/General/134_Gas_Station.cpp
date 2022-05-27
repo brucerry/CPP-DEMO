@@ -9,26 +9,19 @@ using namespace std;
 class Solution {
 public:
   int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
-    int len = gas.size();
-    int sumOfGas = 0;
-    int sumOfCost = 0;
-
-    for (int i = 0; i < len; i++) {
-      sumOfGas += gas[i];
-      sumOfCost += cost[i];
-    }
-
-    if (sumOfGas < sumOfCost) return -1;
+    int n = gas.size();
     
-    int remainGas = 0;
-    int pos = 0;
-    for (int i = 0; i < len - 1; i++) {
-      remainGas += gas[i] - cost[i];
+    int remainGas = 0, prevRemainGas = 0;
+    int start = 0;
+    for (int station = 0; station < n; station++) {
+      remainGas += gas[station] - cost[station];
       if (remainGas < 0) {
+        prevRemainGas += remainGas;
         remainGas = 0;
-        pos = i + 1;
+        start = station + 1;
       }
     }
-    return pos;
+    
+    return start == n or remainGas + prevRemainGas < 0 ? -1 : start;
   }
 };

@@ -4,8 +4,7 @@
 using namespace std;
 
 // r = # of rows
-// n = # of elements (area of triangle)
-// time: O(n)
+// time: O(r * r / 2) => O(r^2)
 // space: O(r)
 
 class Solution {
