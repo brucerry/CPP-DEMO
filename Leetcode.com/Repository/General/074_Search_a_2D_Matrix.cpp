@@ -9,33 +9,34 @@ using namespace std;
 class Solution {
 public:
   bool searchMatrix(vector<vector<int>>& matrix, int target) {
-    int top = 0, bottom = matrix.size() - 1;
-    int row = -1;
+    int rows = matrix.size();
+    int cols = matrix[0].size();
     
-    while (top <= bottom) {
-      int mid = top + ((bottom - top) >> 1);
+    int rowIndex = -1;
+    int l = 0, r = rows - 1;
+    while (l <= r) {
+      int m = l + ((r - l) >> 1);
       
-      if (matrix[mid].back() < target)
-        top = mid + 1;
-      else if (matrix[mid].front() > target)
-        bottom = mid - 1;
+      if (target < matrix[m][0])
+        r = m - 1;
+      else if (target > matrix[m].back())
+        l = m + 1;
       else {
-        row = mid;
+        rowIndex = m;
         break;
       }
     }
     
-    if (row == -1)
+    if (rowIndex == -1)
       return false;
     
-    int l = 0, r = matrix[0].size() - 1;
-    
+    l = 0, r = cols - 1;
     while (l <= r) {
       int m = l + ((r - l) >> 1);
       
-      if (matrix[row][m] < target)
+      if (matrix[rowIndex][m] < target)
         l = m + 1;
-      else if (matrix[row][m] > target)
+      else if (matrix[rowIndex][m] > target)
         r = m - 1;
       else
         return true;

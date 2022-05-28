@@ -13,13 +13,10 @@ public:
     
     for (int i = l; i <= r; i++) {
       if (nums[i] == 0) {
-        swap(nums[i], nums[l]);
-        l++;
+        swap(nums[i], nums[l++]);
       }
       else if (nums[i] == 2) {
-        swap(nums[i], nums[r]);
-        r--;
-        i--;
+        swap(nums[i--], nums[r--]);
       }
     }
   }

@@ -10,29 +10,27 @@ using namespace std;
 class Solution {
 public:
   int largestRectangleArea(vector<int>& heights) {
-    stack<pair<int, int>> stack; // height, index
-    const int n = heights.size();
-    int ans = 0;
+    int n = heights.size();
+    int maxArea = 0;
     
+    stack<pair<int, int>> stack; // height, index
     for (int i = 0; i < n; i++) {
       int index = i;
-      
-      while (stack.size() && stack.top().first >= heights[i]) {
-        const auto& [ height, idx ] = stack.top();
-        ans = max(ans, (i - idx) * height);
-        index = idx;
+      while (stack.size() and stack.top().first >= heights[i]) {
+        auto [ height, idx ] = stack.top();
         stack.pop();
+        maxArea = max(maxArea, height * (i - idx));
+        index = idx;
       }
-      
       stack.emplace(heights[i], index);
     }
     
     while (stack.size()) {
-      const auto& [ height, idx ] = stack.top();
-      ans = max(ans, (n - idx) * height);
+      auto [ height, idx ] = stack.top();
       stack.pop();
+      maxArea = max(maxArea, height * (n - idx));
     }
     
-    return ans;
+    return maxArea;
   }
 };
