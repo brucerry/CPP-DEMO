@@ -11,7 +11,9 @@ using namespace std;
 class Solution {
 public:
   vector<string> restoreIpAddresses(string& s) {
-    if (s.length() < 4 or s.length() > 12)
+    int n = s.length();
+    
+    if (n < 4 or n > 12)
       return {};
     
     vector<string> solution;

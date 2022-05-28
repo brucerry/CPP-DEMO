@@ -1,14 +1,11 @@
 // https://leetcode.com/problems/subsets-ii/
 
-
-#include <iostream>
 #include <vector>
 #include <algorithm>
 using namespace std;
 
 // time: O(n * 2^n)
 // space: O(n)
-
 class Iterative {
 public:
   vector<vector<int>> subsetsWithDup(vector<int>& nums) {
@@ -25,25 +22,30 @@ public:
   }
 };
 
+// time: O(n * 2^n)
+// space: O(n)
 class Recursive {
 public:
   vector<vector<int>> subsetsWithDup(vector<int>& nums) {
     sort(nums.begin(), nums.end());
-    vector<vector<int>> ans;
-    vector<int> candidate;
-    solve(nums, ans, candidate, 0);
-    return ans;
+    
+    vector<vector<int>> solution;
+    vector<int> state;
+    solve(nums, solution, state, 0);
+    return solution;
   }
   
 private:
-  void solve(vector<int>& nums, vector<vector<int>>& ans, vector<int>& candidate, int start) {
-    ans.emplace_back(candidate);
+  void solve(vector<int>& nums, vector<vector<int>>& solution, vector<int>& state, int start) {
+    solution.emplace_back(state);
+    
     for (int i = start; i < nums.size(); i++) {
-      if (i > start && nums[i-1] == nums[i])
+      if (i > start and nums[i-1] == nums[i])
         continue;
-      candidate.emplace_back(nums[i]);
-      solve(nums, ans, candidate, i + 1);
-      candidate.pop_back();
+      
+      state.emplace_back(nums[i]);
+      solve(nums, solution, state, i + 1);
+      state.pop_back();
     }
   }
 };

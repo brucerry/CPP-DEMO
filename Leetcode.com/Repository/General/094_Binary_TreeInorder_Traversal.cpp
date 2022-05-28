@@ -80,9 +80,9 @@ public:
 class Iterative {
 public:
   vector<int> inorderTraversal(TreeNode* root) {
-    stack<TreeNode*> stack;
-    
     vector<int> inorder;
+    
+    stack<TreeNode*> stack;
     while (root or stack.size()) {
       while (root) {
         stack.emplace(root);

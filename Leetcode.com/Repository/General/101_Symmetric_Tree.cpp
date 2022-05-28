@@ -20,12 +20,12 @@ public:
   }
   
 private:
-  bool solve(TreeNode* n1, TreeNode* n2) {
-    if (!n1 and !n2)
+  bool solve(TreeNode* lNode, TreeNode* rNode) {
+    if (!lNode and !rNode)
       return true;
     
-    if (n1 and n2 and n1->val == n2->val)
-      return solve(n1->left, n2->right) and solve(n1->right, n2->left);
+    if (lNode and rNode and lNode->val == rNode->val)
+      return solve(lNode->left, rNode->right) and solve(lNode->right, rNode->left);
     
     return false;
   }

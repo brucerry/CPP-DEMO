@@ -16,23 +16,20 @@ struct TreeNode {
 // space: O(log(n))
 
 class Solution {
-private:
-  TreeNode* solve(vector<int>& nums, int left, int right) {
-    if (left > right)
-      return nullptr;
-    
-    int mid = left + ((right - left) >> 1);
-    
-    TreeNode* root = new TreeNode(nums[mid]);
-    
-    root->left = solve(nums, left, mid - 1);
-    root->right = solve(nums, mid + 1, right);
-    
-    return root;
-  }
-  
 public:
   TreeNode* sortedArrayToBST(vector<int>& nums) {
     return solve(nums, 0, nums.size() - 1);
+  }
+  
+private:
+  TreeNode* solve(vector<int>& nums, int l, int r) {
+    if (l > r)
+      return nullptr;
+    
+    int m = l + ((r - l) >> 1);
+    TreeNode* leftNode = solve(nums, l, m - 1);
+    TreeNode* rightNode = solve(nums, m + 1, r);
+    
+    return new TreeNode(nums[m], leftNode, rightNode);
   }
 };
