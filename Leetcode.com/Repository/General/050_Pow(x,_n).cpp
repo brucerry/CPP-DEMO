@@ -6,8 +6,8 @@
 class Solution {
 public:
   double myPow(double x, int n) {
-    double ans = solve(x, abs(n));
-    return n < 0 ? 1 / ans : ans;
+    double result = solve(x, abs(n));
+    return n < 0 ? 1 / result : result;
   }
   
 private:
@@ -15,11 +15,13 @@ private:
     if (!x)
       return 0;
     
-    if (!n || x == 1)
+    if (x == 1 or !n)
       return 1;
     
-    double ans = solve(x * x, n / 2);
+    // double result = solve(x, n / 2);
+    // result *= result;
+    double result = solve(x * x, n / 2);
     
-    return n % 2 ? x * ans : ans;
+    return n & 1 ? result * x : result;
   }
 };

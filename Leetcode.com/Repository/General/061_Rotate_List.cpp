@@ -32,7 +32,6 @@ public:
       return head;
     
     ListNode* prev = nullptr, *cur = head;
-    
     for (int i = 0; i < len - k; i++) {
       prev = cur;
       cur = cur->next;

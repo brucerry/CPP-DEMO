@@ -4,38 +4,39 @@
 #include <string>
 using namespace std;
 
-// time: O(n * m)
+// time: O(m * n)
 // space: O(1)
 
 class Solution {
 public:
-  string multiply(string num1, string num2) {
-    if (num1 == "0" || num2 == "0")
+  string multiply(string& num1, string& num2) {
+    if (num1 == "0" or num2 == "0")
       return "0";
+    
+    int m = num1.length();
+    int n = num2.length();
     
     reverse(num1.begin(), num1.end());
     reverse(num2.begin(), num2.end());
     
-    string ans (num1.length() + num2.length(), '0'); // at most (n + m) length
-    
-    for (int i = 0; i < num1.length(); i++) { // bottom
-        int d1 = num1[i] - '0';
+    string result (m + n, '0'); // at most (n + m) length
+    for (int i = 0; i < m; i++) { // bottom
+      int d1 = num1[i] - '0';
       
-      for (int j = 0; j < num2.length(); j++) { // top
+      for (int j = 0; j < n; j++) { // top
         int d2 = num2[j] - '0';
-        
-        int carry = ans[i + j] - '0';
-        int result = d1 * d2 + carry;
-        ans[i + j] = result % 10 + '0';
-        ans[i + j + 1] += result / 10;
+        int product = d1 * d2;
+        int sum = result[i + j] - '0' + product;
+        result[i + j] = sum % 10 + '0';
+        result[i + j + 1] += sum / 10;
       }
     }
     
-    if (ans.back() == '0') // at most 1 leading zero
-      ans.pop_back();
+    if (result.back() == '0') // at most 1 leading zero
+      result.pop_back();
     
-    reverse(ans.begin(), ans.end());
+    reverse(result.begin(), result.end());
     
-    return ans;
+    return result;
   }
 };

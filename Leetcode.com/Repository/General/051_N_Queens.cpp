@@ -11,44 +11,45 @@ using namespace std;
 class Solution {
 public:
   vector<vector<string>> solveNQueens(int n) {
-    unordered_set<int> usedCol, usedNegDiag, usedPosDiag;
+    unordered_set<int> usedCol, usedPosDiag, usedNegDiag;
     
-    vector<vector<string>> ans;
-    vector<int> candidate;
-    solve(n, ans, candidate, usedCol, usedNegDiag, usedPosDiag, 0);
-    return ans;
+    vector<vector<string>> solution;
+    vector<int> state;
+    solve(n, solution, state, usedCol, usedPosDiag, usedNegDiag, 0);
+    return solution;
   }
   
 private:
-  void addToAns(vector<vector<string>>& ans, vector<int>& candidate, int n) {
-    vector<string> buffer (n);
-    for (int r = 0; r < n; r++) {
-      buffer[r] = string(candidate[r], '.') + 'Q' + string(n - candidate[r] - 1, '.');
-    }
-    ans.emplace_back(buffer);
-  }
-  
-  void solve(int n, vector<vector<string>>& ans, vector<int>& candidate, unordered_set<int>& usedCol, unordered_set<int>& usedNegDiag, unordered_set<int>& usedPosDiag, int r) {
+  void solve(int n, vector<vector<string>>& solution, vector<int>& state, unordered_set<int>& usedCol, unordered_set<int>& usedPosDiag, unordered_set<int>& usedNegDiag, int r) {
     if (r == n) {
-      addToAns(ans, candidate, n);
+      addSolution(n, solution, state);
       return;
     }
     
     for (int c = 0; c < n; c++) {
-      if (usedCol.count(c) or usedNegDiag.count(r - c) or usedPosDiag.count(r + c))
+      if (usedCol.count(c) or usedPosDiag.count(r + c) or usedNegDiag.count(r - c))
         continue;
       
       usedCol.emplace(c);
-      usedNegDiag.emplace(r - c);
       usedPosDiag.emplace(r + c);
-    
-      candidate.emplace_back(c);
-      solve(n, ans, candidate, usedCol, usedNegDiag, usedPosDiag, r + 1);
-      candidate.pop_back();
+      usedNegDiag.emplace(r - c);
+      
+      state.emplace_back(c);
+      solve(n, solution, state, usedCol, usedPosDiag, usedNegDiag, r + 1);
+      state.pop_back();
       
       usedCol.erase(c);
-      usedNegDiag.erase(r - c);
       usedPosDiag.erase(r + c);
+      usedNegDiag.erase(r - c);
     }
+  }
+  
+  void addSolution(int n, vector<vector<string>>& solution, vector<int>& state) {
+    vector<string> buffer (n);
+    for (int r = 0; r < n; r++) {
+      int c = state[r];
+      buffer[r] = string(c, '.') + 'Q' + string(n - c - 1, '.');
+    }
+    solution.emplace_back(buffer);
   }
 };
