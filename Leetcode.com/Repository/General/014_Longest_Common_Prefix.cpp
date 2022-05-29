@@ -15,8 +15,8 @@ public:
     string lcp;
     
     for (int i = 0; i < strs[0].size(); i++) {
-      for (const string& s : strs) {
-        if (i == s.length() or strs[0][i] != s[i])
+      for (const string& str : strs) {
+        if (i == str.length() or strs[0][i] != str[i])
           return lcp;
       }
       lcp += strs[0][i];

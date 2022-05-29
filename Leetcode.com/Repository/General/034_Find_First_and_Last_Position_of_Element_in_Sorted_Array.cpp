@@ -7,11 +7,18 @@ using namespace std;
 // space: O(1)
 
 class Solution {
+public:
+  vector<int> searchRange(vector<int>& nums, int target) {
+    int first = searchIndex(nums, target, true);
+    int last = searchIndex(nums, target, false);
+    return { first, last };
+  }
+  
 private:
-  int binarySearch(vector<int>& nums, int target, bool leftBiased) {
-    int index = -1;
+  int searchIndex(vector<int>& nums, int target, bool leftBiased) {
     int l = 0, r = nums.size() - 1;
-
+    
+    int index = -1;
     while (l <= r) {
       int m = l + ((r - l) >> 1);
       
@@ -27,14 +34,7 @@ private:
           l = m + 1;
       }
     }
-
+    
     return index;
-  }
-
-public:
-  vector<int> searchRange(vector<int>& nums, int target) {
-    int first = binarySearch(nums, target, true);
-    int second = first == -1 ? first : binarySearch(nums, target, false);
-    return { first, second };
   }
 };

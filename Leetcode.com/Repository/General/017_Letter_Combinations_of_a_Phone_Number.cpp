@@ -22,25 +22,25 @@ public:
       { '9', "wxyz" },
     };
     
-    vector<string> combinations;
+    vector<string> solution;
     string comb;
-    solve(digits, numMap, combinations, comb, 0);
-    return combinations;
+    solve(digits, solution, comb, numMap, 0);
+    return solution;
   }
   
 private:
-  void solve(string& digits, unordered_map<char, string>& numMap, vector<string>& combinations, string& comb, int i) {
+  void solve(string& digits, vector<string>& solution, string& comb, unordered_map<char, string>& numMap, int i) {
     if (digits.length() == 0)
       return;
     
     if (i == digits.length()) {
-      combinations.emplace_back(comb);
+      solution.emplace_back(comb);
       return;
     }
     
     for (const char& letter : numMap[digits[i]]) {
       comb += letter;
-      solve(digits, numMap, combinations, comb, i + 1);
+      solve(digits, solution, comb, numMap, i + 1);
       comb.pop_back();
     }
   }
