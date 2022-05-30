@@ -12,18 +12,18 @@ public:
   int characterReplacement(string& s, int k) {
     array<int, 26> charCount { 0 };
     
-    int len = 0, mostFreq = 0;
+    int longest = 0, maxFreq = 0;
     int l = 0;
     for (int r = 0; r < s.length(); r++) {
       charCount[s[r] - 'A']++;
-      mostFreq = max(mostFreq, charCount[s[r] - 'A']);
-      while (r - l + 1 - mostFreq > k) {
+      maxFreq = max(maxFreq, charCount[s[r] - 'A']);
+      while (r - l + 1 - maxFreq > k) {
         charCount[s[l] - 'A']--;
         l++;
       }
-      len = max(len, r - l + 1);
+      longest = max(longest, r - l + 1);
     }
     
-    return len;
+    return longest;
   }
 };

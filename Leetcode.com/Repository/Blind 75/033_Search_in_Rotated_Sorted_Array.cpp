@@ -10,16 +10,16 @@ class Solution {
 public:
   int search(vector<int>& nums, int target) {
     int l = 0, r = nums.size() - 1;
-
+    
     while (l <= r) {
       int m = l + ((r - l) >> 1);
-
+      
       if (nums[m] == target)
         return m;
-
+      
       // on the left sorted portion
       else if (nums[l] <= nums[m]) {
-        if (target > nums[m] || target < nums[l])
+        if (nums[m] < target or target < nums[l])
           l = m + 1;
         else
           r = m - 1;
@@ -27,13 +27,13 @@ public:
       
       // on the right sorted portion
       else {
-        if (target < nums[m] || target > nums[r])
+        if (nums[m] > target or target > nums[r])
           r = m - 1;
         else
           l = m + 1;
       }
     }
-
+    
     return -1;
   }
 };

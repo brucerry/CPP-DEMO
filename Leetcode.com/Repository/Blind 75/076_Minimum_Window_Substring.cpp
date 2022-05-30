@@ -14,7 +14,7 @@ public:
     for (const char& c : t)
       tCount[c]++;
     
-    int len = INT_MAX, startIndex = -1;
+    int minLen = INT_MAX, startIndex = -1;
     int match = 0;
     int l = 0;
     for (int r = 0; r < s.length(); r++) {
@@ -29,13 +29,13 @@ public:
           sCount[s[l]]--;
           l++;
         }
-        if (r - l + 1 < len) {
-          len = r - l + 1;
+        if (r - l + 1 < minLen) {
+          minLen = r - l + 1;
           startIndex = l;
         }
       }
     }
     
-    return startIndex == -1 ? "" : s.substr(startIndex, len);
+    return startIndex == -1 ? "" : s.substr(startIndex, minLen);
   }
 };

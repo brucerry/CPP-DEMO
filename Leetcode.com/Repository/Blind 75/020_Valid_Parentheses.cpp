@@ -5,12 +5,12 @@
 #include <unordered_map>
 using namespace std;
 
-// time: O(s)
-// space: O(s)
+// time: O(n)
+// space: O(n)
 
 class Solution {
 public:
-  bool isValid(string s) {
+  bool isValid(string& s) {
     unordered_map<char, char> map {
       { ')', '(' },
       { ']', '[' },
@@ -18,16 +18,14 @@ public:
     };
     
     vector<char> buffer;
-    
-    for (const char& ch : s) {
-      if (map.count(ch)) {
-        if (buffer.size() == 0 || buffer.back() != map[ch])
+    for (const char& c : s) {
+      if (map.count(c)) {
+        if (buffer.size() == 0 or buffer.back() != map[c])
           return false;
         buffer.pop_back();
       }
-      else {
-        buffer.emplace_back(ch);
-      }
+      else
+        buffer.emplace_back(c);
     }
     
     return buffer.size() == 0;
