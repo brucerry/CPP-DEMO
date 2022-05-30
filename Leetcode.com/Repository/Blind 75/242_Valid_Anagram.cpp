@@ -1,28 +1,23 @@
 // https://leetcode.com/problems/valid-anagram/
 
 #include <string>
-#include <unordered_map>
+#include <array>
 using namespace std;
 
-// time: O(s) where s == t
-// space: O(s + t)
-
-class Solution {
+// time: O(n)
+// space: O(26) => O(1)
+class Array {
 public:
-  bool isAnagram(string s, string t) {
-    if (s.length() != t.length()) return false;
-
-    unordered_map<char, int> charCountS, charCountT;
-
+  bool isAnagram(string& s, string& t) {
+    if (s.length() != t.length())
+      return false;
+    
+    array<int, 26> sCount { 0 }, tCount { 0 };
     for (int i = 0; i < s.length(); i++) {
-      charCountS[s[i]]++;
-      charCountT[t[i]]++;
+      sCount[s[i] - 'a']++;
+      tCount[t[i] - 'a']++;
     }
-
-    for (const auto& [ ch, count ] : charCountS) {
-      if (count != charCountT[ch]) return false;
-    }
-
-    return true;
+    
+    return sCount == tCount;
   }
 };

@@ -10,19 +10,18 @@ using namespace std;
 class Solution {
 public:
   int longestConsecutive(vector<int>& nums) {
-    unordered_set<int> numsSet (nums.begin(), nums.end());
-
-    int ans = 0;
-    for (int& num : nums) {
-      if (numsSet.count(num - 1) == 0) {
-        int count = 0;
-        while (numsSet.count(num + count)) {
-          count++;
-        }
-        ans = max(ans, count);
+    unordered_set<int> numSet (nums.begin(), nums.end());
+    
+    int longest = 0;
+    for (const int& num : nums) {
+      if (numSet.count(num - 1) == 0) {
+        int len = 0;
+        while (numSet.count(num + len))
+          len++;
+        longest = max(longest, len);
       }
     }
-
-    return ans;
+    
+    return longest;
   }
 };

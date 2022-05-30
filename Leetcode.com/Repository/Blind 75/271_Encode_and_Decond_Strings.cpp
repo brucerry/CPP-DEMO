@@ -17,21 +17,19 @@ public:
     return output;
   }
 
-  vector<string> decode(string& s) {
+  vector<string> decode(string &str) {
     vector<string> output;
 
     int i = 0;
+    while (i < str.length()) {
+      string len;
+      while (str[i] != '#')
+        len += str[i++];
+      int n = stoi(len);
 
-    while (i < s.length()) {
-      string tmp;
-      while (isdigit(s[i])) {
-        tmp += s[i];
-        i++;
-      }
-      int len = stoi(tmp);
       i++;
-      output.emplace_back(s.substr(i, len));
-      i += len;
+      output.emplace_back(str.substr(i, n));
+      i += n;
     }
 
     return output;

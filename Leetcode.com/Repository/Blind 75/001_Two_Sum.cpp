@@ -10,11 +10,13 @@ using namespace std;
 class Solution {
 public:
   vector<int> twoSum(vector<int>& nums, int target) {
-    unordered_map<int, int> diffMap; // diff, index
+    unordered_map<int, int> diffIndex; // diff, index
     
     for (int i = 0; i < nums.size(); i++) {
-      if (diffMap.count(nums[i])) return { diffMap[nums[i]], i };
-      diffMap[target - nums[i]] = i;
+      if (diffIndex.count(nums[i]))
+        return { i, diffIndex[nums[i]] };
+      int diff = target - nums[i];
+      diffIndex[diff] = i;
     }
     
     return { -1, -1 };

@@ -13,18 +13,20 @@ public:
     if (nums1.size() > nums2.size())
       nums1.swap(nums2);
     
-    int totalLen = nums1.size() + nums2.size();
+    int len1 = nums1.size();
+    int len2 = nums2.size();
+    int totalLen = len1 + len2;
     int halfLen = totalLen >> 1;
-    int l = 0, r = nums1.size() - 1;
+    int l = 0, r = len1 - 1;
     
     while (true) {
       int m1 = l + ((r - l) >> 1);
       int m2 = halfLen - m1 - 2; // -2 is because both 'm1' and 'm2' are indexed start from 0
       
       int leftVal1 = m1 < 0 ? INT_MIN : nums1[m1];
-      int rightVal1 = m1 + 1 >= nums1.size() ? INT_MAX : nums1[m1+1];
+      int rightVal1 = m1 + 1 >= len1 ? INT_MAX : nums1[m1+1];
       int leftVal2 = m2 < 0 ? INT_MIN : nums2[m2];
-      int rightVal2 = m2 + 1 >= nums2.size() ? INT_MAX : nums2[m2+1];
+      int rightVal2 = m2 + 1 >= len2 ? INT_MAX : nums2[m2+1];
       
       if (leftVal1 <= rightVal2 and leftVal2 <= rightVal1) {
         // odd len
