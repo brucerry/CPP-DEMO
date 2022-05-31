@@ -16,14 +16,14 @@ struct ListNode {
 class Solution {
 public:
   ListNode* removeNthFromEnd(ListNode* head, int n) {
-    ListNode dummy(0, head);
+    ListNode dummy = ListNode(0, head);
+    
     ListNode* tmp = head;
-    
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++) {
       tmp = tmp->next;
+    }
     
-    ListNode* cur = head, *prev = &dummy;
-    
+    ListNode* prev = &dummy, *cur = head;
     while (tmp) {
       tmp = tmp->next;
       prev = cur;

@@ -1,7 +1,5 @@
 // https://leetcode.com/problems/validate-binary-search-tree/
 
-#include <cstdlib>
-
 struct TreeNode {
   int val;
   TreeNode *left;
@@ -15,19 +13,19 @@ struct TreeNode {
 // space: O(height of tree)
 
 class Solution {
-private:
-  bool isValidBST(long leftBound, TreeNode* root, long rightBound) {
-    if (!root)
-      return true;
-    
-    if (leftBound >= root->val || root->val >= rightBound)
-      return false;
-    
-    return isValidBST(leftBound, root->left, root->val) && isValidBST(root->val, root->right, rightBound);
-  }
-  
 public:
   bool isValidBST(TreeNode* root) {
-    return isValidBST(LONG_MIN, root, LONG_MAX);
+    return solve(LONG_MIN, root, LONG_MAX);
+  }
+  
+private:
+  bool solve(long leftBound, TreeNode* node, long rightBound) {
+    if (!node)
+      return true;
+    
+    if (leftBound < node->val and node->val < rightBound)
+      return solve(leftBound, node->left, node->val) and solve(node->val, node->right, rightBound);
+    
+    return false;
   }
 };

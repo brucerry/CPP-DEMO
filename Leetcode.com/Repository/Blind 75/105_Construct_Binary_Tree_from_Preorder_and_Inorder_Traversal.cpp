@@ -16,24 +16,23 @@ struct TreeNode {
 // space: O(n)
 
 class Solution {
-private:
-  TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder, int preStart, int preEnd, int inStart, int inEnd) {
-    if (preStart > preEnd)
-      return nullptr;
-
-    int rootValue = preorder[preStart];
-    int rootIndex = find(inorder.begin(), inorder.end(), rootValue) - inorder.begin();
-    int leftSize = rootIndex - inStart;
-
-    TreeNode* root = new TreeNode(rootValue);
-    root->left = buildTree(preorder, inorder, preStart + 1, preStart + leftSize, inStart, rootIndex - 1);
-    root->right = buildTree(preorder, inorder, preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd);
-
-    return root;
-  }
-
 public:
   TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-    return buildTree(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+    return solve(preorder, inorder, 0, preorder.size() - 1, 0, inorder.size() - 1);
+  }
+  
+private:
+  TreeNode* solve(vector<int>& preorder, vector<int>& inorder, int preStart, int preEnd, int inStart, int inEnd) {
+    if (preStart > preEnd)
+      return nullptr;
+    
+    int rootVal = preorder[preStart];
+    int rootIndex = find(inorder.begin(), inorder.end(), rootVal) - inorder.begin();
+    int leftSize = rootIndex - inStart;
+    
+    TreeNode* leftNode = solve(preorder, inorder, preStart + 1, preStart + leftSize, inStart, rootIndex - 1);
+    TreeNode* rightNode = solve(preorder, inorder, preStart + leftSize + 1, preEnd, rootIndex + 1, inEnd);
+    
+    return new TreeNode(rootVal, leftNode, rightNode);
   }
 };

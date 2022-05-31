@@ -16,36 +16,6 @@ struct TreeNode {
 // space: O(n)
 
 class Codec {
-private:
-  void dfsSerialize(TreeNode* node, string& str) {
-    if (str.length())
-      str += ',';
-
-    if (!node) {
-      str += 'N';
-      return;
-    }
-    
-    str += to_string(node->val);
-    dfsSerialize(node->left, str);
-    dfsSerialize(node->right, str);
-  }
-
-  TreeNode* dfsDeserialize(vector<string>& values, int* i) {
-    if (values[*i] == "N") {
-      (*i)++;
-      return nullptr;
-    }
-
-    TreeNode* node = new TreeNode(stoi(values[*i]));
-    (*i)++;
-
-    node->left = dfsDeserialize(values, i);
-    node->right = dfsDeserialize(values, i);
-
-    return node;
-  }
-
 public:
 
   // Encodes a tree to a single string.
@@ -57,15 +27,43 @@ public:
 
   // Decodes your encoded data to tree.
   TreeNode* deserialize(string data) {
-    vector<string> values;
     stringstream ss (data);
     string s;
-    while (getline(ss, s, ',')) {
+    vector<string> values;
+    while (getline(ss, s, ','))
       values.emplace_back(s);
-    }
-
+    
     int i = 0;
-    return dfsDeserialize(values, &i);
+    return dfsDeserialize(values, i);
+  }
+  
+private:
+  TreeNode* dfsDeserialize(vector<string>& values, int& i) {
+    if (values[i] == "N") {
+      i++;
+      return nullptr;
+    }
+    
+    TreeNode* node = new TreeNode(stoi(values[i]));
+    i++;
+    node->left = dfsDeserialize(values, i);
+    node->right = dfsDeserialize(values, i);
+    
+    return node;
+  }
+  
+  void dfsSerialize(TreeNode* node, string& output) {
+    if (output.length())
+      output += ',';
+    
+    if (!node) {
+      output += 'N';
+      return;
+    }
+    
+    output += to_string(node->val);
+    dfsSerialize(node->left, output);
+    dfsSerialize(node->right, output);
   }
 };
 
