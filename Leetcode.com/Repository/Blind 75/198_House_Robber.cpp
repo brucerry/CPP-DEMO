@@ -6,19 +6,28 @@ using namespace std;
 // time: O(n)
 // space: O(1)
 
-class Solution {
+class TwoVariables {
 public:
   int rob(vector<int>& nums) {
-    // rob1, rob2, 0, 1, 2, 3, ..., nums.size() - 1
-
-    int rob1 = 0, rob2 = 0;
-
-    for (int& num : nums) {
-      int tmp = max(num + rob1, rob2);
-      rob1 = rob2;
-      rob2 = tmp;
+    int one = 0, two = 0;
+    
+    for (const int& num : nums) {
+      int tmp = max(num + one, two);
+      one = two;
+      two = tmp;
     }
+    
+    return two;
+  }
+};
 
-    return rob2;
+class InPlace {
+public:
+  int rob(vector<int>& nums) {
+    for (int i = 1; i < nums.size(); i++) {
+      int val = i - 2 < 0 ? 0 : nums[i-2];
+      nums[i] = max(nums[i] + val, nums[i-1]);
+    }
+    return nums.back();
   }
 };

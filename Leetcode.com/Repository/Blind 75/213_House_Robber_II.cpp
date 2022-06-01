@@ -15,15 +15,15 @@ public:
   }
   
 private:
-  int houseRobber1(vector<int>& nums, int left, int right) {
-    int rob1 = 0, rob2 = 0;
+  int houseRobber1(vector<int>& nums, int l, int r) {
+    int one = 0, two = 0;
     
-    for (int i = left; i <= right; i++) {
-      int tmp = max(rob2, nums[i] + rob1);
-      rob1 = rob2;
-      rob2 = tmp;
+    for (int i = l; i <= r; i++) {
+      int tmp = max(nums[i] + one, two);
+      one = two;
+      two = tmp;
     }
     
-    return rob2;
+    return two;
   }
 };

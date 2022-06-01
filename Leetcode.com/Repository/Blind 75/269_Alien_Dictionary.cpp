@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/alien-dictionary/
 
 #include <vector>
+#include <array>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,63 +13,58 @@ using namespace std;
 // space: O(n)
 
 class Solution {
-private:
-  bool hasCycle(unordered_map<char, unordered_set<char>> &graph, const char& node, string& result, vector<char>& visitStates) {
-    if (visitStates[node - 'a'] == 1)
-      return true;
-
-    if (visitStates[node - 'a'] == 2)
-      return false;
-
-    visitStates[node - 'a'] = 1;
-
-    for (const char& neighbor : graph[node]) {
-      if (hasCycle(graph, neighbor, result, visitStates))
-        return true;
-    }
-
-    visitStates[node - 'a'] = 2;
-
-    result += node;
-
-    return false;
-  }
-
 public:
-  string alienOrder(vector<string>& words) {
+  string alienOrder(vector<string> &words) {
     unordered_map<char, unordered_set<char>> graph;
-
     for (const string& word : words) {
-      for (const char& ch : word) {
-        graph[ch] = {};
+      for (const char& c : word) {
+        graph[c] = {};
       }
     }
 
-    for (int i = 0; i < words.size() - 1; i++) {
-      string_view word1 = words[i];
-      string_view word2 = words[i + 1];
-      int minLen = min(word1.length(), word2.length());
-
-      if (word1.substr(0, minLen) == word2.substr(0, minLen) && word1.length() > word2.length())
+    for (int i = 1; i < words.size(); i++) {
+      string& w1 = words[i-1];
+      string& w2 = words[i];
+      if (w1.length() > w2.length() and w1.find(w2) == 0)
         return "";
-
-      for (int j = 0; j < minLen; j++) {
-        if (word1[j] != word2[j]) {
-          graph[word1[j]].emplace(word2[j]);
+      for (int j = 0; j < w1.length(); j++) {
+        if (w1[j] != w2[j]) {
+          graph[w1[j]].emplace(w2[j]);
           break;
         }
       }
     }
 
-    vector<char> visitStates (26, 0); // 1: visiting, 2: visited
-    string result;
-
+    string order;
+    array<char, 26> visitState { 0 }; // 0: not visited, 1: visiting, 2: visited
     for (const auto& [ node, _ ] : graph) {
-      if (hasCycle(graph, node, result, visitStates))
+      if (hasCycle(graph, node, visitState, order))
         return "";
     }
 
-    reverse(result.begin(), result.end());
-    return result;
+    reverse(order.begin(), order.end());
+
+    return order;
+  }
+
+private:
+  bool hasCycle(unordered_map<char, unordered_set<char>>& graph, char node, array<char, 26>& visitState, string& order) {
+    if (visitState[node - 'a'] == 1)
+      return true;
+
+    if (visitState[node - 'a'] == 2)
+      return false;
+
+    visitState[node - 'a'] = 1;
+
+    for (const char& neighbor : graph[node]) {
+      if (hasCycle(graph, neighbor, visitState, order))
+        return true;
+    }
+
+    order += node;
+    visitState[node - 'a'] = 2;
+
+    return false;
   }
 };
