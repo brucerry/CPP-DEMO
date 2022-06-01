@@ -33,11 +33,8 @@ public:
   bool startsWith(string prefix) {
     return searchPrefix(prefix);
   }
-  
+
 private:
-  bool isEnd;
-  array<Trie*, 26> children;
-  
   Trie* searchPrefix(string& prefix) {
     Trie* cur = this;
     for (const char& c : prefix) {
@@ -47,6 +44,10 @@ private:
     }
     return cur;
   }
+  
+private:
+  bool isEnd;
+  array<Trie*, 26> children;
 };
 
 /**

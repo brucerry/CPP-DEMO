@@ -12,26 +12,26 @@ class Solution {
 public:
   bool validTree(int n, vector<vector<int>> &edges) {
     vector<vector<int>> graph (n);
-
     for (const auto& edge : edges) {
-      graph[edge[0]].emplace_back(edge[1]);
-      graph[edge[1]].emplace_back(edge[0]);
+      int a = edge[0];
+      int b = edge[1];
+      graph[a].emplace_back(b);
+      graph[b].emplace_back(a);
     }
 
     unordered_set<int> visited;
-
-    return !hasCycle(graph, 0, -1, visited) && visited.size() == n;
+    return !hasCycle(graph, -1, 0, visited) and visited.size() == n;
   }
 
 private:
-  bool hasCycle(vector<vector<int>>& graph, int node, int prevNode, unordered_set<int>& visited) {
+  bool hasCycle(vector<vector<int>>& graph, int prev, int node, unordered_set<int>& visited) {
     if (visited.count(node))
       return true;
 
     visited.emplace(node);
 
     for (const int& neighbor : graph[node]) {
-      if (neighbor != prevNode && hasCycle(graph, neighbor, node, visited))
+      if (prev != neighbor and hasCycle(graph, node, neighbor, visited))
         return true;
     }
 

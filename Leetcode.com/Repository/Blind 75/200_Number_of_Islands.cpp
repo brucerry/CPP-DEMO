@@ -9,16 +9,16 @@ using namespace std;
 class Solution {
 public:
   int numIslands(vector<vector<char>>& grid) {
-    int islandsCount = 0;
+    int island = 0;
     
     for (int r = 0; r < grid.size(); r++) {
       for (int c = 0; c < grid[0].size(); c++) {
         if (exploreIsland(grid, r, c))
-          islandsCount++;
+          island++;
       }
     }
     
-    return islandsCount;
+    return island;
   }
   
 private:

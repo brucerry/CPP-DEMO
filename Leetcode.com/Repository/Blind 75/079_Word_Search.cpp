@@ -27,7 +27,6 @@ private:
     if (r < 0 or r >= board.size() or c < 0 or c >= board[0].size() or board[r][c] != word[i])
       return false;
     
-    char ch = board[r][c];
     board[r][c] = '*';
     
     if (searchWord(board, word, r+1, c, i+1) or
@@ -36,7 +35,7 @@ private:
         searchWord(board, word, r, c-1, i+1))
       return true;
     
-    board[r][c] = ch;
+    board[r][c] = word[i];
     
     return false;
   }

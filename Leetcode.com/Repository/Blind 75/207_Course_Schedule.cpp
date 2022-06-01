@@ -10,13 +10,13 @@ class Solution {
 public:
   bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     vector<vector<int>> graph (numCourses);
-    
     for (const auto& p : prerequisites) {
-      graph[p[1]].emplace_back(p[0]);
+      int from = p[1];
+      int to = p[0];
+      graph[from].emplace_back(to);
     }
     
-    vector<char> visitState (numCourses, 0); // 1: visiting 2: visited
-    
+    vector<char> visitState (numCourses); // 0: not visited, 1: visiting, 2: visited
     for (int node = 0; node < numCourses; node++) {
       if (hasCycle(graph, node, visitState))
         return false;

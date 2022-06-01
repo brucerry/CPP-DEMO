@@ -23,7 +23,7 @@ public:
     string word;
     for (int r = 0; r < board.size(); r++) {
       for (int c = 0; c < board[0].size(); c++) {
-        exploreWord(board, r, c, &root, word, result, used);
+        dfsSearch(board, r, c, &root, word, result, used);
       }
     }
     
@@ -50,7 +50,7 @@ private:
     }
   };
   
-  void exploreWord(vector<vector<char>>& board, int r, int c, Trie* node, string& word, vector<string>& result, unordered_set<string>& used) {
+  void dfsSearch(vector<vector<char>>& board, int r, int c, Trie* node, string& word, vector<string>& result, unordered_set<string>& used) {
     if (r < 0 or r >= board.size() or c < 0 or c >= board[0].size() or board[r][c] == '*' or !node->children[board[r][c] - 'a'])
       return;
     
@@ -63,10 +63,10 @@ private:
       result.emplace_back(word);
     }
     
-    exploreWord(board, r+1, c, node, word, result, used);
-    exploreWord(board, r-1, c, node, word, result, used);
-    exploreWord(board, r, c+1, node, word, result, used);
-    exploreWord(board, r, c-1, node, word, result, used);
+    dfsSearch(board, r+1, c, node, word, result, used);
+    dfsSearch(board, r-1, c, node, word, result, used);
+    dfsSearch(board, r, c+1, node, word, result, used);
+    dfsSearch(board, r, c-1, node, word, result, used);
     
     board[r][c] = word.back();
     word.pop_back();
