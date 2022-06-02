@@ -5,7 +5,7 @@ using namespace std;
 
 // time: O(n)
 // space: O(1)
-class OptimizedSpace {
+class SpaceOptimized {
 public:
   vector<int> dailyTemperatures(vector<int>& temperatures) {
     int n = temperatures.size();
@@ -41,8 +41,8 @@ public:
     for (int i = 0; i < n; i++) {
       while (buffer.size() and buffer.back().first < temperatures[i]) {
         int index = buffer.back().second;
-        waitDays[index] = i - index;
         buffer.pop_back();
+        waitDays[index] = i - index;
       }
       buffer.emplace_back(temperatures[i], i);
     }

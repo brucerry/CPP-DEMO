@@ -13,7 +13,7 @@ public:
     int n = nums.size();
     deque<int> deque; // monotonic decreasing queue, store indices
     
-    vector<int> result;
+    vector<int> window;
     int l = 0;
     for (int r = 0; r < n; r++) {
       // remove smaller values from the back
@@ -28,11 +28,11 @@ public:
       
       // update result when window size is k
       if (r - l + 1 == k) {
-        result.emplace_back(nums[deque.front()]);
+        window.emplace_back(nums[deque.front()]);
         l++;
       }
     }
     
-    return result;
+    return window;
   }
 };

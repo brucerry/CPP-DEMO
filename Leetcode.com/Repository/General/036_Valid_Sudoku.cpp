@@ -25,7 +25,7 @@ private:
     board[r][c] = '.'; // skip checking this char again
     
     for (int i = 0; i < 9; i++) {
-      if (board[r][i] == ch or board[i][c] == ch or board[3 * (r / 3) + i / 3][3 * (c / 3) + i % 3] == ch)
+      if (board[r][i] == ch or board[i][c] == ch or board[3 * (r / 3) + (i / 3)][3 * (c / 3) + (i % 3)] == ch)
         return false;
     }
     

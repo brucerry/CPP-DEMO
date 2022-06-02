@@ -10,11 +10,14 @@ using namespace std;
 class Solution {
 public:
   bool checkInclusion(string& s1, string& s2) {
-    if (s1.length() > s2.length())
+    int m = s1.length();
+    int n = s2.length();
+    
+    if (m > n)
       return false;
     
     array<int, 26> s1Count { 0 }, s2Count { 0 };
-    for (int i = 0; i < s1.length(); i++) {
+    for (int i = 0; i < m; i++) {
       s1Count[s1[i] - 'a']++;
       s2Count[s2[i] - 'a']++;
     }
@@ -28,7 +31,7 @@ public:
     if (match == 26)
       return true;
     
-    for (int l = 0, r = s1.length(); r < s2.length(); l++, r++) {      
+    for (int l = 0, r = m; r < n; l++, r++) {      
       int l_index = s2[l] - 'a';
       int r_index = s2[r] - 'a';
       
