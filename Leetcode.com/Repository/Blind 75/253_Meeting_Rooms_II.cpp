@@ -18,33 +18,31 @@ public:
 class Solution {
 public:
   int minMeetingRooms(vector<Interval>& intervals) {
-    vector<int> starts (intervals.size());
-    vector<int> ends (intervals.size());
-
-    for (int i = 0; i < intervals.size(); i++) {
+    int n = intervals.size();
+    
+    vector<int> starts (n);
+    vector<int> ends (n);
+    for (int i = 0; i < n; i++) {
       starts[i] = intervals[i].start;
       ends[i] = intervals[i].end;
     }
-
     sort(starts.begin(), starts.end());
     sort(ends.begin(), ends.end());
-  
-    int s = 0, e = 0;
-    int count = 0;
-    int ans = 0;
 
-    while (s < starts.size()) {
-      if (starts[s] < ends[e]) {
-        count++;
-        s++;
-        ans = max(ans, count);
+    int room = 0, result = 0;
+    int i = 0, j = 0;
+    while (i < n) {
+      if (starts[i] < ends[j]) {
+        room++;
+        i++;
+        result = max(result, room);
       }
       else {
-        count--;
-        e++;
+        room--;
+        j++;
       }
     }
 
-    return ans;
+    return result;
   }
 };

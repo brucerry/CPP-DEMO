@@ -9,37 +9,33 @@ using namespace std;
 class Solution {
 public:
   vector<int> spiralOrder(vector<vector<int>>& matrix) {
-    vector<int> ans;
+    int rows = matrix.size();
+    int cols = matrix[0].size();
     
-    int left = 0, right = matrix[0].size() - 1;
-    int top = 0, bottom = matrix.size() - 1;
-
-    while (left <= right && top <= bottom) {
-      // push top-most elements
-      for (int c = left; c <= right; c++)
-        ans.emplace_back(matrix[top][c]);
+    int top = 0, bottom = rows - 1;
+    int left = 0, right = cols - 1;
+    vector<int> result;
+    while (top <= bottom and left <= right) {
+      for (int i = left; i <= right; i++)
+        result.emplace_back(matrix[top][i]);
       top++;
-
-      // push right-most elements
-      for (int r = top; r <= bottom; r++)
-        ans.emplace_back(matrix[r][right]);
+      
+      for (int i = top; i <= bottom; i++)
+        result.emplace_back(matrix[i][right]);
       right--;
-
-      // after top & right are modified
-      // give it a check
-      if (left > right || top > bottom) break;
-
-      // push bottom-most elements
-      for (int c = right; c >= left; c--)
-        ans.emplace_back(matrix[bottom][c]);
+      
+      if (top > bottom or left > right)
+        break;
+      
+      for (int i = right; i >= left; i--)
+        result.emplace_back(matrix[bottom][i]);
       bottom--;
-
-      // push left-most elements
-      for (int r = bottom; r >= top; r--)
-        ans.emplace_back(matrix[r][left]);
+      
+      for (int i = bottom; i >= top; i--)
+        result.emplace_back(matrix[i][left]);
       left++;
     }
-
-    return ans;
+    
+    return result;
   }
 };

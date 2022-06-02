@@ -4,6 +4,8 @@
 #include <string>
 using namespace std;
 
+// s = len of s
+// w = size of wordDict
 // time: O(s * w)
 // space: O(s)
 
