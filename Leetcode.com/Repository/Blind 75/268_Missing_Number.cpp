@@ -5,29 +5,32 @@ using namespace std;
 
 // time: O(n)
 // space: O(1)
-
-class Solution {
+class XOR_Solution {
 public:
-
-  // XOR solution
   int missingNumber(vector<int>& nums) {
-    int ans = nums.size();
+    int n = nums.size();
+    int result = n;
+    
+    for (int i = 0; i < n; i++) {
+      result ^= i ^ nums[i];
+    }
+    
+    return result;
+  }
+};
 
-    for (int i = 0; i < nums.size(); i++) {
-      ans ^= i ^ nums[i];
+// time: O(n)
+// space: O(1)
+class Sum_Solution {
+public:
+  int missingNumber(vector<int>& nums) {
+    int n = nums.size();
+    int result = n;
+
+    for (int i = 0; i < n; i++) {
+      result += i - nums[i];
     }
 
-    return ans;
+    return result;
   }
-
-  // SUM solution
-  // int missingNumber(vector<int>& nums) {
-  //   int ans = nums.size();
-
-  //   for (int i = 0; i < nums.size(); i++) {
-  //     ans += i - nums[i];
-  //   }
-
-  //   return ans;
-  // }
 };

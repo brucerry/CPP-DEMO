@@ -9,17 +9,15 @@ using namespace std;
 class Solution {
 public:
   vector<int> countBits(int n) {
-    vector<int> ans (n + 1);
-    ans[0] = 0;
-    int offset = 1;
+    vector<int> dp (n + 1);
     
-    for (int i = 1; i <= n ; i++) {
-      if (offset << 1 == i) {
-        offset = i;
-      }
-      ans[i] = ans[i - offset] + 1;
+    int offset = 1;
+    for (int num = 1; num <= n; num++) {
+      if ((offset << 1) == num)
+        offset = num;
+      dp[num] = dp[num - offset] + 1;
     }
     
-    return ans;
+    return dp;
   }
 };
