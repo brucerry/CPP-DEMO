@@ -6,7 +6,7 @@
 using namespace std;
 
 // time: O(n)
-// space: O(1)
+// space: O(1001) -> O(1)
 class BruteForce {
 public:
   bool carPooling(vector<vector<int>>& trips, int capacity) {

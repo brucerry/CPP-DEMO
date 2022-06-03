@@ -15,6 +15,12 @@ public:
     for (const char& c : text)
       charCount[c - 'a']++;
     
-    return min({ charCount['b' - 'a'], charCount['a' - 'a'], charCount['l' - 'a'] >> 1, charCount['o' - 'a'] >> 1, charCount['n' - 'a'] });
+    return min({
+      charCount['b' - 'a'],
+      charCount['a' - 'a'],
+      charCount['l' - 'a'] >> 1,
+      charCount['o' - 'a'] >> 1,
+      charCount['n' - 'a']
+    });
   }
 };

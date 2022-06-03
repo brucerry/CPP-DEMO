@@ -13,9 +13,11 @@ public:
     int n = costs.size();
     
     vector<pair<int, int>> diffs (n); // cost A - cost B, index
-    for (int i = 0; i < n; i++)
-      diffs[i] = { costs[i][0] - costs[i][1], i };
-    
+    for (int i = 0; i < n; i++) {
+      int a = costs[i][0];
+      int b = costs[i][1];
+      diffs[i] = { a - b, i };
+    }
     sort(diffs.begin(), diffs.end());
     
     int half = n >> 1;

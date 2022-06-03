@@ -9,15 +9,14 @@ public:
     if (n < 2)
       return n;
     
-    int one = 0, two = 1, ans = 1;
-    
+    int one = 0, two = 1, three = 1;
     for (int i = 2; i < n; i++) {
-      int tmp = ans;
-      ans += one + two;
+      int tmp = one + two + three;
       one = two;
-      two = tmp;
+      two = three;
+      three = tmp;
     }
     
-    return ans;
+    return three;
   }
 };
