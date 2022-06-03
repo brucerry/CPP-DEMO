@@ -10,19 +10,19 @@ class Solution {
 public:
   vector<vector<int>> subsets(vector<int>& nums) {
     vector<vector<int>> solution;
-    vector<int> state;
-    solve(nums, solution, state, 0);
+    vector<int> subset;
+    solve(nums, solution, subset, 0);
     return solution;
   }
   
 private:
-  void solve(vector<int>& nums, vector<vector<int>>& solution, vector<int>& state, int start) {
-    solution.emplace_back(state);
+  void solve(vector<int>& nums, vector<vector<int>>& solution, vector<int>& subset, int start) {
+    solution.emplace_back(subset);
     
     for (int i = start; i < nums.size(); i++) {
-      state.emplace_back(nums[i]);
-      solve(nums, solution, state, i + 1);
-      state.pop_back();
+      subset.emplace_back(nums[i]);
+      solve(nums, solution, subset, i + 1);
+      subset.pop_back();
     }
   }
 };

@@ -21,7 +21,7 @@ public:
         ready.emplace(count);
     }
     
-    queue<pair<int, int>> cooldown; // ready time, count
+    queue<pair<int, int>> cooldown; // count, ready time
     
     int curTime = 0;
     while (ready.size() or cooldown.size()) {
@@ -29,21 +29,19 @@ public:
         int count = ready.top();
         ready.pop();
         if (--count)
-          cooldown.emplace(curTime + n, count);
+          cooldown.emplace(count, curTime + n);
       }
       
-      if (cooldown.size()) {
-        auto [ readytime, count ] = cooldown.front();
-        if (readytime == curTime) {
-          ready.emplace(count);
-          cooldown.pop();
-        }
+      if (cooldown.size() and cooldown.front().second == curTime) {
+        auto [ count, _ ] = cooldown.front();
+        cooldown.pop();
+        ready.emplace(count);
       }
       
-      if (ready.size() or cooldown.size() == 0)
-        curTime++;
+      if (ready.size() == 0 and cooldown.size())
+        curTime = cooldown.front().second;
       else
-        curTime = cooldown.front().first;
+        curTime++;
     }
     
     return curTime;
