@@ -16,40 +16,37 @@ public:
   }
   
 private:
-  int solve(vector<string>& arr, int i, int charMask) {
+  int solve(vector<string>& arr, int i, int usedMask) {
     if (i == arr.size())
-      return countingBits(charMask);
+      return countingBits(usedMask);
     
-    int skip = solve(arr, i + 1, charMask);
+    int skip = solve(arr, i + 1, usedMask);
     int apply = 0;
     
-    if (!isDuplicated(arr[i], charMask)) {
+    if (!isDuplicated(arr[i], usedMask)) {
       for (const char& c : arr[i])
-        charMask |= (1 << (c - 'a'));
-      apply = solve(arr, i + 1, charMask);
+        usedMask |= (1 << (c - 'a'));
+      apply = solve(arr, i + 1, usedMask);
     }
     
     return max(skip, apply);
   }
   
-  bool isDuplicated(string& str, int charMask) {
-    int strMask = 0;
-    for (const char& c : str) {
-      if (charMask & (1 << (c - 'a')))
-        return true;
-      if (strMask & (1 << (c - 'a')))
-        return true;
-      strMask |= (1 << (c - 'a'));
-    }
-    return false;
-  }
-  
-  int countingBits(int charMask) {
+  int countingBits(int n) {
     int count = 0;
-    while (charMask) {
-      charMask &= (charMask - 1);
+    while (n) {
+      n &= n - 1;
       count++;
     }
     return count;
+  }
+  
+  bool isDuplicated(string& s, int usedMask) {
+    for (const char& c : s) {
+      if (usedMask & (1 << (c - 'a')))
+        return true;
+      usedMask |= (1 << (c - 'a'));
+    }
+    return false;
   }
 };
