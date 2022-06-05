@@ -9,20 +9,20 @@ using namespace std;
 class Solution {
 public:
   int removeCoveredIntervals(vector<vector<int>>& intervals) {
-    sort(intervals.begin(), intervals.end(), [](const auto& a, const auto& b) -> bool {
+    sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) -> bool {
       return a[0] == b[0] ? a[1] > b[1] : a[0] < b[0];
     });
     
     vector<int> largerInterval;
-    int remainCount = 0;
+    int remain = 0;
     for (const auto& interval : intervals) {
-      if (remainCount and interval[1] <= largerInterval[1])
-        continue;
-      largerInterval = interval;
-      remainCount++;
+      if (remain == 0 or largerInterval[1] < interval[1]) {
+        largerInterval = interval;
+        remain++;
+      }
     }
     
-    return remainCount;
+    return remain;
   }
 };
 
@@ -37,9 +37,8 @@ public:
     
     vector<vector<int>> largerIntervals;
     for (const auto& interval : intervals) {
-      if (largerIntervals.size() and interval[1] <= largerIntervals.back()[1])
-        continue;
-      largerIntervals.emplace_back(interval);
+      if (largerIntervals.size() == 0 or largerIntervals.back()[1] < interval[1])
+        largerIntervals.emplace_back(interval);
     }
     
     return largerIntervals.size();

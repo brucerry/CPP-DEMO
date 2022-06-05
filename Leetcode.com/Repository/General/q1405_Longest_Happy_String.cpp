@@ -11,7 +11,7 @@ using namespace std;
 class Solution {
 public:
   string longestDiverseString(int a, int b, int c) {
-    priority_queue<pair<int, char>> maxHeap;
+    priority_queue<pair<int, char>> maxHeap; // count, char
     if (a)
       maxHeap.emplace(a, 'a');
     if (b)

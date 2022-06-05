@@ -15,16 +15,18 @@ public:
     int cols = grid[0].size();
     
     vector<vector<int>> lives (rows, vector<int>(cols, -1));
+    lives[0][0] = k;
+    
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
     
-    queue<tuple<int, int, int>> queue; // live, r, c
-    queue.emplace(k, 0, 0);
+    queue<tuple<int, int, int>> queue; // r, c, live
+    queue.emplace(0, 0, k);
     int step = 0;
     while (queue.size()) {
       int size = queue.size();
       
       while (size--) {
-        auto [ live, r, c ] = queue.front();
+        auto [ r, c, live ] = queue.front();
         queue.pop();
         
         if (r == rows - 1 and c == cols - 1)
@@ -38,11 +40,10 @@ public:
           int newc = c + dc;
           if (0 <= newr and newr < rows and 0 <= newc and newc < cols and lives[newr][newc] < live) {
             lives[newr][newc] = live;
-            queue.emplace(live, newr, newc);
+            queue.emplace(newr, newc, live);
           }
         }
       }
-      
       step++;
     }
     
