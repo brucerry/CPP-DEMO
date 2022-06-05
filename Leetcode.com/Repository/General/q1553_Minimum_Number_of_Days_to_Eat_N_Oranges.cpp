@@ -9,7 +9,7 @@ using namespace std;
 class Solution {
 public:
   int minDays(int n) {
-    unordered_map<int, int> memo;    
+    unordered_map<int, int> memo; // remain, min days
     return solve(n, memo);
   }
   
@@ -21,9 +21,8 @@ private:
     if (memo.count(n))
       return memo[n];
     
-    int div_2 = 1 + (n & 1) + solve(n >> 1, memo);
+    int div_2 = 1 + (n % 2) + solve(n / 2, memo);
     int div_3 = 1 + (n % 3) + solve(n / 3, memo);
-    
     return memo[n] = min(div_2, div_3);
   }
 };

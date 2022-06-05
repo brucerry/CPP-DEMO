@@ -8,17 +8,13 @@
 class Solution {
 public:
   int numWaterBottles(int numBottles, int numExchange) {
-    int drinkCount = numBottles;
-    int remain = numBottles;
-    
+    int drink = numBottles, remain = numBottles;
     while (remain >= numExchange) {
       int full = remain / numExchange;
       int empty = remain % numExchange;
-      
-      drinkCount += full;
+      drink += full;
       remain = full + empty;
     }
-    
-    return drinkCount;
+    return drink;
   }
 };
