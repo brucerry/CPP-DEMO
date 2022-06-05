@@ -10,17 +10,37 @@ using namespace std;
 class Solution {
 public:
   bool hasAllCodes(string& s, int k) {
-    unordered_set<int> codeSet;
-    int val = 0;
+    unordered_set<int> codes;
+    int code = 0;
     
     for (int i = 0; i < s.length(); i++) {
-      val = (val << 1) | (s[i] - '0');
+      code = (code << 1) | (s[i] - '0');
       if (i >= k - 1) {
-        codeSet.insert(val);
-        val -= (s[i - (k - 1)] - '0') << (k - 1);
+        codes.insert(code);
+        code -= (s[i - (k - 1)] - '0') << (k - 1);
       }
     }
     
-    return codeSet.size() == 1 << k;
+    return codes.size() == 1 << k;
+  }
+};
+
+class Solution {
+public:
+  bool hasAllCodes(string& s, int k) {
+    unordered_set<int> codes;
+    int code = 0;
+    
+    int l = 0;
+    for (int r = 0; r < s.length(); r++) {      
+      code = (code << 1) | (s[r] - '0');
+      if (r - l + 1 == k) {
+        codes.insert(code);
+        code -= (s[l] - '0') << (k - 1);
+        l++;
+      }
+    }
+    
+    return codes.size() == 1 << k;
   }
 };
