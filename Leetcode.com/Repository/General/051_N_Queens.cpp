@@ -5,7 +5,7 @@
 #include <string>
 using namespace std;
 
-// time: O(n^2)
+// time: O(n! * n)
 // space: O(n)
 
 class Solution {
