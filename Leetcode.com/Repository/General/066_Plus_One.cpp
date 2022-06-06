@@ -13,19 +13,18 @@ public:
     
     reverse(digits.begin(), digits.end());
     digits.emplace_back(0);
-    digits[0]++;
+    digits[0] = 1;
     
     for (int i = 0; i < n; i++) {
       int sum = digits[i];
       digits[i] = sum % 10;
-      digits[i + 1] += sum / 10;
+      digits[i+1] += sum / 10;
     }
     
     if (digits.back() == 0)
       digits.pop_back();
     
     reverse(digits.begin(), digits.end());
-    
     return digits;
   }
 };

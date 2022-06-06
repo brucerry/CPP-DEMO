@@ -10,21 +10,21 @@ class Solution {
 public:
   bool splitString(string& s) {
     for (int i = 0; i < s.length() - 1; i++) {
-      unsigned long long val = stoull(s.substr(0, i + 1));
-      if (searchNext(s, i + 1, val))
+      unsigned long val = stoul(s.substr(0, i + 1));
+      if (searchNext(s, val, i + 1))
         return true;
     }
     return false;
   }
   
 private:
-  bool searchNext(string& s, int start, unsigned long long prev) {
+  bool searchNext(string& s, unsigned long prev, int start) {
     if (start == s.length())
       return true;
     
     for (int i = start; i < s.length(); i++) {
-      unsigned long long val = stoull(s.substr(start, i - start + 1));
-      if (val + 1 == prev and searchNext(s, i + 1, val))
+      unsigned long val = stoul(s.substr(start, i - start + 1));
+      if (prev == val + 1 and searchNext(s, val, i + 1))
         return true;
     }
     

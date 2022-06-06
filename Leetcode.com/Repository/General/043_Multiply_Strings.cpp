@@ -36,7 +36,6 @@ public:
       result.pop_back();
     
     reverse(result.begin(), result.end());
-    
     return result;
   }
 };

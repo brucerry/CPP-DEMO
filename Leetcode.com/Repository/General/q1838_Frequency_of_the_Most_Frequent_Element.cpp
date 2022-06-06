@@ -23,6 +23,7 @@ public:
       }
       maxFreq = max(maxFreq, r - l + 1);
     }
+    
     return maxFreq;
   }
 };

@@ -7,12 +7,10 @@ class Solution {
 public:
   bool isHappy(int n) {
     int slow = cal(n), fast = cal(cal(n));
-    
     while (slow != fast) {
       slow = cal(slow);
       fast = cal(cal(fast));
     }
-    
     return slow == 1;
   }
   
