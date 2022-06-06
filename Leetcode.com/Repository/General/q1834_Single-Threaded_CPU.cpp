@@ -11,34 +11,32 @@ using namespace std;
 class Solution {
 public:
   vector<int> getOrder(vector<vector<int>>& tasks) {
-    for (int i = 0; i < tasks.size(); i++) {
+    int n = tasks.size();
+    
+    for (int i = 0; i < n; i++) {
       tasks[i].emplace_back(i);
     }
-    sort(tasks.begin(), tasks.end()); // start, duration, task index
+    sort(tasks.begin(), tasks.end()); // start, duration, taskIndex
     
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> ready; // duration, task index
-    
-    int i = 0;
-    unsigned int curTime = tasks[0][0];
-    vector<int> tasksOrder;
-    while (i < tasks.size() or ready.size()) {
-      while (i < tasks.size() and tasks[i][0] <= curTime) {
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> ready; // duration, taskIndex
+    vector<int> order;
+    unsigned int curTime = tasks[0][0], i = 0;
+    while (order.size() < n) {
+      while (i < n and tasks[i][0] <= curTime) {
         ready.emplace(tasks[i][1], tasks[i][2]);
         i++;
       }
       
       if (ready.size()) {
-        auto [ duration, taskIndex ] = ready.top();
+        auto [ duration, taskIndex] = ready.top();
         ready.pop();
-        
-        tasksOrder.emplace_back(taskIndex);
+        order.emplace_back(taskIndex);
         curTime += duration;
       }
-      else {
+      else
         curTime = tasks[i][0];
-      }
     }
     
-    return tasksOrder;
+    return order;
   }
 };

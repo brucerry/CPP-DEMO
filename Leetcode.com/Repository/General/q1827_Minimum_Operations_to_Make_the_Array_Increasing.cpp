@@ -11,11 +11,11 @@ public:
   int minOperations(vector<int>& nums) {
     int op = 0;
     for (int i = 1; i < nums.size(); i++) {
-      if (nums[i-1] < nums[i])
-        continue;
-      int diff = nums[i-1] - nums[i];
-      op += diff + 1;
-      nums[i] += diff + 1;
+      if (nums[i-1] >= nums[i]) {
+        int inc = nums[i-1] - nums[i] + 1;
+        op += inc;
+        nums[i] += inc;
+      }
     }
     return op;
   }
