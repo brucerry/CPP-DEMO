@@ -24,7 +24,6 @@ public:
     
     while (minHeap.size()) {
       int num = minHeap.top();
-      
       for (int val = num; val < num + groupSize; val++) {
         if (numCount.count(val) == 0)
           return false;

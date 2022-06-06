@@ -5,9 +5,9 @@
 #include <algorithm>
 using namespace std;
 
-// n = len of intervals
-// q = len of queries
-// time: O(n * log(n) + q * log(q))
+// n = size of intervals
+// q = size of queries
+// time: O(n * log(n) + q * log(q) + q * log(n))
 // space: O(n + q)
 
 class Solution {
