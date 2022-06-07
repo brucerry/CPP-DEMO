@@ -26,7 +26,7 @@ public:
   }
   
 private:
-  bool canSplit(vector<int>& nums, int m, int splitMax) {
+  bool canSplit(vector<int>& nums, int group, int splitMax) {
     int subarray = 0, curSum = 0;
     for (const int& num : nums) {
       curSum += num;
@@ -35,7 +35,7 @@ private:
         subarray++;
       }
     }
-    return subarray + 1 <= m;
+    return subarray + 1 <= group;
   }
 };
 

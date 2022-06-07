@@ -19,22 +19,21 @@ public:
   }
   
 private:
-  // height, balance
+  // height, isbalanced
   pair<int, bool> solve(TreeNode* node) {
     if (!node)
       return { 0, true };
     
-    auto [ leftHeight, leftBalance ] = solve(node->left);
-    if (!leftBalance)
+    auto [ leftHeight, leftBalanced ] = solve(node->left);
+    if (!leftBalanced)
       return { 0, false };
     
-    auto [ rightHeight, rightBalance ] = solve(node->right);
-    if (!rightBalance)
+    auto [ rightHeight, rightBalanced ] = solve(node->right);
+    if (!rightBalanced)
       return { 0, false };
     
     int height = 1 + max(leftHeight, rightHeight);
-    bool balance = abs(leftHeight - rightHeight) <= 1;
-    
-    return { height, balance };
+    bool isbalanced = abs(leftHeight - rightHeight) < 2;
+    return { height, isbalanced };
   }
 };
