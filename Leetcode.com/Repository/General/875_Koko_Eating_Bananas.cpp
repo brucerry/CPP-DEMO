@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-// n = len of piles
+// n = size of piles
 // m = max value of piles
 // time: O(log(m) * n)
 // space: O(1)
@@ -13,21 +13,19 @@ class Solution {
 public:
   int minEatingSpeed(vector<int>& piles, int h) {    
     int l = 1, r = *max_element(piles.begin(), piles.end());
-    
     while (l < r) {
       int m = l + ((r - l) >> 1);
       
-      int hour = 0;
-      for (const double& pile : piles) {
-        hour += ceil(pile / m);
+      int hrs = 0;
+      for (const double& p : piles) {
+        hrs += ceil(p / m);
       }
       
-      if (hour <= h)
+      if (hrs <= h)
         r = m;
       else
         l = m + 1;
     }
-    
     return r;
   }
 };

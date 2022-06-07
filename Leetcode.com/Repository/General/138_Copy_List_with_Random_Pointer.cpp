@@ -22,7 +22,7 @@ public:
 class Iterative {
 public:
   Node* copyRandomList(Node* head) {
-    unordered_map<Node*, Node*> nodeCopy { // originalNode, copyNode
+    unordered_map<Node*, Node*> nodeCopy { // original node, copied node
       { nullptr, nullptr }
     };
     
@@ -37,7 +37,6 @@ public:
       Node* copy = nodeCopy[cur];
       copy->next = nodeCopy[cur->next];
       copy->random = nodeCopy[cur->random];
-
       cur = cur->next;
     }
     
@@ -50,8 +49,8 @@ public:
 // space: O(n)
 class Recursive {
 public:
-  Node* copyRandomList(Node* head) {    
-    unordered_map<Node*, Node*> nodeCopy {
+  Node* copyRandomList(Node* head) {
+    unordered_map<Node*, Node*> nodeCopy { // original node, copied node
       { nullptr, nullptr }
     };
     return solve(head, nodeCopy);
@@ -64,7 +63,6 @@ private:
     
     Node* copy = new Node(node->val);
     nodeCopy[node] = copy;
-    
     copy->next = solve(node->next, nodeCopy);
     copy->random = solve(node->random, nodeCopy);
     

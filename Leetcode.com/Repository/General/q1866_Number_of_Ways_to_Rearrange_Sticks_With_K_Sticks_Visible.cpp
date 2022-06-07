@@ -8,12 +8,14 @@ using namespace std;
 class TopDownDP_1D {
 public:
   int rearrangeSticks(int n, int k) {
-    vector<long> dp (k + 1);
+    vector<int> dp (k + 1);
     dp[1] = 1;
     
     for (int r = 2; r <= n; r++) {
       for (int c = k; c >= 1; c--) {
-        dp[c] = (dp[c-1] + (r - 1) * dp[c]) % 1000000007;
+        if (r >= c) {
+          dp[c] = (dp[c-1] + (long)(r-1) * dp[c]) % 1000000007;
+        }
       }
     }
     
@@ -26,12 +28,14 @@ public:
 class TopDownDP_2D {
 public:
   int rearrangeSticks(int n, int k) {
-    vector<vector<long>> dp (n + 1, vector<long>(k + 1));
+    vector<vector<int>> dp (n + 1, vector<int>(k + 1));
     dp[1][1] = 1;
     
     for (int r = 2; r <= n; r++) {
       for (int c = 1; c <= k; c++) {
-        dp[r][c] = (dp[r-1][c-1] + dp[r-1][c] * (r - 1)) % 1000000007;
+        if (r >= c) {
+          dp[r][c] = (dp[r-1][c-1] + (long)(r-1) * dp[r-1][c]) % 1000000007;
+        }
       }
     }
     
@@ -50,7 +54,7 @@ public:
   
 private:
   long solve(int n, int k, vector<vector<long>>& memo) {
-    if (n == 0 or k == 0)
+    if (!n or !k or n < k)
       return 0;
     
     if (n == k)

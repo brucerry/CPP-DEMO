@@ -15,30 +15,24 @@ public:
       r += num;
     }
     
-    int result = r;
-    
-    while (l <= r) {
+    while (l < r) {
       int mid = l + ((r - l) >> 1);
-      
-      if (canSplit(nums, m, mid)) {
-        result = mid;
-        r = mid - 1;
-      }
+      if (canSplit(nums, m, mid))
+        r = mid;
       else
         l = mid + 1;
     }
-    
-    return result;
+    return l;
   }
   
 private:
-  bool canSplit(vector<int>& nums, int m, int largest) {
+  bool canSplit(vector<int>& nums, int m, int splitMax) {
     int subarray = 0, curSum = 0;
     for (const int& num : nums) {
       curSum += num;
-      if (curSum > largest) {
-        subarray++;
+      if (curSum > splitMax) {
         curSum = num;
+        subarray++;
       }
     }
     return subarray + 1 <= m;
@@ -51,12 +45,12 @@ class TopDownMemo {
 public:
   int splitArray(vector<int>& nums, int m) {
     int n = nums.size();
-
+    
     vector<int> prefixSum (n + 1);
     for (int i = 1; i <= n; i++) {
       prefixSum[i] = prefixSum[i-1] + nums[i-1];
     }
-
+    
     vector<vector<int>> memo (n, vector<int>(m + 1, INT_MAX));
     return solve(nums, m, 0, prefixSum, memo);
   }
@@ -72,10 +66,10 @@ private:
       return memo[start][m];
     
     for (int i = start; i < n - m + 1; i++) {
-      int splitSum = prefixSum[i+1] - prefixSum[start];
-      int maxSplitSum = max(splitSum, solve(nums, m - 1, i + 1, prefixSum, memo));
-      memo[start][m] = min(memo[start][m], maxSplitSum);
-      if (splitSum >= memo[start][m])
+      int splitMax = prefixSum[i+1] - prefixSum[start];
+      splitMax = max(splitMax, solve(nums, m - 1, i + 1, prefixSum, memo));
+      memo[start][m] = min(memo[start][m], splitMax);
+      if (splitMax >= memo[start][m])
         break;
     }
     
