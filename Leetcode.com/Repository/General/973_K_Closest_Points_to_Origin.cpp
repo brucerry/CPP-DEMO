@@ -11,30 +11,26 @@ using namespace std;
 class Solution {
 public:
   vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-    int n = points.size();
-    
-    priority_queue<pair<int, int>> maxHeap; // distance, index
-    for (int i = 0; i < n; i++) {
+    priority_queue<pair<int, int>> maxHeap; // dist, index
+    for (int i = 0; i < points.size(); i++) {
       int x = points[i][0];
       int y = points[i][1];
       int dist = x * x + y * y;
-      
-      if (maxHeap.size() < k) {
+      if (maxHeap.size() < k)
         maxHeap.emplace(dist, i);
-      }
       else if (dist < maxHeap.top().first) {
         maxHeap.pop();
         maxHeap.emplace(dist, i);
       }
     }
     
-    vector<vector<int>> kClosest;
-    while (maxHeap.size()) {
-      auto [ _, i ] = maxHeap.top();
+    vector<vector<int>> result (k);
+    for (int i = 0; i < k; i++) {
+      auto [ _, index ] = maxHeap.top();
       maxHeap.pop();
-      kClosest.emplace_back(points[i]);
+      result[i] = points[index];
     }
     
-    return kClosest;
+    return result;
   }
 };

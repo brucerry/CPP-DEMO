@@ -10,25 +10,24 @@ class Solution1 {
 public:
   vector<vector<int>> permute(vector<int>& nums) {
     vector<vector<int>> solution;
-    vector<int> permute;
-    solve(nums.size(), nums, solution, permute);
+    vector<int> perm;
+    solve(nums.size(), nums, solution, perm);
     return solution;
   }
   
 private:
-  void solve(int n, vector<int>& nums, vector<vector<int>>& solution, vector<int>& permute) {
-    if (n == permute.size()) {
-      solution.emplace_back(permute);
+  void solve(int n, vector<int>& nums, vector<vector<int>>& solution, vector<int>& perm) {
+    if (perm.size() == n) {
+      solution.emplace_back(perm);
       return;
     }
     
     for (int i = 0; i < nums.size(); i++) {
-      int num = nums[i];
+      perm.emplace_back(nums[i]);
       nums.erase(nums.begin() + i);
-      permute.emplace_back(num);
-      solve(n, nums, solution, permute);
-      permute.pop_back();
-      nums.emplace(nums.begin() + i, num);
+      solve(n, nums, solution, perm);
+      nums.emplace(nums.begin() + i, perm.back());
+      perm.pop_back();
     }
   }
 };
