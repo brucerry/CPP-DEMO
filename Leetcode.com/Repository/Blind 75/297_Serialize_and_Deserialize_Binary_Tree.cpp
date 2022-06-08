@@ -1,6 +1,5 @@
 // https://leetcode.com/problems/serialize-and-deserialize-binary-tree/
 
-#include <string>
 #include <sstream>
 #include <vector>
 using namespace std;

@@ -1,6 +1,5 @@
 // https://leetcode.com/problems/word-pattern/
 
-#include <string>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
