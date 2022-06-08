@@ -12,8 +12,8 @@ public:
     int n = s.length();
     int totalLen = n << 1;
     
-    char flip1_l = '0', flip2_l = '1';
-    char flip1_r = '0', flip2_r = '1';
+    char flip1_l = '0', flip1_r = '0';
+    char flip2_l = '1', flip2_r = '1';
     
     int result = n, diff1 = 0, diff2 = 0;
     int l = 0;
@@ -23,21 +23,19 @@ public:
       if (flip2_r != s[r % n])
         diff2++;
       
-      if (r - l + 1 > n) {
+      if (r - l + 1 == n) {
+        result = min({ result, diff1, diff2 });
         if (flip1_l != s[l])
           diff1--;
         if (flip2_l != s[l])
           diff2--;
         l++;
-        flip1_l = (flip1_l - '0') ^ 1 + '0';
-        flip2_l = (flip2_l - '0') ^ 1 + '0';
+        flip1_l = flip1_l == '0' ? '1' : '0';
+        flip2_l = flip2_l == '0' ? '1' : '0';
       }
       
-      if (r - l + 1 == n)
-        result = min({ result, diff1, diff2 });
-      
-      flip1_r = (flip1_r - '0') ^ 1 + '0';
-      flip2_r = (flip2_r - '0') ^ 1 + '0';
+      flip1_r = flip1_r == '0' ? '1' : '0';
+      flip2_r = flip2_r == '0' ? '1' : '0';
     }
     
     return result;

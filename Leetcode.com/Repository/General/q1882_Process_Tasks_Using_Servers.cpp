@@ -5,25 +5,29 @@
 #include <tuple>
 using namespace std;
 
-// s = len of servers
-// t = len of tasks
-// time: O(t * log(s))
+// s = size of servers
+// t = size of tasks
+// time: O(s * log(s) + t * log(s))
 // space: O(s)
 
 class Solution {
 public:
   vector<int> assignTasks(vector<int>& servers, vector<int>& tasks) {
+    int n = servers.size();
+    int m = tasks.size();    
+    
     // weight, serverIndex
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> freeServers;
-    for (int i = 0; i < servers.size(); i++)
+    for (int i = 0; i < n; i++) {
       freeServers.emplace(servers[i], i);
-    
+    }
+
     // ready time, weight, serverIndex
     priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> busyServers;
-    
-    vector<int> result (tasks.size());
+
     int curTime = 0;
-    for (int time = 0; time < tasks.size(); time++) {
+    vector<int> result (m);
+    for (int time = 0; time < m; time++) {
       curTime = max(curTime, time);
       if (freeServers.size() == 0)
         curTime = get<0>(busyServers.top());

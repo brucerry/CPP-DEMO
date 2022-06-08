@@ -19,7 +19,6 @@ public:
           subIsland++;
       }
     }
-    
     return subIsland;
   }
   
@@ -31,12 +30,12 @@ private:
     
     grid2[r][c] = 0;
     
-    char result = 1;
-    result &= exploreSubIsland(grid1, grid2, r+1, c);
-    result &= exploreSubIsland(grid1, grid2, r-1, c);
-    result &= exploreSubIsland(grid1, grid2, r, c+1);
-    result &= exploreSubIsland(grid1, grid2, r, c-1);
+    bool valid = true;
+    valid &= exploreSubIsland(grid1, grid2, r+1, c);
+    valid &= exploreSubIsland(grid1, grid2, r-1, c);
+    valid &= exploreSubIsland(grid1, grid2, r, c+1);
+    valid &= exploreSubIsland(grid1, grid2, r, c-1);
     
-    return result & grid1[r][c];
+    return valid and grid1[r][c];
   }
 };

@@ -9,15 +9,12 @@ class Solution {
 public:
   long long maxAlternatingSum(vector<int>& nums) {
     long long sumEven = 0, sumOdd = 0;
-    
     for (const int& num : nums) {
       long long tmpEven = max(sumEven, sumOdd + num);
       long long tmpOdd = max(sumOdd, sumEven - num);
-      
       sumEven = tmpEven;
       sumOdd = tmpOdd;
     }
-    
     return sumEven;
   }
 };
@@ -39,7 +36,9 @@ private:
     if (memo[even][i] != -1)
       return memo[even][i];
     
-    int sum = even ? nums[i] : -nums[i];
-    return memo[even][i] = max(sum + solve(nums, i + 1, !even, memo), solve(nums, i + 1, even, memo));
+    int val = even ? nums[i] : -nums[i];
+    long long apply = val + solve(nums, i + 1, !even, memo);
+    long long skip = solve(nums, i + 1, even, memo);
+    return memo[even][i] = max(apply, skip);
   }
 };

@@ -4,8 +4,8 @@
 #include <queue>
 using namespace std;
 
-// time: O(s)
-// space: O(s)
+// time: O(n)
+// space: O(n)
 
 class Solution {
 public:
@@ -13,20 +13,21 @@ public:
     queue<int> queue; // index
     queue.emplace(0);
     
+    int n = s.length();
     int farthestIndex = 0;
     
     while (queue.size()) {
       int cur = queue.front();
       queue.pop();
       
+      if (cur == n - 1)
+        return true;
+      
       int l = max(cur + minJump, farthestIndex + 1);
-      int r = min(cur + maxJump, (int)s.length() - 1);
+      int r = min(cur + maxJump, n - 1);
       for (int i = l; i <= r; i++) {
-        if (s[i] == '0') {
-          if (i == s.length() - 1)
-            return true;
+        if (s[i] == '0')
           queue.emplace(i);
-        }
       }
       
       farthestIndex = cur + maxJump;
