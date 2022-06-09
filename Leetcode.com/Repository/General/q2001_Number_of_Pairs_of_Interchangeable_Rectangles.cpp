@@ -10,18 +10,17 @@ using namespace std;
 class Solution {
 public:
   long long interchangeableRectangles(vector<vector<int>>& rectangles) {
-    unordered_map<double, long long> ratioCount;
+    unordered_map<double, int> ratioCount;
     for (const auto& rect : rectangles) {
       double w = rect[0];
       double h = rect[1];
-      ratioCount[w / h]++;
+      ratioCount[w/h]++;
     }
     
-    long long result = 0;
-    for (auto& [ _, count ] : ratioCount) {
-      result += count * (count - 1) / 2;
+    long long pair = 0;
+    for (const auto& [ _, count ] : ratioCount) {
+      pair += ((long long)count * (count - 1)) >> 1;
     }
-    
-    return result;
+    return pair;
   }
 };

@@ -11,23 +11,24 @@ class LockingTree {
 public:
   LockingTree(vector<int>& parent) {
     int n = parent.size();
-    m_Parent = parent;
-    m_Child.resize(n);
-    for (int i = 1; i < n; i++)
-      m_Child[parent[i]].emplace_back(i);
-    m_Locked.resize(n);
+    parents = parent;
+    locked.resize(n);
+    children.resize(n);
+    for (int node = 1; node < n; node++) {
+      children[parent[node]].emplace_back(node);
+    }
   }
   
   bool lock(int num, int user) {
-    if (m_Locked[num])
+    if (locked[num])
       return false;
-    return m_Locked[num] = user;
+    return locked[num] = user;
   }
   
   bool unlock(int num, int user) {
-    if (!m_Locked[num] or m_Locked[num] != user)
+    if (!locked[num] or locked[num] != user)
       return false;
-    m_Locked[num] = 0;
+    locked[num] = 0;
     return true;
   }
   
@@ -35,9 +36,9 @@ public:
     // check if self and ancestors are unlocked
     int cur = num;
     while (cur != -1) {
-      if (m_Locked[cur])
+      if (locked[cur])
         return false;
-      cur = m_Parent[cur];
+      cur = parents[cur];
     }
     
     bool success = false;
@@ -45,30 +46,26 @@ public:
     // check if at least 1 descendant is locked
     // and to unlock all descendants
     queue<int> queue;
-    for (const int& child : m_Child[num])
+    for (const int& child : children[num])
       queue.emplace(child);
     while (queue.size()) {
       int node = queue.front();
       queue.pop();
-      if (m_Locked[node]) {
-        m_Locked[node] = 0;
+      if (locked[node]) {
+        locked[node] = 0;
         success = true;
       }
-      for (const int& child : m_Child[node])
+      for (const int& child : children[node])
         queue.emplace(child);
     }
     
-    // if true, lock the node by user
-    if (success)
-      m_Locked[num] = user;
-    
-    return success;
+    return success and (locked[num] = user);
   }
   
 private:
-  vector<int> m_Parent;
-  vector<vector<int>> m_Child;
-  vector<int> m_Locked;
+  vector<int> locked;
+  vector<int> parents;
+  vector<vector<int>> children;
 };
 
 /**

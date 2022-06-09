@@ -16,25 +16,23 @@ public:
     unordered_map<int, int> palinLen; // mask, len
     for (int mask = 1; mask <= all; mask++) {
       string subseq;
-      
       for (int i = 0; i < n; i++) {
         if (mask & (1 << i))
           subseq += s[i];
       }
-      
       if (isPalidrome(subseq))
         palinLen[mask] = subseq.length();
     }
     
-    int maxProduct = 0;
+    int product = 0;
     for (const auto& [ mask1, len1 ] : palinLen) {
       for (const auto& [ mask2, len2 ] : palinLen) {
         if ((mask1 & mask2) == 0)
-          maxProduct = max(maxProduct, len1 * len2);
+          product = max(product, len1 * len2);
       }
     }
     
-    return maxProduct;
+    return product;
   }
   
 private:
