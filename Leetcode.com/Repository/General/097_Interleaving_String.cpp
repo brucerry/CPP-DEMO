@@ -48,8 +48,8 @@ public:
     
     for (int i = m; i >= 0; i--) {
       for (int j = n; j >= 0; j--) {
-        if ((i < m and s1[i] == s3[i+j] and dp[i+1][j]) or (j < n and s2[j] == s3[i+j] and dp[i][j+1]))
-          dp[i][j] = 1;
+        if (i < m or j < n)
+          dp[i][j] = (i < m and s1[i] == s3[i+j] and dp[i+1][j]) or (j < n and s2[j] == s3[i+j] and dp[i][j+1]);
       }
     }
     

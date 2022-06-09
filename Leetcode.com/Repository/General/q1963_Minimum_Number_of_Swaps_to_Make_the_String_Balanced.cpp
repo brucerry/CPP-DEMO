@@ -10,7 +10,6 @@ class Solution {
 public:
   int minSwaps(string& s) {
     int close = 0, maxClose = 0;
-    
     for (const char& c : s) {
       if (c == '[')
         close--;
@@ -19,7 +18,6 @@ public:
         maxClose = max(maxClose, close);
       }
     }
-    
     return (maxClose + 1) >> 1;
   }
 };
