@@ -24,14 +24,14 @@ public:
     int px = point[0];
     int py = point[1];
     
-    int squareCount = 0;
-    for (const auto& [ point, cnt ] : pointCount) {
-      auto& [ x, y ] = point;
+    int square = 0;
+    for (const auto& [ p, cnt ] : pointCount) {
+      auto& [ x, y ] = p;
       if (x != px and y != py and abs(x - px) == abs(y - py) and pointCount.count({ x, py }) and pointCount.count({ px, y }))
-        squareCount += cnt * pointCount[{ x, py }] * pointCount[{ px, y }];
+        square += cnt * pointCount[{ x, py }] * pointCount[{ px, y }];
     }
     
-    return squareCount;
+    return square;
   }
   
 private:

@@ -9,17 +9,16 @@ using namespace std;
 class Solution {
 public:
   long long gridGame(vector<vector<int>>& grid) {
-    int n = grid[0].size();
+    int cols = grid[0].size();
     
     long long top = 0, bottom = 0;
-    for (int i = 1; i < n; i++)
-      top += grid[0][i];
+    for (int c = 1; c < cols; c++)
+      top += grid[0][c];
     
     long long point = top;
-    for (int l = 0, r = 1; r < n; l++, r++) {
+    for (int l = 0, r = 1; r < cols; l++, r++) {
       top -= grid[0][r];
       bottom += grid[1][l];
-      
       long long get = max(top, bottom);
       point = min(point, get);
     }

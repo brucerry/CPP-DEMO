@@ -12,18 +12,17 @@ public:
     int m = rolls.size();
     
     int sum_m = 0;
-    for (const int& val : rolls)
-      sum_m += val;
+    for (const int& roll : rolls)
+      sum_m += roll;
     
     int sum_n = mean * (m + n) - sum_m;
-    
-    if (sum_n < n or sum_n > n * 6)
+    if (n > sum_n or sum_n > 6 * n)
       return {};
     
-    vector<int> missing;
-    for (int apply = 1; apply <= n; apply++) {
-      int val = min(6, sum_n - (n - apply));
-      missing.emplace_back(val);
+    vector<int> missing (n);
+    for (int i = 0; i < n; i++) {
+      int val = min(sum_n - (n - (i + 1)), 6);
+      missing[i] = val;
       sum_n -= val;
     }
     

@@ -6,14 +6,12 @@
 #include <algorithm>
 using namespace std;
 
-// time: O((n + e)^2)
-// space: O(n + e)
+// time: O((n + e)^2) => O(e^2), where ^2 comes from backtracking
+// space: O(e)
 
 class Solution {
 public:
   vector<string> findItinerary(vector<vector<string>>& tickets) {
-    int n = tickets.size();
-    
     sort(tickets.begin(), tickets.end());
     
     unordered_map<string, vector<string>> graph; // node, neighbors
@@ -24,30 +22,30 @@ public:
     }
     
     vector<string> result { "JFK" };
-    string src = "JFK";
-    solve(n, graph, result, src);
+    string node = "JFK";
+    solve(tickets.size(), graph, result, node);
     return result;
   }
   
 private:
-  bool solve(int n, unordered_map<string, vector<string>>& graph, vector<string>& result, string& src) {
+  bool solve(int n, unordered_map<string, vector<string>>& graph, vector<string>& result, string& node) {
     if (result.size() == n + 1)
       return true;
     
-    if (graph.count(src) == 0)
+    if (graph.count(node) == 0)
       return false;
     
-    int size = graph[src].size();
+    int size = graph[node].size();
     for (int i = 0; i < size; i++) {
-      string neighbor = graph[src][i];
+      string neighbor = graph[node][i];
       
       result.emplace_back(neighbor);
-      graph[src].erase(graph[src].begin() + i);
+      graph[node].erase(graph[node].begin() + i);
       
       if (solve(n, graph, result, neighbor))
         return true;
       
-      graph[src].emplace(graph[src].begin() + i, neighbor);
+      graph[node].emplace(graph[node].begin() + i, neighbor);
       result.pop_back();
     }
     

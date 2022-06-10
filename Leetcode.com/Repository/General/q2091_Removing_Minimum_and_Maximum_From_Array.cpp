@@ -13,18 +13,18 @@ public:
     int n = nums.size();
     
     auto [ minIt, maxIt ] = minmax_element(nums.begin(), nums.end());
-    int maxIndex = maxIt - nums.begin();
     int minIndex = minIt - nums.begin();
+    int maxIndex = maxIt - nums.begin();
     
-    int removeMaxFromLeft = maxIndex + 1;
-    int removeMaxFromRight = n - maxIndex;
-    int removeMinFromLeft = minIndex + 1;
-    int removeMinFromRight = n - minIndex;
+    int leftToMax = maxIndex + 1;
+    int rightToMax = n - maxIndex;
+    int leftToMin = minIndex + 1;
+    int rightToMin = n - minIndex;
     
-    int fromLeft = max(removeMaxFromLeft, removeMinFromLeft);
-    int fromRight = max(removeMaxFromRight, removeMinFromRight);
-    int fromBoth = min(removeMaxFromLeft, removeMinFromLeft) + min(removeMaxFromRight, removeMinFromRight);
+    int removeMax = min(leftToMax, rightToMax);
+    int removeMin = min(leftToMin, rightToMin);
+    int removeBoth = min(max(leftToMin, leftToMax), max(rightToMin, rightToMax));
     
-    return min({ fromLeft, fromRight, fromBoth });
+    return min(removeBoth, removeMax + removeMin);
   }
 };
