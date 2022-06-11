@@ -29,20 +29,16 @@ private:
       return {};
     
     if (n == 1)
-      return { new TreeNode() };
+      return { new TreeNode(0) };
     
     if (memo.count(n))
       return memo[n];
-       
-    for (int lCount = 0; lCount < n; lCount++) {
-      int rCount = n - lCount - 1;
-      
-      vector<TreeNode*> leftChildren = solve(lCount, memo);
-      vector<TreeNode*> rightChildren = solve(rCount, memo);
-      
-      for (const auto& lc : leftChildren) {
-        for (const auto& rc : rightChildren) {
-          memo[n].emplace_back(new TreeNode(0, lc, rc));
+    
+    for (int leftCount = 1; leftCount < n; leftCount++) {
+      int rightCount = n - leftCount - 1;
+      for (const auto& leftNode : solve(leftCount, memo)) {
+        for (const auto& rightNode : solve(rightCount, memo)) {
+          memo[n].emplace_back(new TreeNode(0, leftNode, rightNode));
         }
       }
     }
