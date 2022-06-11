@@ -16,7 +16,7 @@ public:
     for (int i = nums.size() - 1; i >= 0; i--) {
       if (nums[i] < nums_k)
         return true;
-      while (stack.size() and nums[i] > stack.top()) {
+      while (stack.size() and stack.top() < nums[i]) {
         nums_k = stack.top();
         stack.pop();
       }

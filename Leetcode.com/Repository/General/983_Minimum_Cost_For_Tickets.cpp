@@ -4,7 +4,7 @@
 using namespace std;
 
 // n = size of days
-// time: O(n)
+// time: O(n * (1 + 7 + 30)) => O(n)
 // space: O(n)
 
 class Solution {

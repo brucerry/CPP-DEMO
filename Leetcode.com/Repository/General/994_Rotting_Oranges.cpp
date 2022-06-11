@@ -13,12 +13,12 @@ public:
     int rows = grid.size();
     int cols = grid[0].size();
     
-    int freshCount = 0;
-    queue<pair<int, int>> queue;
+    int fresh = 0;
+    queue<pair<int, int>> queue; // r, c
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         if (grid[r][c] == 1)
-          freshCount++;
+          fresh++;
         else if (grid[r][c] == 2)
           queue.emplace(r, c);
       }
@@ -27,7 +27,7 @@ public:
     vector<pair<int, int>> moves { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
     
     int mins = 0;
-    while (queue.size() and freshCount) {
+    while (queue.size() and fresh) {
       int size = queue.size();
       
       while (size--) {
@@ -39,7 +39,7 @@ public:
           int newc = c + dc;
           if (0 <= newr and newr < rows and 0 <= newc and newc < cols and grid[newr][newc] == 1) {
             grid[newr][newc] = 2;
-            freshCount--;
+            fresh--;
             queue.emplace(newr, newc);
           }
         }
@@ -47,6 +47,6 @@ public:
       mins++;
     }
     
-    return freshCount ? -1 : mins;
+    return fresh ? -1 : mins;
   }
 };
