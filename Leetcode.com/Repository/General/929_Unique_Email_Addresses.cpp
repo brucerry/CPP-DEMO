@@ -14,22 +14,15 @@ class Solution {
 public:
   int numUniqueEmails(vector<string>& emails) {
     unordered_set<string> uniqueEmails;
-    
     for (const string& email : emails) {
-      string simplified;
-      
-      int i = 0;
-      while (email[i] != '+' and email[i] != '@') {
+      int domainIndex = email.find('@');
+      string localName;
+      for (int i = 0; i < domainIndex and email[i] != '+'; i++) {
         if (email[i] != '.')
-          simplified += email[i];
-        i++;
+          localName += email[i];
       }
-      
-      i = email.find('@', i);
-      simplified += email.substr(i);
-      uniqueEmails.emplace(simplified);
+      uniqueEmails.insert(localName + email.substr(domainIndex));
     }
-    
     return uniqueEmails.size();
   }
 };

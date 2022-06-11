@@ -14,16 +14,16 @@ public:
   
   int next(int price) {
     int span = 1;
-    while (m_Stock.size() and m_Stock.top().first <= price) {
-      span += m_Stock.top().second;
-      m_Stock.pop();
+    while (stack.size() and stack.top().first <= price) {
+      span += stack.top().second;
+      stack.pop();
     }
-    m_Stock.emplace(price, span);
+    stack.emplace(price, span);
     return span;
   }
   
 private:
-  stack<pair<int, int>> m_Stock; // price, span
+  stack<pair<int, int>> stack; // price, span
 };
 
 /**
