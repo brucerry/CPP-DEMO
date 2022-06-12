@@ -13,8 +13,8 @@ public:
   int swimInWater(vector<vector<int>>& grid) {
     int n = grid.size();
     
-    priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap;
-    minHeap.emplace(grid[0][0], 0, 0); // elevation, r, c
+    priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> minHeap; // elev, r, c
+    minHeap.emplace(grid[0][0], 0, 0);
     grid[0][0] = -1;
     
     vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };

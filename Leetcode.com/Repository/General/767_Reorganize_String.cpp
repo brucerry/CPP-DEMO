@@ -15,31 +15,31 @@ public:
     for (const char& c : s)
       charCount[c - 'a']++;
     
-    priority_queue<pair<int, char>> ready; // count, char
+    priority_queue<pair<int, char>> maxHeap; // count, char
     for (int i = 0; i < 26; i++) {
       if (charCount[i])
-        ready.emplace(charCount[i], i + 'a');
+        maxHeap.emplace(charCount[i], i + 'a');
     }
     
     string result;
     pair<int, char> prev { 0, 0 }; // count, char
-    while (ready.size() or prev.first) {
-      if (ready.size() == 0)
+    while (maxHeap.size() or prev.first) {
+      if (maxHeap.size() == 0)
         return "";
       
-      auto [ count, ch ] = ready.top();
-      ready.pop();
+      auto [ count, c ] = maxHeap.top();
+      maxHeap.pop();
       
-      result += ch;
+      result += c;
       count--;
       
       if (prev.first) {
-        ready.emplace(prev);
+        maxHeap.emplace(prev);
         prev = { 0, 0 };
       }
       
       if (count)
-        prev = { count, ch };
+        prev = { count, c };
     }
     
     return result;
