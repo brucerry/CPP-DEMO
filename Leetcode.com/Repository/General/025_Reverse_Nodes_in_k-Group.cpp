@@ -17,12 +17,11 @@ struct ListNode {
 class Solution {
 public:
   ListNode* reverseKGroup(ListNode* head, int k) {
-    ListNode dummy(0, head);
-    ListNode* groupPrev = &dummy;
+    ListNode dummy(0, head), *groupPrev = &dummy;
     
     while (true) {
       ListNode* kth = groupPrev;
-      for (int i = 0; i < k && kth; i++) {
+      for (int i = 0; i < k and kth; i++) {
         kth = kth->next;
       }
       
@@ -39,7 +38,7 @@ public:
       }
       
       ListNode* tmp = groupPrev->next;
-      groupPrev->next = kth;
+      groupPrev->next = prev; // kth
       groupPrev = tmp;
     }
     

@@ -12,15 +12,17 @@ public:
   int numRescueBoats(vector<int>& people, int limit) {
     sort(people.begin(), people.end());
     
-    int boatCount = 0;
+    int boat = 0;
     int l = 0, r = people.size() - 1;
     while (l <= r) {
-      if (people[l] + people[r] <= limit)
+      int sum = people[l] + people[r];
+      if (sum <= limit) {
         l++;
+      }
       r--;
-      boatCount++;
+      boat++;
     }
     
-    return boatCount;
+    return boat;
   }
 };

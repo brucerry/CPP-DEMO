@@ -9,67 +9,64 @@ using namespace std;
 
 class LRUCache {
 public:
-  LRUCache(int capacity) : m_Capacity(capacity) {
-    m_MRU.left = &m_LRU;
-    m_LRU.right = &m_MRU;
+  LRUCache(int capacity) : cap(capacity), LRU(new Node()), MRU(new Node()) {
+    LRU->right = MRU;
+    MRU->left = LRU;
   }
   
   int get(int key) {
-    if (m_Cache.count(key) == 0)
+    if (cache.count(key) == 0)
       return -1;
-    
-    Node* node = m_Cache[key];
+    Node* node = cache[key];
     remove(node);
     insert(node);
     return node->val;
   }
   
   void put(int key, int value) {
-    if (m_Cache.count(key)) {
-      Node* node = m_Cache[key];
+    if (cache.count(key)) {
+      Node* node = cache[key];
+      node->val = value;
       remove(node);
       insert(node);
-      node->val = value;
     }
     else {
-      Node* newNode = new Node(key, value);
-      m_Cache[key] = newNode;
-      insert(newNode);
-      if (m_Cache.size() > m_Capacity) {
-        Node* lru = m_LRU.right;
+      Node* node = new Node(key, value);
+      cache[key] = node;
+      insert(node);
+      if (cache.size() > cap) {
+        Node* lru = LRU->right;
         remove(lru);
-        m_Cache.erase(lru->key);
+        cache.erase(lru->key);
       }
     }
   }
-
+  
 private:
   struct Node {
     int key, val;
     Node* left, *right;
-
-    Node() : left(nullptr), right(nullptr) {};
-    Node(int key, int val) : key(key), val(val), left(nullptr), right(nullptr) {};
+    
+    Node() : key(0), val(0), left(nullptr), right(nullptr) {}
+    Node(int key, int val) : key(key), val(val), left(nullptr), right(nullptr) {}
+    Node(int key, int val, Node* left, Node* right) : key(key), val(val), left(left), right(right) {}
   };
   
-  int m_Capacity;
-  Node m_MRU; // most recently used, on the right most side
-  Node m_LRU; // least recently used, on the left most side
-  unordered_map<int, Node*> m_Cache; // key, Node*
-
-private:
-  // insert node to MRU
-  void insert(Node* node) {
-    node->left = m_MRU.left;
-    node->right = &m_MRU;
-    m_MRU.left = m_MRU.left->right = node;
-  }
+  unordered_map<int, Node*> cache; // key, Node*
+  Node* LRU, *MRU;
+  int cap;
   
-  // remove node from list
+private:
   void remove(Node* node) {
     node->left->right = node->right;
     node->right->left = node->left;
     node->left = node->right = nullptr;
+  }
+  
+  void insert(Node* node) {
+    node->right = MRU;
+    node->left = MRU->left;
+    node->left->right = MRU->left = node;
   }
 };
 

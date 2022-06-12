@@ -82,7 +82,7 @@ public:
     int half = sum >> 1;
     
     vector<vector<int>> memo (n, vector<int>(n, -1));
-    return solve(piles, 0, piles.size() - 1, memo) > half;
+    return solve(piles, 0, n - 1, memo) > half;
   }
   
 private:
