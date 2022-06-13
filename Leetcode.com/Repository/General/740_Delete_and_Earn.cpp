@@ -25,7 +25,7 @@ public:
     for (int i = 0; i < n; i++) {
       int earn = groupNums[i] * numCount[groupNums[i]];
       
-      if (i > 0 and groupNums[i-1] + 1 == groupNums[i])
+      if (i and groupNums[i-1] + 1 == groupNums[i])
         earn = max(earn + one, two);
       else
         earn += two;

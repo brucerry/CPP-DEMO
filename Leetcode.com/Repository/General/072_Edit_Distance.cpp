@@ -16,7 +16,7 @@ public:
     
     vector<int> dp (cols + 1);
     for (int c = 0; c < cols; c++)
-      dp[c] = cols - c;
+      dp[c] = dp[c+1] + 1;
     
     for (int r = rows - 1; r >= 0; r--) {
       int prev = dp.back();
@@ -49,10 +49,10 @@ public:
     int cols = word2.length();
     
     vector<vector<int>> dp (rows + 1, vector<int>(cols + 1));
-    for (int c = 0; c <= cols; c++)
-      dp[rows][c] = cols - c;
-    for (int r = 0; r <= rows; r++)
-      dp[r][cols] = rows - r;
+    for (int c = cols - 1; c >= 0; c--)
+      dp[rows][c] = dp[rows][c+1] + 1;
+    for (int r = rows - 1; r >= 0; r--)
+      dp[r][cols] = dp[r+1][cols] + 1;
     
     for (int r = rows - 1; r >= 0; r--) {
       for (int c = cols - 1; c >= 0; c--) {
