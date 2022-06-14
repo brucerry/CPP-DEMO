@@ -7,7 +7,7 @@
 #include <queue>
 using namespace std;
 
-// n = len of wordList
+// n = size of wordList
 // m = len of each word
 // time: O(n^2 * m)
 // space: O(n * m)
@@ -18,20 +18,20 @@ public:
     unordered_map<string, vector<string>> graph; // pattern, words
     for (const string& word : wordList) {
       string pattern = word;
-      
-      for (int i = 0; i < word.length(); i++) {
-        char c = pattern[i];
+      for (int i = 0; i < pattern.length(); i++) {
         pattern[i] = '*';
         graph[pattern].emplace_back(word);
-        pattern[i] = c;
+        pattern[i] = word[i];
       }
     }
     
-    unordered_set<string> visited { beginWord };
+    unordered_set<string> visited;
+    visited.insert(beginWord);
     
     queue<string> queue;
-    queue.emplace(beginWord);
-    int wordsCount = 1;
+    queue.push(beginWord);
+    
+    int ladder = 1;
     while (queue.size()) {
       int size = queue.size();
       
@@ -40,23 +40,21 @@ public:
         queue.pop();
         
         if (word == endWord)
-          return wordsCount;
+          return ladder;
         
         string pattern = word;
-        for (int i = 0; i < word.length(); i++) {
-          char c = pattern[i];
+        for (int i = 0; i < pattern.length(); i++) {
           pattern[i] = '*';
-          
           for (const string& neighbor : graph[pattern]) {
             if (visited.count(neighbor) == 0) {
-              visited.emplace(neighbor);
-              queue.emplace(neighbor);
+              visited.insert(neighbor);
+              queue.push(neighbor);
             }
           }
-          pattern[i] = c;
+          pattern[i] = word[i];
         }
       }
-      wordsCount++;
+      ladder++;
     }
     
     return 0;

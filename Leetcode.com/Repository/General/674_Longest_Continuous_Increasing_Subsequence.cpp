@@ -9,15 +9,13 @@ using namespace std;
 class Solution {
 public:
   int findLengthOfLCIS(vector<int>& nums) {
-    int len = 0;
-    
+    int longest = 0;
     int l = 0;
     for (int r = 0; r < nums.size(); r++) {
       if (r and nums[r-1] >= nums[r])
         l = r;
-      len = max(len, r - l + 1);
+      longest = max(longest, r - l + 1);
     }
-    
-    return len;
+    return longest;
   }
 };

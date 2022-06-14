@@ -29,14 +29,14 @@ public:
         }
       }
       
+      dp[i] = { len, count };
+
       if (len > maxLen) {
         maxLen = len;
         LIScount = count;
       }
       else if (len == maxLen)
         LIScount += count;
-      
-      dp[i] = { len, count };
     }
     
     return LIScount;
