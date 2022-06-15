@@ -12,13 +12,12 @@ public:
   int leastBricks(vector<vector<int>>& wall) {
     int rows = wall.size();
     
-    unordered_map<int, int> gapCount; // gap position, count
-    for (int r = 0; r < rows; r++) {
-      int gap_pos = 0;
-      
-      for (int c = 0; c < wall[r].size() - 1; c++) {
-        gap_pos += wall[r][c];
-        gapCount[gap_pos]++;
+    unordered_map<int, int> gapCount; // gap index, count
+    for (const auto& row : wall) {
+      int gapIndex = row[0];
+      for (int i = 1; i < row.size(); i++) {
+        gapCount[gapIndex]++;
+        gapIndex += row[i];
       }
     }
     

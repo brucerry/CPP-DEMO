@@ -6,57 +6,59 @@
 
 class MyCircularQueue {
 public:
-  MyCircularQueue(int k)
-    : m_Size(0), m_MaxSize(k), m_Front(new Node(0, nullptr, m_Rear)), m_Rear(new Node(0, m_Front, nullptr)) {}
-    
+  MyCircularQueue(int k) : cap(k), size(0), head(new Node(0)), tail(new Node(0)) {
+    head->right = tail;
+    tail->left = head;
+  }
+  
   bool enQueue(int value) {
     if (isFull())
       return false;
-    
-    Node* newNode = new Node(value, m_Rear->front, m_Rear);
-    newNode->front->back = m_Rear->front = newNode;
-    
-    m_Size++;
+    Node* node = new Node(value);
+    node->left = tail->left;
+    node->right = tail;
+    tail->left = tail->left->right = node;
+    size++;
     return true;
   }
-    
+  
   bool deQueue() {
     if (isEmpty())
       return false;
-    
-    m_Front->back = m_Front->back->back;
-    m_Front->back->front = m_Front;
-    
-    m_Size--;
+    Node* node = head->right;
+    head->right = node->right;
+    node->right->left = head;
+    delete node;
+    size--;
     return true;
   }
-    
+  
   int Front() {
-    return isEmpty() ? -1 : m_Front->back->val;
+    return isEmpty() ? -1 : head->right->val;
   }
-    
+  
   int Rear() {
-    return isEmpty() ? -1 : m_Rear->front->val;
+    return isEmpty() ? -1 : tail->left->val;
   }
-    
+  
   bool isEmpty() {
-    return m_Size == 0;
+    return size == 0;
   }
-    
+  
   bool isFull() {
-    return m_Size == m_MaxSize;
+    return size == cap;
   }
   
 private:
   struct Node {
     int val;
-    Node* front, *back;
+    Node* left, *right;
     
-    Node(int _val, Node* _front, Node* _back) : val(_val), front(_front), back(_back) {};
+    Node(int val) : val(val), left(nullptr), right(nullptr) {}
   };
   
-  Node* m_Front, *m_Rear;
-  int m_Size, m_MaxSize;
+  Node* head, *tail;
+  int cap, size;
 };
 
 /**

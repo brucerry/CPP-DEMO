@@ -32,10 +32,9 @@ public:
           cooldown.emplace(count, curTime + n);
       }
       
-      if (cooldown.size() and cooldown.front().second == curTime) {
-        auto [ count, _ ] = cooldown.front();
+      while (cooldown.size() and cooldown.front().second <= curTime) {
+        ready.emplace(cooldown.front().first);
         cooldown.pop();
-        ready.emplace(count);
       }
       
       if (ready.size() == 0 and cooldown.size())

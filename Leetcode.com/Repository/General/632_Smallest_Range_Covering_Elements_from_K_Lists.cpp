@@ -12,36 +12,36 @@ using namespace std;
 class Solution {
 public:
   vector<int> smallestRange(vector<vector<int>>& nums) {
-    int k = nums.size();
+    int rows = nums.size();
     
     int ansl = 0, ansr = INT_MAX;
     int maxNum = INT_MIN;
-    vector<int> next (k); // eg. next[1] = 5 means next position of nums[1] is index 5
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // val at index of nums, index of nums
+    vector<int> nextIndex (rows);
     
-    for (int i = 0; i < k; i++) {
-      minHeap.emplace(nums[i][0], i);
-      maxNum = max(maxNum, nums[i][0]);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap; // val, row index
+    for (int r = 0; r < rows; r++) {
+      minHeap.emplace(nums[r][0], r);
+      maxNum = max(maxNum, nums[r][0]);
     }
     
-    for (int i = 0; i < k; i++) {
-      for (int j = 0; j < nums[i].size(); j++) {
-        auto [ _, min_i ] = minHeap.top();
+    for (const auto& row : nums) {
+      for (const int& num : row) {
+        auto [ _, r ] = minHeap.top();
         minHeap.pop();
         
-        if (ansr - ansl > maxNum - nums[min_i][next[min_i]]) {
+        if (ansr - ansl > maxNum - nums[r][nextIndex[r]]) {
           ansr = maxNum;
-          ansl = nums[min_i][next[min_i]];
+          ansl = nums[r][nextIndex[r]];
         }
         
-        next[min_i]++;
-        if (next[min_i] == nums[min_i].size())
+        nextIndex[r]++;
+        if (nextIndex[r] == nums[r].size())
           return { ansl, ansr };
         
-        minHeap.emplace(nums[min_i][next[min_i]], min_i);
-        maxNum = max(maxNum, nums[min_i][next[min_i]]);
+        minHeap.emplace(nums[r][nextIndex[r]], r);
+        maxNum = max(maxNum, nums[r][nextIndex[r]]);
       }
-    } 
+    }
     
     return { ansl, ansr };
   }

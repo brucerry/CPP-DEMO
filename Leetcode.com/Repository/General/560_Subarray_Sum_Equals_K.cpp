@@ -14,15 +14,14 @@ public:
       { 0, 1 }
     };
     
-    int result = 0;
-    int curSum = 0;
+    int subarray = 0, curSum = 0;
     for (const int& num : nums) {
       curSum += num;
       if (prefixCount.count(curSum - k))
-        result += prefixCount[curSum - k];
+        subarray += prefixCount[curSum - k];
       prefixCount[curSum]++;
     }
     
-    return result;
+    return subarray;
   }
 };
