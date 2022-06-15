@@ -17,21 +17,20 @@ struct TreeNode {
 class Recursive {
 public:
   TreeNode* convertBST(TreeNode* root) {
-    if (!root)
-      return root;
-    
-    convertBST(root->right);
-    
-    root->val += m_CurSum;
-    m_CurSum = root->val;
-    
-    convertBST(root->left);
-    
+    int curSum = 0;
+    solve(root, curSum);
     return root;
   }
   
 private:
-  int m_CurSum = 0;
+  void solve(TreeNode* node, int& curSum) {
+    if (!node)
+      return;
+    
+    solve(node->right, curSum);
+    curSum = node->val += curSum;
+    solve(node->left, curSum);
+  }
 };
 
 // time: O(n)
@@ -40,12 +39,10 @@ class Iterative {
 public:
   TreeNode* convertBST(TreeNode* root) {
     stack<TreeNode*> stack;
-    
     TreeNode* cur = root;
-    
     int curSum = 0;
     
-    while (stack.size() or cur) {
+    while (cur or stack.size()) {
       while (cur) {
         stack.emplace(cur);
         cur = cur->right;
@@ -54,9 +51,7 @@ public:
       cur = stack.top();
       stack.pop();
       
-      cur->val += curSum;
-      curSum = cur->val;
-      
+      curSum = cur->val += curSum;
       cur = cur->left;
     }
     
