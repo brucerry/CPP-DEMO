@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/most-frequent-subtree-sum/
+
 #include <vector>
 #include <unordered_map>
 using namespace std;
@@ -17,7 +19,7 @@ struct TreeNode {
 class Solution {
 public:
   vector<int> findFrequentTreeSum(TreeNode* root) {
-    unordered_map<int, int> subsumCount;
+    unordered_map<int, int> subsumCount; // subsum, count
     int maxcount = 0;
     collectSubsum(root, subsumCount, maxcount);
     

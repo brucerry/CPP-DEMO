@@ -13,22 +13,26 @@ using namespace std;
 class Solution {
 public:
   vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-    unordered_map<int, int> numIndex;
-    for (int i = 0; i < nums1.size(); i++)
+    int m = nums1.size();
+    int n = nums2.size();
+    
+    unordered_map<int, int> numIndex; // num, index
+    for (int i = 0; i < m; i++)
       numIndex[nums1[i]] = i;
     
-    stack<int> stack;
-    vector<int> ans (nums1.size());
-    for (int i = nums2.size() - 1; i >= 0; i--) {
-      while (stack.size() and nums2[i] > stack.top())
-        stack.pop();
-      if (numIndex.count(nums2[i])) {
-        int idx = numIndex[nums2[i]];
-        ans[idx] = stack.size() ? stack.top() : -1;
+    vector<int> result (m);
+    vector<int> buffer;
+    for (int i = n - 1; i >= 0; i--) {
+      int num = nums2[i];
+      while (buffer.size() and buffer.back() <= num)
+        buffer.pop_back();
+      if (numIndex.count(num)) {
+        int index = numIndex[num];
+        result[index] = buffer.size() ? buffer.back() : -1;
       }
-      stack.emplace(nums2[i]);
+      buffer.emplace_back(num);
     }
-          
-    return ans;
+    
+    return result;
   }
 };
