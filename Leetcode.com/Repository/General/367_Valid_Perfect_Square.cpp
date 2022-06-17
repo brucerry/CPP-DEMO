@@ -7,16 +7,13 @@ class Solution {
 public:
   bool isPerfectSquare(int num) {
     long l = 1, r = num;
-    
     while (l < r) {
       long m = l + ((r - l) >> 1);
-      
-      if (num <= m * m)
+      if (m * m >= num)
         r = m;
       else
         l = m + 1;
     }
-    
-    return l * l == num;
+    return r * r == num;
   }
 };

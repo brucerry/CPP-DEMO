@@ -11,7 +11,6 @@ class Solution {
 public:
   string removeKdigits(string& num, int k) {
     string result;
-    
     for (const char& c : num) {
       while (result.length() and result.back() > c and k) {
         result.pop_back();

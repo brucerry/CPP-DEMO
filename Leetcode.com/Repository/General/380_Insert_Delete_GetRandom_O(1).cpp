@@ -16,33 +16,30 @@ public:
   bool insert(int val) {
     if (numIndex.count(val))
       return false;
-    
-    nums.emplace_back(val);
-    numIndex[val] = nums.size() - 1;
+    numIndex[val] = buffer.size();
+    buffer.emplace_back(val);
     return true;
   }
   
   bool remove(int val) {
     if (numIndex.count(val) == 0)
       return false;
-    
     int i = numIndex[val];
-    int lastVal = nums.back();
-    nums[i] = lastVal;
+    int lastVal = buffer.back();
+    buffer[i] = lastVal;
     numIndex[lastVal] = i;
-    nums.pop_back();
+    buffer.pop_back();
     numIndex.erase(val);
     return true;
   }
   
   int getRandom() {
-    int i = rand() % nums.size();
-    return nums[i];
+    return buffer[rand() % buffer.size()];
   }
   
-private:  
+private:
+  vector<int> buffer;
   unordered_map<int, int> numIndex; // num, index
-  vector<int> nums;
 };
 
 /**

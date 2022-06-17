@@ -7,78 +7,77 @@
 #include <queue>
 using namespace std;
 
-// n = # of follwees for each user
-// k = # of users
-// time: O(1) for postTweet(), follow() and unfollow(), O(n) for getNewsFeed()
-// space: O(k)
+// m = # of tweets of each user
+// n = # of users
+// time: O(n * log(n)) for getNewsFeed(), O(1) for others
+// space: O(n * (n + m)) => O(n^2 + n * m)
 
 class Twitter {
 public:
-  Twitter() : m_CurTime(0) {
+  Twitter() : curTime(0) {
     
   }
   
   void postTweet(int userId, int tweetId) {
-    m_UserInfo[userId].tweets.emplace_back(tweetId, m_CurTime++);
+    userInfo[userId].tweets.emplace_back(tweetId, curTime++);
   }
   
   vector<int> getNewsFeed(int userId) {
-    priority_queue<tuple<int, int, int, int>> maxHeap; // postTime, tweetID, userID, next tweet index
+    priority_queue<tuple<int, int, int, int>> maxHeap; // postTime, tweetId, ownerId, next index
     
     // add self-tweet
-    if (m_UserInfo[userId].tweets.size()) {
-      auto& [ tweetID, postTime ] = m_UserInfo[userId].tweets.back();
-      int lastIndex = m_UserInfo[userId].tweets.size() - 1;
+    if (userInfo[userId].tweets.size()) {
+      auto& [ tweetID, postTime ] = userInfo[userId].tweets.back();
+      int lastIndex = userInfo[userId].tweets.size() - 1;
       maxHeap.emplace(postTime, tweetID, userId, lastIndex - 1);
     }
     
     // add followees' tweets
-    for (const int& followee : m_UserInfo[userId].followings) {
-      if (m_UserInfo[followee].tweets.size()) {
-        auto& [ tweetID, postTime ] = m_UserInfo[followee].tweets.back();
-        int lastIndex = m_UserInfo[followee].tweets.size() - 1;
-        maxHeap.emplace(postTime, tweetID, followee, lastIndex - 1);
+    for (const int& followeeId : userInfo[userId].following) {
+      if (userInfo[followeeId].tweets.size()) {
+        auto& [ tweetID, postTime ] = userInfo[followeeId].tweets.back();
+        int lastIndex = userInfo[followeeId].tweets.size() - 1;
+        maxHeap.emplace(postTime, tweetID, followeeId, lastIndex - 1);
       }
     }
     
-    vector<int> newsFeed;
-    while (maxHeap.size() and newsFeed.size() < 10) {
-      auto [ _, tweetID, userID, tweetIndex ] = maxHeap.top();
+    vector<int> feed;
+    while (maxHeap.size() and feed.size() < 10) {
+      auto [ _, tweetId, ownerId, index ] = maxHeap.top();
       maxHeap.pop();
       
-      newsFeed.emplace_back(tweetID);
-      if (tweetIndex >= 0) {
-        auto& [ tweetID, postTime ] = m_UserInfo[userID].tweets[tweetIndex];
-        maxHeap.emplace(postTime, tweetID, userID, tweetIndex - 1);
+      feed.emplace_back(tweetId);
+      
+      if (index >= 0) {
+        auto& [ tweetID, postTime ] = userInfo[ownerId].tweets[index];
+        maxHeap.emplace(postTime, tweetID, ownerId, index - 1);
       }
     }
     
-    return newsFeed;
+    return feed;
   }
   
   void follow(int followerId, int followeeId) {
-    m_UserInfo[followerId].followings.emplace(followeeId);
+    userInfo[followerId].following.insert(followeeId);
   }
   
   void unfollow(int followerId, int followeeId) {
-    m_UserInfo[followerId].followings.erase(followeeId);
+    userInfo[followerId].following.erase(followeeId);
   }
   
 private:
   struct Tweet {
-    int tweetID;
-    int postTime;
-    
-    Tweet(int _tweetID, int _postTime) : tweetID(_tweetID), postTime(_postTime) {}
+    int tweetID, postTime;
+    Tweet(int tweetID, int postTime) : tweetID(tweetID), postTime(postTime) {}
   };
   
   struct User {
-    vector<Tweet> tweets; // tweet struct
-    unordered_set<int> followings; // followee id
+    vector<Tweet> tweets;
+    unordered_set<int> following; // followee id
   };
   
-  unordered_map<int, User> m_UserInfo; // user id, user struct
-  int m_CurTime;
+  unordered_map<int, User> userInfo; // user id, User struct
+  int curTime;
 };
 
 /**

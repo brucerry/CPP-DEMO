@@ -13,15 +13,14 @@ class Solution {
 public:
   string decodeString(string& s) {
     stack<string> stack;
-    
     for (const char& c : s) {
       if (c != ']') {
         stack.emplace(string(1, c));
       }
       else {
-        string str;
-        while (stack.size() and stack.top() != "[") {
-          str.insert(0, stack.top());
+        string letters;
+        while (stack.top() != "[") {
+          letters.insert(0, stack.top());
           stack.pop();
         }
         
@@ -36,17 +35,17 @@ public:
         int count = stoi(num);
         string newStr;
         while (count--)
-          newStr.append(str);
+          newStr.append(letters);
         stack.emplace(newStr);
       }
     }
     
-    string decoded;
+    string result;
     while (stack.size()) {
-      decoded.insert(0, stack.top());
+      result.insert(0, stack.top());
       stack.pop();
     }
     
-    return decoded;
+    return result;
   }
 };

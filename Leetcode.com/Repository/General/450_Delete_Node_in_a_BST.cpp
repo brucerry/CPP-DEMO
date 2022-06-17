@@ -24,12 +24,11 @@ public:
       return helper(root);
 
     TreeNode* cur = root;
-
     while (cur) {
       if (key < cur->val) {
         if (cur->left and cur->left->val == key) {
           cur->left = helper(cur->left);
-          return root;
+          break;
         }
         else
           cur = cur->left;
@@ -37,7 +36,7 @@ public:
       else {
         if (cur->right and cur->right->val == key) {
           cur->right = helper(cur->right);
-          return root;
+          break;
         }
         else
           cur = cur->right;
@@ -57,13 +56,11 @@ private:
   TreeNode* helper(TreeNode* targetNode) {
     if (!targetNode->left)
       return targetNode->right;
-
     if (!targetNode->right)
       return targetNode->left;
 
     TreeNode* rightMost = rightMostNode(targetNode->left);
     rightMost->right = targetNode->right;
-    
     return targetNode->left;
   }
 };
