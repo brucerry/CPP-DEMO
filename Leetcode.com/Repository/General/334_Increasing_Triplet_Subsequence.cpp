@@ -9,20 +9,15 @@ using namespace std;
 class Solution {
 public:
   bool increasingTriplet(vector<int>& nums) {
-    if (nums.size() < 3)
-      return false;
-    
-    int i = INT_MAX, j = INT_MAX;
-    
+    int one = INT_MAX, two = INT_MAX;
     for (const int& num : nums) {
-      if (num <= i)
-        i = num;
-      else if (num <= j)
-        j = num;
+      if (one >= num)
+        one = num;
+      else if (two >= num)
+        two = num;
       else
         return true;
     }
-    
     return false;
   }
 };

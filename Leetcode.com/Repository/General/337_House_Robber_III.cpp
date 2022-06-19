@@ -1,8 +1,5 @@
 // https://leetcode.com/problems/house-robber-iii/
 
-#include <utility>
-using namespace std;
-
 // time: O(n)
 // space: O(height of the tree)
 
