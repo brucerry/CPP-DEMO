@@ -10,18 +10,16 @@ using namespace std;
 class Solution {
 public:
   bool containsNearbyDuplicate(vector<int>& nums, int k) {
-    unordered_set<int> numsSet;
+    unordered_set<int> numSet;
     
     int l = 0;
     for (int r = 0; r < nums.size(); r++) {
       if (r - l > k)
-        numsSet.erase(nums[l++]);
-      
-      if (l < r and r - l <= k and numsSet.count(nums[r]))
+        numSet.erase(nums[l++]);
+      if (numSet.count(nums[r]))
         return true;
-      numsSet.emplace(nums[r]);
+      numSet.insert(nums[r]);
     }
-    
     return false;
   }
 };

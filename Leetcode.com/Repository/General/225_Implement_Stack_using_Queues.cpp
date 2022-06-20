@@ -13,32 +13,30 @@ public:
   }
   
   void push(int x) {
-    m_Queue.emplace(x);
+    queue.emplace(x);
   }
   
   int pop() {
-    int size = m_Queue.size() - 1;
-    int val;
+    int size = queue.size() - 1;
     while (size--) {
-      val = m_Queue.front();
-      m_Queue.pop();
-      m_Queue.emplace(val);
+      queue.emplace(queue.front());
+      queue.pop();
     }
-    val = m_Queue.front();
-    m_Queue.pop();
+    int val = queue.front();
+    queue.pop();
     return val;
   }
   
   int top() {
-    return m_Queue.back();
+    return queue.back();
   }
   
   bool empty() {
-    return m_Queue.size() == 0;
+    return queue.empty();
   }
   
 private:
-  queue<int> m_Queue;
+  queue<int> queue;
 };
 
 /**

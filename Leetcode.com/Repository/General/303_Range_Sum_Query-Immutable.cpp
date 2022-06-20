@@ -9,20 +9,18 @@ using namespace std;
 class NumArray {
 public:
   NumArray(vector<int>& nums) {
-    int n = nums.size();
-    
-    prefixSum = nums;
-    for (int i = 1; i < n; i++)
-      prefixSum[i] += prefixSum[i-1];
+    prefix = nums;
+    for (int i = 1; i < nums.size(); i++) {
+      prefix[i] += prefix[i-1];
+    }
   }
   
   int sumRange(int left, int right) {
-    int leftPrefix = left - 1 < 0 ? 0 : prefixSum[left-1];
-    return prefixSum[right] - leftPrefix;
+    return prefix[right] - (left - 1 < 0 ? 0 : prefix[left-1]);
   }
   
 private:
-  vector<int> prefixSum;
+  vector<int> prefix;
 };
 
 /**

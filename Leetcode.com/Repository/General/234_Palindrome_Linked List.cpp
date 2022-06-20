@@ -20,22 +20,21 @@ public:
       fast = fast->next->next;
     }
     
-    ListNode* prev = nullptr;
-    while (slow) {
-      ListNode* next = slow->next;
-      slow->next = prev;
-      prev = slow;
-      slow = next;
+    ListNode* prev = nullptr, *cur = slow;
+    while (cur) {
+      ListNode* next = cur->next;
+      cur->next = prev;
+      prev = cur;
+      cur = next;
     }
     
-    ListNode* leftptr = head, *rightptr = prev;
-    while (rightptr) {
-      if (leftptr->val != rightptr->val)
+    ListNode* l = head, *r = prev;
+    while (r) {
+      if (l->val != r->val)
         return false;
-      leftptr = leftptr->next;
-      rightptr = rightptr->next;
+      l = l->next;
+      r = r->next;
     }
-    
     return true;
   }
 };

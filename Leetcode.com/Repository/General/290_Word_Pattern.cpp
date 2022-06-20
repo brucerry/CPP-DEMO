@@ -12,28 +12,29 @@ using namespace std;
 class Solution {
 public:
   bool wordPattern(string& pattern, string& s) {
-    vector<string> words;
     stringstream ss (s);
     string word;
-    while (getline(ss, word, ' '))
-      words.emplace_back(word);
+    vector<string> words;
+    while (getline(ss, word, ' ')) {
+      words.push_back(word);
+    }
     
-    if (pattern.length() != words.size())
+    if (words.size() != pattern.length())
       return false;
     
-    unordered_map<char, string> charMap;
-    unordered_set<string> bindedWord;
-    for (int i = 0; i < pattern.length(); i++) {
-      char& c = pattern[i];
+    unordered_map<char, string> patternToWord;
+    unordered_set<string> usedWord;
+    for (int i = 0; i < words.size(); i++) {
+      char p = pattern[i];
       string& word = words[i];
       
-      if (charMap.count(c) == 0) {
-        if (bindedWord.count(word))
+      if (patternToWord.count(p) == 0) {
+        if (usedWord.count(word))
           return false;
-        charMap[c] = word;
-        bindedWord.emplace(word);
+        patternToWord[p] = word;
+        usedWord.insert(word);
       }
-      else if (charMap[c] != word)
+      else if (patternToWord[p] != word)
         return false;
     }
     

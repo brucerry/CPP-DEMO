@@ -7,28 +7,25 @@ using namespace std;
 // space: O(1)
 
 class Solution {
-public:
-  
   /**********************
-    original new state
+    original new  code
         0     0    0
         1     0    1
         0     1    2
         1     1    3
   **********************/
-  
+public:
   void gameOfLife(vector<vector<int>>& board) {
     int rows = board.size();
     int cols = board[0].size();
     
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        int liveCount = countLiveNeighbors(board, r, c);
-        
-        if (board[r][c] and (liveCount == 2 or liveCount == 3))
-          board[r][c] = 3;
-        else if (board[r][c] == 0 and liveCount == 3)
+        int live = countLives(board, r, c);
+        if (board[r][c] == 0 and live == 3)
           board[r][c] = 2;
+        else if (board[r][c] and 2 <= live and live <= 3)
+          board[r][c] = 3;
       }
     }
     
@@ -43,15 +40,15 @@ public:
   }
   
 private:
-  int countLiveNeighbors(vector<vector<int>>& board, int r, int c) {
-    int liveCount = 0;
+  int countLives(vector<vector<int>>& board, int r, int c) {    
+    int live = 0;
     for (int i = r - 1; i <= r + 1; i++) {
       for (int j = c - 1; j <= c + 1; j++) {
-        if (0 <= i and i < board.size() and 0 <= j and j < board[0].size()
-            and !(i == r and j == c) and (board[i][j] == 1 or board[i][j] == 3))
-          liveCount++;
+        if (0 <= i and i < board.size() and 0 <= j and j < board[0].size() and
+            !(i == r and j == c) and (board[i][j] == 1 or board[i][j] == 3))
+          live++;
       }
     }
-    return liveCount;
+    return live;
   }
 };
