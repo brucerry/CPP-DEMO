@@ -21,11 +21,13 @@ public:
       return a + b > b + a;
     });
     
+    if (strs[0] == "0")
+      return "0";
+    
     string number;
     for (const string& num : strs) {
       number += num;
     }
-    
-    return number[0] == '0' ? "0" : number;
+    return number;
   }
 };

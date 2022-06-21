@@ -15,20 +15,20 @@ public:
     for (const int& num : nums)
       sum += num;
     
-    int remain = sum - x;
-    if (remain == 0)
+    int target = sum - x;
+    if (target == 0)
       return n;
-    if (remain < 0)
+    if (target < 0)
       return -1;
     
     int curSum = 0, len = INT_MIN;
     int l = 0;
     for (int r = 0; r < n; r++) {
       curSum += nums[r];
-      while (curSum > remain) {
+      while (curSum > target) {
         curSum -= nums[l++];
       }
-      if (curSum == remain)
+      if (curSum == target)
         len = max(len, r - l + 1);
     }
     

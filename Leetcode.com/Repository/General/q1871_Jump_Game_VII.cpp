@@ -14,7 +14,7 @@ public:
     queue.emplace(0);
     
     int n = s.length();
-    int farthestIndex = 0;
+    int furthestIndex = 0;
     
     while (queue.size()) {
       int cur = queue.front();
@@ -23,14 +23,14 @@ public:
       if (cur == n - 1)
         return true;
       
-      int l = max(cur + minJump, farthestIndex + 1);
+      int l = max(cur + minJump, furthestIndex + 1);
       int r = min(cur + maxJump, n - 1);
       for (int i = l; i <= r; i++) {
         if (s[i] == '0')
           queue.emplace(i);
       }
       
-      farthestIndex = cur + maxJump;
+      furthestIndex = cur + maxJump;
     }
     
     return false;

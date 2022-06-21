@@ -7,21 +7,16 @@ using namespace std;
 // space: O(n)
 
 class MinStack {
-private:
-  stack<pair<int, int>> stack; // value, min value at that point
-
 public:
   MinStack() {
     
   }
   
   void push(int val) {
-    if (stack.size()) {
-      stack.emplace(val, min(val, stack.top().second));
-    }
-    else {
+    if (stack.size())
+      stack.emplace(val, min(val, getMin()));
+    else
       stack.emplace(val, val);
-    }
   }
   
   void pop() {
@@ -35,6 +30,9 @@ public:
   int getMin() {
     return stack.top().second;
   }
+  
+private:
+  stack<pair<int, int>> stack; // val, curMin
 };
 
 /**

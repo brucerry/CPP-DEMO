@@ -10,11 +10,10 @@ class Solution {
 public:
   vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
     vector<int> parentCount (numCourses);
-    
     vector<vector<int>> graph (numCourses);
-    for (const auto& prq : prerequisites) {
-      int from = prq[1];
-      int to = prq[0];
+    for (const auto& pre : prerequisites) {
+      int from = pre[1];
+      int to = pre[0];
       graph[from].emplace_back(to);
       parentCount[to]++;
     }

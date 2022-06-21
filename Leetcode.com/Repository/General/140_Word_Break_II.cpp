@@ -5,7 +5,7 @@
 using namespace std;
 
 // s = len of s
-// n = len of wordDict
+// n = size of wordDict
 // time: O(n^s)
 // space: O(s)
 
@@ -27,7 +27,7 @@ private:
     
     for (const string& word : wordDict) {
       if (i == s.find(word, i)) {
-        state.emplace_back(word);
+        state.push_back(word);
         solve(s, wordDict, solution, state, i + word.length());
         state.pop_back();
       }
@@ -39,6 +39,6 @@ private:
     for (int i = 0; i < state.size(); i++) {
       sentence += i ? ' ' + state[i] : state[i];
     }
-    solution.emplace_back(sentence);
+    solution.push_back(sentence);
   }
 };

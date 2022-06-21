@@ -13,12 +13,12 @@ public:
     int l = 0, r = 0;
     
     while (r < nums.size() - 1) {
-      int farthestIndex = 0;
+      int furthestIndex = 0;
       for (int i = l; i <= r; i++) {
-        farthestIndex = max(farthestIndex, i + nums[i]);
+        furthestIndex = max(furthestIndex, i + nums[i]);
       }
       l = r + 1;
-      r = farthestIndex;
+      r = furthestIndex;
       jumpCount++;
     }
     

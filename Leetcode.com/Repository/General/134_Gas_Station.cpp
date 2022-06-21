@@ -11,17 +11,16 @@ public:
   int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     int n = gas.size();
     
-    int remainGas = 0, prev_remainGas = 0;
-    int start = 0;
-    for (int station = 0; station < n; station++) {
-      remainGas += gas[station] - cost[station];
-      if (remainGas < 0) {
-        prev_remainGas += remainGas;
-        remainGas = 0;
-        start = station + 1;
+    int start = 0, remain = 0, prevRemain = 0;
+    for (int i = 0; i < n; i++) {
+      remain += gas[i] - cost[i];
+      if (remain < 0) {
+        prevRemain += remain;
+        remain = 0;
+        start = i + 1;
       }
     }
     
-    return start == n or remainGas + prev_remainGas < 0 ? -1 : start;
+    return start == n or remain + prevRemain < 0 ? -1 : start; 
   }
 };

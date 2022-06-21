@@ -4,10 +4,9 @@
 #include <queue>
 using namespace std;
 
-// min heap with k capacity
 // time: O(n * log(k))
 // space: O(k)
-class Solution {
+class kCapacityMinHeap {
 public:
   int findKthLargest(vector<int>& nums, int k) {
     priority_queue<int, vector<int>, greater<>> minHeap;
@@ -26,33 +25,32 @@ public:
   }
 };
 
-// quick select
 // time: average = O(n), worst = O(n^2)
 // space: O(log(n))
-// class Solution {
-// private:
-//   int quickSelect(vector<int>& nums, int left, int right, int k) {
-//     int pivot = nums[right];
-//     int p = left;
+class QuickSelect {
+public:
+  int findKthLargest(vector<int>& nums, int k) {
+    return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
+  }
 
-//     for (int i = left; i < right; i++) {
-//       if (nums[i] <= pivot) {
-//         swap(nums[i], nums[p]);
-//         p++;
-//       }
-//     }
-//     swap(nums[p], nums[right]);
+private:
+  int quickSelect(vector<int>& nums, int left, int right, int k) {
+    int pivot = nums[right];
+    int p = left;
 
-//     if (k < p)
-//       return quickSelect(nums, left, p - 1, k);
-//     else if (p < k)
-//       return quickSelect(nums, p + 1, right, k);
+    for (int i = left; i < right; i++) {
+      if (nums[i] <= pivot) {
+        swap(nums[i], nums[p]);
+        p++;
+      }
+    }
+    swap(nums[p], nums[right]);
+
+    if (k < p)
+      return quickSelect(nums, left, p - 1, k);
+    else if (p < k)
+      return quickSelect(nums, p + 1, right, k);
     
-//     return nums[p];
-//   }
-
-// public:
-//   int findKthLargest(vector<int>& nums, int k) {
-//     return quickSelect(nums, 0, nums.size() - 1, nums.size() - k);
-//   }
-// };
+    return nums[p];
+  }
+};

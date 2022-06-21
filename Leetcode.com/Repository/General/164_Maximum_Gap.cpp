@@ -10,38 +10,38 @@ using namespace std;
 class Solution {
 public:
   int maximumGap(vector<int>& nums) {
-    if (nums.size() < 2) return 0;
+    if (nums.size() < 2)
+      return 0;
 
-    int maxNum = *max_element(nums.begin(), nums.end());
-    int minNum = *min_element(nums.begin(), nums.end());
-  
-    if (maxNum == minNum) return 0;
+    auto [ minIt, maxIt ] = minmax_element(nums.begin(), nums.end());
+    int minNum = *minIt;
+    int maxNum = *maxIt;
+
+    if (maxNum == minNum)
+      return 0;
 
     int interval = ceil((double)(maxNum - minNum) / (nums.size() - 1));
-    int bucketsLen = (maxNum - minNum) / interval + 1;
-    vector<pair<int, int>> buckets (bucketsLen, {INT_MAX, INT_MIN});
+    int size = (maxNum - minNum) / interval + 1;
+    vector<pair<int, int>> buckets (size, { INT_MAX, INT_MIN }); // minVal, maxVal
 
-    for (int& num : nums) {
+    for (const int& num : nums) {
       int index = (num - minNum) / interval;
-      int curMin = buckets[index].first;
-      int curMax = buckets[index].second;
-      buckets[index] = { min(curMin, num), max(curMax, num) };
+      auto& [ minVal, maxVal ] = buckets[index];
+      buckets[index] = { min(minVal, num), max(maxVal, num) };
     }
 
-    int ans = 0;
-    int l = 0;
-    int r = 0;
-    
-    while (r < buckets.size()) {
-      if (buckets[l].first == INT_MAX) l++;
-      
-      if (buckets[r].first != INT_MAX) {
-        ans = max(ans, buckets[r].first - buckets[l].second);
+    int l = 0, gap = 0;
+    for (int r = 0; r < buckets.size(); r++) {
+      auto& [ leftMin, leftMax ] = buckets[l];
+      auto& [ rightMin, rightMax ] = buckets[r];
+      if (leftMax == INT_MIN)
+        l++;
+      if (rightMin != INT_MAX) {
+        gap = max(gap, rightMin - leftMax);
         l = r;
       }
-      r++;
     }
 
-    return ans;
+    return gap;
   }
 };

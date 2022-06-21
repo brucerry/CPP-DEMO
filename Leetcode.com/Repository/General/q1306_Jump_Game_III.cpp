@@ -10,8 +10,6 @@ using namespace std;
 class Solution {
 public:
   bool canReach(vector<int>& arr, int start) {
-    int n = arr.size();
-    
     queue<int> queue; // index
     queue.emplace(start);
     arr[start] = -arr[start];
@@ -23,20 +21,17 @@ public:
       if (arr[i] == 0)
         return true;
       
-      int leftIndex = i + arr[i];
-      int rightIndex = i - arr[i];
-      
-      if (leftIndex >= 0 and arr[leftIndex] >= 0) {
-        arr[leftIndex] = -arr[leftIndex];
-        queue.emplace(leftIndex);
+      int l = i + arr[i];
+      int r = i - arr[i];
+      if (l >= 0 and arr[l] >= 0) {
+        queue.emplace(l);
+        arr[l] = -arr[l];
       }
-      
-      if (rightIndex < n and arr[rightIndex] >= 0) {
-        arr[rightIndex] = -arr[rightIndex];
-        queue.emplace(rightIndex);
+      if (r < arr.size() and arr[r] >= 0) {
+        queue.emplace(r);
+        arr[r] = -arr[r];
       }
     }
-    
     return false;
   }
 };

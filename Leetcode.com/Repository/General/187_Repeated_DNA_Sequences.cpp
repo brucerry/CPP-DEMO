@@ -11,20 +11,14 @@ using namespace std;
 class Solution {
 public:
   vector<string> findRepeatedDnaSequences(string& s) {
-    if (s.length() < 10)
-      return {};
-    
-    unordered_set<string> DNAs;
-    unordered_set<string> result;
-    
-    for (int i = 0; i < s.length() - 10 + 1; i++) {
+    int n = s.length();
+    unordered_set<string> DNAs, repeated;
+    for (int i = 0; i < n - 10 + 1; i++) {
       string dna = s.substr(i, 10);
-      if (DNAs.count(dna))
-        result.emplace(dna);
-      
-      DNAs.emplace(dna);
+      if (DNAs.count(dna) and repeated.count(dna) == 0)
+        repeated.insert(dna);
+      DNAs.insert(dna);
     }
-    
-    return vector<string>(result.begin(), result.end());
+    return vector<string>(repeated.begin(), repeated.end());
   }
 };

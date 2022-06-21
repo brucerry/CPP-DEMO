@@ -18,10 +18,9 @@ struct TreeNode {
 class BSTIterator {
 public:
   BSTIterator(TreeNode* root) {
-    TreeNode* cur = root;
-    while (cur) {
-      stack.emplace(cur);
-      cur = cur->left;
+    while (root) {
+      stack.emplace(root);
+      root = root->left;
     }
   }
   
