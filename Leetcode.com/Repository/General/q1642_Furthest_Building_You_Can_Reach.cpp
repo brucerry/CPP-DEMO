@@ -13,7 +13,7 @@ class Solution {
 public:
   int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
     int n = heights.size();
-    priority_queue<int, vector<int>, greater<>> minHeap;
+    priority_queue<int, vector<int>, greater<>> minHeap; // diff
     
     for (int i = 0; i < n - 1; i++) {
       int cur = heights[i], next = heights[i+1];
