@@ -10,7 +10,6 @@ class kCapacityMinHeap {
 public:
   int findKthLargest(vector<int>& nums, int k) {
     priority_queue<int, vector<int>, greater<>> minHeap;
-    
     for (const int& num : nums) {
       if (minHeap.size() < k) {
         minHeap.emplace(num);
@@ -20,7 +19,6 @@ public:
         minHeap.emplace(num);
       }
     }
-    
     return minHeap.top();
   }
 };
