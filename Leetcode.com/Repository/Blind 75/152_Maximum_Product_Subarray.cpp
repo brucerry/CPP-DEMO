@@ -9,18 +9,16 @@ using namespace std;
 class Solution {
 public:
   int maxProduct(vector<int>& nums) {
-    int ans = nums[0];
-    int curMax = 1, curMin = 1;
-    
+    int curMin = 1, curMax = 1;
+    int product = nums[0];
     for (const int& num : nums) {
-      int tmpMax = curMax * num;
       int tmpMin = curMin * num;
+      int tmpMax = curMax * num;
       
-      curMax = max({ tmpMax, tmpMin, num });
-      curMin = min({ tmpMax, tmpMin, num });
-      ans = max(ans, curMax);
+      curMin = min({ tmpMin, tmpMax, num });
+      curMax = max({ tmpMin, tmpMax, num });
+      product = max(product, curMax);
     }
-    
-    return ans;
+    return product;
   }
 };
