@@ -3,6 +3,7 @@
 #include <vector>
 using namespace std;
 
+// n = size of sweetness
 // s = sum of sweetness
 // time: O(n * log(s))
 // space: O(1)
