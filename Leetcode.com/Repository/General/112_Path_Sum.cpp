@@ -19,11 +19,9 @@ public:
     if (!root)
       return false;
     
-    targetSum -= root->val;
+    if (!root->left and !root->right and targetSum == root->val)
+      return true;
     
-    if (!root->left and !root->right)
-      return targetSum == 0;
-    
-    return hasPathSum(root->left, targetSum) or hasPathSum(root->right, targetSum);
+    return hasPathSum(root->left, targetSum - root->val) or hasPathSum(root->right, targetSum - root->val);
   }
 };
