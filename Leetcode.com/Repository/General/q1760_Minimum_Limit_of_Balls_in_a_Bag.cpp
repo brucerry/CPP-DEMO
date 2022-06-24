@@ -12,9 +12,9 @@ using namespace std;
 class Solution {
 public:
   int minimumSize(vector<int>& nums, int maxOperations) {
-    sort(nums.begin(), nums.end());
+    sort(nums.rbegin(), nums.rend());
     
-    int l = 1, r = nums.back();
+    int l = 1, r = nums[0];
     while (l < r) {
       int m = l + ((r - l) >> 1);
       if (canDivide(nums, maxOperations, m))
@@ -22,17 +22,17 @@ public:
       else
         l = m + 1;
     }
-    return l;
+    return r;
   }
   
 private:
   bool canDivide(vector<int>& nums, int maxOperations, int minPenalty) {
     int op = 0;
-    for (int i = nums.size() - 1; i >= 0; i--) {
-      if (nums[i] <= minPenalty)
+    for (const int& num : nums) {
+      if (num <= minPenalty)
         break;
-      int needOP = nums[i] / minPenalty - 1;
-      if (nums[i] % minPenalty)
+      int needOP = num / minPenalty - 1;
+      if (num % minPenalty)
         needOP++;
       op += needOP;
     }

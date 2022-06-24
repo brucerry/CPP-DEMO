@@ -26,26 +26,22 @@ public:
 class KadaneAlgorithmTrick {
 public:
   int maxSubarraySumCircular(vector<int>& nums) {
-    int maxSubarray = solve(nums, 1);
-    int minSubarray = solve(nums, -1);
-
     int sum = 0;
     for (const int& num : nums)
       sum += num;
     
-    int circularMax = sum + minSubarray;
-    if (circularMax == 0)
-      return maxSubarray;
-
-    return max(maxSubarray, circularMax);
+    int maxSubarray = solve(nums, 1);
+    int invertedMaxSubarray = solve(nums, -1);
+    int circularMax = sum + invertedMaxSubarray;
+    
+    return circularMax == 0 ? maxSubarray : max(maxSubarray, circularMax);
   }
   
 private:
-  int solve(vector<int>& nums, char sign) {
-    int result = sign * nums[0];
-    int curSum = 0;
+  int solve(vector<int>& nums, int sign) {
+    int result = nums[0] * sign, curSum = 0;
     for (const int& num : nums) {
-      curSum = max(curSum + sign * num, sign * num);
+      curSum = max(curSum + num * sign, num * sign);
       result = max(result, curSum);
     }
     return result;
