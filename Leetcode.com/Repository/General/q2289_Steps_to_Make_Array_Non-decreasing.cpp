@@ -11,17 +11,16 @@ class Solution {
 public:
   int totalSteps(vector<int>& nums) {
     stack<pair<int, int>> stack; // num, step
-    stack.emplace(nums[0], 0);
-    
     int result = 0;
-    for (int i = 1; i < nums.size(); i++) {
+    
+    for (const int& num : nums) {
       int step = 0;
-      while (stack.size() and stack.top().first <= nums[i]) {
+      while (stack.size() and stack.top().first <= num) {
         step = max(step, stack.top().second);
         stack.pop();
       }
       step = stack.size() ? step + 1 : 0;
-      stack.emplace(nums[i], step);
+      stack.emplace(num, step);
       result = max(result, step);
     }
     
