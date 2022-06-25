@@ -10,19 +10,20 @@ using namespace std;
 // space: O(n)
 class DP_1D {
 public:
-  bool isInterleave(string s1, string s2, string s3) {
-    int m = s1.length(), n = s2.length();
+  bool isInterleave(string& s1, string& s2, string& s3) {
+    int rows = s1.length();
+    int cols = s2.length();
     
-    if (m + n != s3.length())
+    if (rows + cols != s3.length())
       return false;
     
-    vector<char> dp (n + 1);
+    vector<char> dp (cols + 1);
     dp.back() = 1;
     
-    for (int i = m; i >= 0; i--) {
-      for (int j = n; j >= 0; j--) {
-        if (i < m or j < n)
-          dp[j] = (i < m and s1[i] == s3[i + j] and dp[j]) or (j < n and s2[j] == s3[i + j] and dp[j + 1]);
+    for (int r = rows; r >= 0; r--) {
+      for (int c = cols; c >= 0; c--) {
+        if (r < rows or c < cols)
+          dp[c] = (r < rows and s1[r] == s3[r+c] and dp[c]) or (c < cols and s2[c] == s3[r+c] and dp[c+1]);
       }
     }
     
@@ -37,19 +38,19 @@ public:
 class DP_2D {
 public:
   bool isInterleave(string& s1, string& s2, string& s3) {
-    int m = s1.length();
-    int n = s2.length();
+    int rows = s1.length();
+    int cols = s2.length();
     
-    if (m + n != s3.length())
+    if (rows + cols != s3.length())
       return false;
     
-    vector<vector<char>> dp (m + 1, vector<char>(n + 1));
+    vector<vector<char>> dp (rows + 1, vector<char>(cols + 1));
     dp.back().back() = 1;
     
-    for (int i = m; i >= 0; i--) {
-      for (int j = n; j >= 0; j--) {
-        if (i < m or j < n)
-          dp[i][j] = (i < m and s1[i] == s3[i+j] and dp[i+1][j]) or (j < n and s2[j] == s3[i+j] and dp[i][j+1]);
+    for (int r = rows; r >= 0; r--) {
+      for (int c = cols; c >= 0; c--) {
+        if (r < rows or c < cols)
+          dp[r][c] |= (r < rows and s1[r] == s3[r+c] and dp[r+1][c]) or (c < cols and s2[c] == s3[r+c] and dp[r][c+1]);
       }
     }
     
