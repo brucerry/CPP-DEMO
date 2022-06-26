@@ -18,13 +18,13 @@ public:
     }
 
     while (l < r) {
-      int m = l + ((r - l) >> 1);
+      int m = l + ((r - l + 1) >> 1);
       if (canSplit(sweetness, k + 1, m))
-        l = m + 1;
+        l = m;
       else
-        r = m;
+        r = m - 1;
     }
-    return l - 1;
+    return l;
   }
 
 private:
