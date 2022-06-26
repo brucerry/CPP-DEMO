@@ -9,19 +9,17 @@ using namespace std;
 class Solution {
 public:
   vector<int> searchRange(vector<int>& nums, int target) {
-    int first = searchIndex(nums, target, true);
-    int last = searchIndex(nums, target, false);
-    return { first, last };
+    int l = solve(nums, target, true);
+    int r = solve(nums, target, false);
+    return { l, r };
   }
   
 private:
-  int searchIndex(vector<int>& nums, int target, bool leftBiased) {
-    int l = 0, r = nums.size() - 1;
-    
+  int solve(vector<int>& nums, int target, bool leftBiased) {
     int index = -1;
+    int l = 0, r = nums.size() - 1;
     while (l <= r) {
       int m = l + ((r - l) >> 1);
-      
       if (nums[m] < target)
         l = m + 1;
       else if (nums[m] > target)
@@ -34,7 +32,6 @@ private:
           l = m + 1;
       }
     }
-    
     return index;
   }
 };
