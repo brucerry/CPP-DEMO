@@ -4,10 +4,10 @@
 #include <string>
 using namespace std;
 
-// s = len of s
-// n = size of wordDict
-// time: O(s * n)
-// space: O(s)
+// n = len of s
+// w = size of wordDict
+// time: O(n^2 * w)
+// space: O(n)
 
 class Solution {
 public:
