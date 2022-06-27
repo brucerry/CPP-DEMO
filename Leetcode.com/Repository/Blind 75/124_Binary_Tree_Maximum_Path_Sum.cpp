@@ -17,24 +17,23 @@ struct TreeNode {
 class Solution {
 public:
   int maxPathSum(TreeNode* root) {
-    int maxSum = INT_MIN;
-    helper(root, maxSum);
-    return maxSum;
+    int sum = INT_MIN;
+    solve(root, sum);
+    return sum;
   }
   
 private:
-  int helper(TreeNode* node, int& maxSum) {
+  int solve(TreeNode* node, int& sum) {
     if (!node)
       return 0;
     
-    int leftSum = max(0, helper(node->left, maxSum));
-    int rightSum = max(0, helper(node->right, maxSum));
+    int leftSum = max(0, solve(node->left, sum));
+    int rightSum = max(0, solve(node->right, sum));
     
     int split = node->val + leftSum + rightSum;
-    int withoutSplit = node->val + max(leftSum, rightSum);
+    int notSplit = node->val + max(leftSum, rightSum);
+    sum = max(sum, split);
     
-    maxSum = max(maxSum, split);
-    
-    return withoutSplit;
+    return notSplit;
   }
 };
