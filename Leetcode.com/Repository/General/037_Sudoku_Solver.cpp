@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/sudoku-solver/submissions/
+// https://leetcode.com/problems/sudoku-solver/
 
 #include <vector>
 using namespace std;
