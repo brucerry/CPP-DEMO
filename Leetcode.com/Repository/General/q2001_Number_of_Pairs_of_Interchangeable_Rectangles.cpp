@@ -10,7 +10,7 @@ using namespace std;
 class Solution {
 public:
   long long interchangeableRectangles(vector<vector<int>>& rectangles) {
-    unordered_map<double, int> ratioCount;
+    unordered_map<double, int> ratioCount; // ratio, count
     for (const auto& rect : rectangles) {
       double w = rect[0];
       double h = rect[1];

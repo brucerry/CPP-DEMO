@@ -5,15 +5,14 @@ using namespace std;
 
 // time: O(n)
 // space: O(1)
-class Solution {
+class DP {
 public:
   long long maxAlternatingSum(vector<int>& nums) {
     long long sumEven = 0, sumOdd = 0;
     for (const int& num : nums) {
-      long long tmpEven = max(sumEven, sumOdd + num);
-      long long tmpOdd = max(sumOdd, sumEven - num);
-      sumEven = tmpEven;
-      sumOdd = tmpOdd;
+      long long tmpEven = sumEven;
+      sumEven = max(sumEven, sumOdd + num);
+      sumOdd = max(sumOdd, tmpEven - num);
     }
     return sumEven;
   }
@@ -24,21 +23,22 @@ public:
 class TopDownMemo {
 public:
   long long maxAlternatingSum(vector<int>& nums) {
-    vector<vector<long long>> memo (2, vector<long long>(nums.size(), -1));
-    return solve(nums, 0, true, memo);
+    int n = nums.size();
+    vector<vector<long long>> memo (2, vector<long long>(n, INT_MIN));
+    return solve(nums, true, 0, memo);
   }
   
 private:
-  long long solve(vector<int>& nums, int i, bool even, vector<vector<long long>>& memo) {
+  long long solve(vector<int>& nums, bool even, int i, vector<vector<long long>>& memo) {
     if (i == nums.size())
       return 0;
     
-    if (memo[even][i] != -1)
+    if (memo[even][i] != INT_MIN)
       return memo[even][i];
     
-    int val = even ? nums[i] : -nums[i];
-    long long apply = val + solve(nums, i + 1, !even, memo);
-    long long skip = solve(nums, i + 1, even, memo);
+    int num = even ? nums[i] : -nums[i];
+    long long apply = num + solve(nums, !even, i + 1, memo);
+    long long skip = solve(nums, even, i + 1, memo);
     return memo[even][i] = max(apply, skip);
   }
 };

@@ -9,10 +9,9 @@ using namespace std;
 class Solution {
 public:
   vector<int> majorityElement(vector<int>& nums) {
-    int n = nums.size();
-    
     int num1 = nums[0], num2 = nums[0];
     int count1 = 0, count2 = 0;
+    
     for (const int& num : nums) {
       if (num == num1)
         count1++;
@@ -20,11 +19,11 @@ public:
         count2++;
       else if (count1 == 0) {
         num1 = num;
-        count1 = 1;
+        count1++;
       }
       else if (count2 == 0) {
         num2 = num;
-        count2 = 1;
+        count2++;
       }
       else {
         count1--;
@@ -41,6 +40,7 @@ public:
     }
     
     vector<int> result;
+    int n = nums.size();
     if (count1 > n / 3)
       result.emplace_back(num1);
     if (count2 > n / 3)
