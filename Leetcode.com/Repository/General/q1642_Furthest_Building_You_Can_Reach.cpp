@@ -13,13 +13,13 @@ class Solution {
 public:
   int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
     int n = heights.size();
-    priority_queue<int, vector<int>, greater<>> minHeap; // diff
+    priority_queue<int, vector<int>, greater<>> minHeap; // bricks needed
     
     for (int i = 0; i < n - 1; i++) {
       int cur = heights[i], next = heights[i+1];
-      int diff = next - cur;
-      if (diff > 0) {
-        minHeap.emplace(diff);
+      int need = next - cur;
+      if (need > 0) {
+        minHeap.emplace(need);
         if (minHeap.size() > ladders) {
           bricks -= minHeap.top();
           minHeap.pop();
@@ -28,6 +28,7 @@ public:
         }
       }
     }
+    
     return n - 1;
   }
 };

@@ -14,21 +14,21 @@ public:
     int cols = points[0].size();
     
     vector<long long> dp (points[0].begin(), points[0].end());
-    vector<long long> prefixMax, postfixMax;
+    vector<long long> prefix, postfix;
     
     for (int r = 1; r < rows; r++) {
-      prefixMax = postfixMax = dp;
+      prefix = postfix = dp;
       
       for (int c = 1; c < cols; c++) {
-        prefixMax[c] = max(prefixMax[c], prefixMax[c-1] - 1);
+        prefix[c] = max(prefix[c], prefix[c-1] - 1);
       }
       
       for (int c = cols - 2; c >= 0; c--) {
-        postfixMax[c] = max(postfixMax[c], postfixMax[c+1] - 1);
+        postfix[c] = max(postfix[c], postfix[c+1] - 1);
       }
       
       for (int c = 0; c < cols; c++) {
-        dp[c] = points[r][c] + max(prefixMax[c], postfixMax[c]);
+        dp[c] = points[r][c] + max(prefix[c], postfix[c]);
       }
     }
     
