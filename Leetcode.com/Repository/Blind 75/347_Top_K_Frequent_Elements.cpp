@@ -13,13 +13,12 @@ using namespace std;
 class Solution {
 public:
   vector<int> topKFrequent(vector<int>& nums, int k) {
-    int n = nums.size();
-    
     unordered_map<int, int> numCount; // num, count
     for (const int& num : nums) {
       numCount[num]++;
     }
     
+    int n = nums.size();
     vector<vector<int>> countGroups (n + 1);
     for (const auto& [ num, count ] : numCount) {
       countGroups[count].emplace_back(num);
