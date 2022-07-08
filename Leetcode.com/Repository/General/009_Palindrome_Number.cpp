@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/palindrome-number/
 
-// time: O(log(x) based 10)
+// time: O(log(x) base 10)
 // space: O(1)
 
 class Solution {

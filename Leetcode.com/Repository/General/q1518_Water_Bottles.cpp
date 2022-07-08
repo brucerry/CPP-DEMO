@@ -2,7 +2,7 @@
 
 // n = numBottles
 // m = numExchange
-// time: O(log(n) based m)
+// time: O(log(n) base m)
 // space: O(1)
 
 class Solution {
