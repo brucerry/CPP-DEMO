@@ -12,7 +12,7 @@ public:
     int n = start.length();
     
     int s = 0, t = 0;
-    while (s < n and t < n) {
+    while (s < n or t < n) {
       while (s < n and start[s] == '_')
         s++;
       while (t < n and target[t] == '_')
