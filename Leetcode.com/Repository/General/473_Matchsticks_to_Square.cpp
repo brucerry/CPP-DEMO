@@ -34,8 +34,8 @@ private:
       side--;
     }
     
-    if (usedMask == all)
-      return subsum == 0 and side == 0;
+    if (side == 0)
+      return usedMask == all;
     
     if (memo[usedMask] != -1)
       return memo[usedMask];
