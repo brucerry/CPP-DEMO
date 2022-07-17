@@ -24,8 +24,8 @@ public:
       int kth = queries[i][0];
       int trim = queries[i][1];
       nth_element(pairs.begin(), pairs.begin() + kth - 1, pairs.end(), [&](const pair<string, int>& a, const pair<string, int>& b) -> bool {
-        int result = a.first.compare(len - trim, trim, b.first, len - trim, trim);
-        return result == 0 ? a.second < b.second : result < 0;
+        int cmp_result = a.first.compare(len - trim, trim, b.first, len - trim, trim);
+        return cmp_result == 0 ? a.second < b.second : cmp_result < 0;
       });
       result[i] = pairs[kth-1].second;
     }
@@ -53,8 +53,8 @@ public:
       int kth = queries[i][0];
       int trim = queries[i][1];
       sort(pairs.begin(), pairs.end(), [&](const pair<string, int>& a, const pair<string, int>& b) -> bool {
-        int result = a.first.compare(len - trim, trim, b.first, len - trim, trim);
-        return result == 0 ? a.second < b.second : result < 0;
+        int cmp_result = a.first.compare(len - trim, trim, b.first, len - trim, trim);
+        return cmp_result == 0 ? a.second < b.second : cmp_result < 0;
       });
       result[i] = pairs[kth-1].second;
     }
