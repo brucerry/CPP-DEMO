@@ -15,11 +15,9 @@ struct ListNode {
 class Solution {
 public:
   ListNode* reverseBetween(ListNode* head, int left, int right) {
-    ListNode dummy = ListNode(0, head);
-    
-    ListNode* cur = &dummy, *leftPrev = nullptr;
+    ListNode dummy (0, head), *cur = &dummy, *leftptr;
     for (int i = 0; i < left; i++) {
-      leftPrev = cur;
+      leftptr = cur;
       cur = cur->next;
     }
     
@@ -31,8 +29,8 @@ public:
       cur = next;
     }
     
-    leftPrev->next->next = cur;
-    leftPrev->next = prev;
+    leftptr->next->next = cur;
+    leftptr->next = prev;
     
     return dummy.next;
   }
