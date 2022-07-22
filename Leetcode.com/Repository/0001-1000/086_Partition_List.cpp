@@ -15,23 +15,21 @@ struct ListNode {
 class Solution {
 public:
   ListNode* partition(ListNode* head, int x) {
-    ListNode leftHead = ListNode(0), rightHead = ListNode(0);
-    ListNode* leftTail = &leftHead, *rightTail = &rightHead;
-    
+    ListNode leftHead, rightHead, *l = &leftHead, *r = &rightHead;
     while (head) {
       if (head->val < x) {
-        leftTail->next = head;
-        leftTail = leftTail->next;
+        l->next = head;
+        l = l->next;
       }
       else {
-        rightTail->next = head;
-        rightTail = rightTail->next;
+        r->next = head;
+        r = r->next;
       }
       head = head->next;
     }
     
-    leftTail->next = rightHead.next;
-    rightTail->next = nullptr;
+    l->next = rightHead.next;
+    r->next = nullptr;
     
     return leftHead.next;
   }
