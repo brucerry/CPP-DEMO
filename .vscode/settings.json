@@ -85,5 +85,7 @@
     "stop_token": "cpp",
     "thread": "cpp",
     "variant": "cpp"
-  }
+  },
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false
 }
