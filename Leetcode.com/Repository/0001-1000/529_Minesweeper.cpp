@@ -5,7 +5,7 @@
 using namespace std;
 
 // time: O(r * c * 8) => O(r * c)
-// space: O(8) => O(1)
+// space: O(r * c)
 
 class Solution {
 public:
