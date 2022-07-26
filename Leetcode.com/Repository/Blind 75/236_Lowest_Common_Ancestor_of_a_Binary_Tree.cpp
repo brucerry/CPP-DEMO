@@ -81,36 +81,34 @@ public:
 };
 
 // time: O(n)
-// space: O(height of tree)
+// space: O(n)
 class OriginalRecursive {
 public:
   TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-    vector<TreeNode*> path_p, path_q;
-    findPath(root, p, path_p);
-    findPath(root, q, path_q);
+    vector<TreeNode*> p_path, q_path;
+    findPath(root, p, p_path);
+    findPath(root, q, q_path);
     
-    reverse(path_p.begin(), path_p.end());
-    reverse(path_q.begin(), path_q.end());
+    reverse(p_path.begin(), p_path.end());
+    reverse(q_path.begin(), q_path.end());
     
     TreeNode* lca = root;
-    for (int i = 0; i < min(path_p.size(), path_q.size()); i++) {
-      if (path_p[i] == path_q[i])
-        lca = path_p[i];
-    }
+    for (int i = 0; i < min(p_path.size(), q_path.size()) and p_path[i] == q_path[i]; i++)
+      lca = p_path[i];
     
     return lca;
   }
   
 private:
-  TreeNode* findPath(TreeNode* node, TreeNode* target, vector<TreeNode*>& path) {
+  bool findPath(TreeNode* node, TreeNode* target, vector<TreeNode*>& path) {
     if (!node)
-      return node;
+      return false;
     
     if (node == target or findPath(node->left, target, path) or findPath(node->right, target, path)) {
       path.emplace_back(node);
-      return node;
+      return true;
     }
     
-    return nullptr;
+    return false;
   }
 };
