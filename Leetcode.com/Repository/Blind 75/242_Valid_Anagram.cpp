@@ -6,7 +6,8 @@ using namespace std;
 
 // time: O(n)
 // space: O(26) => O(1)
-class Array {
+
+class Solution {
 public:
   bool isAnagram(string& s, string& t) {
     if (s.length() != t.length())
