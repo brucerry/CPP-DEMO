@@ -3,6 +3,8 @@
 #include <vector>
 using namespace std;
 
+// time: O(n)
+// space: O(n)
 class Method1 {
 public:
   int longestCycle(vector<int>& edges) {
@@ -27,6 +29,8 @@ public:
   }
 };
 
+// time: O(n)
+// space: O(n)
 class Method2 {
 public:
   int longestCycle(vector<int>& edges) {
