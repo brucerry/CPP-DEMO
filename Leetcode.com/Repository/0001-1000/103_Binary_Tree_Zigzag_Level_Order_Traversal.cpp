@@ -24,9 +24,7 @@ public:
     if (root)
       queue.emplace(root);
     
-    bool fromLeft = true;
     vector<vector<int>> result;
-    
     while (queue.size()) {
       int size = queue.size();
       vector<int> level (size);
@@ -35,7 +33,7 @@ public:
         TreeNode* node = queue.front();
         queue.pop();
         
-        int j = fromLeft ? i : size - 1 - i;
+        int j = result.size() % 2 == 0 ? i : size - 1 - i;
         level[j] = node->val;
         
         if (node->left)
@@ -44,7 +42,6 @@ public:
           queue.emplace(node->right);
       }
       
-      fromLeft = !fromLeft;
       result.emplace_back(level);
     }
     
