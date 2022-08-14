@@ -2,34 +2,70 @@
 
 #include <vector>
 #include <string>
-#include <unordered_map>
 #include <unordered_set>
 #include <queue>
 using namespace std;
 
 // n = size of wordList
 // m = len of each word
-// time: O(n^2 * m)
+// time: O(n * m)
 // space: O(n * m)
 
-class Solution {
+class DoubleEndedBFS {
 public:
   int ladderLength(string& beginWord, string& endWord, vector<string>& wordList) {
-    unordered_map<string, vector<string>> graph; // pattern, words
-    for (const string& word : wordList) {
-      string pattern = word;
-      for (int i = 0; i < pattern.length(); i++) {
-        pattern[i] = '*';
-        graph[pattern].emplace_back(word);
-        pattern[i] = word[i];
+    unordered_set<string> wordSet (wordList.begin(), wordList.end());
+    unordered_set<string> head { beginWord }, tail { endWord }, *phead, *ptail, tmp;
+    
+    if (wordSet.count(endWord) == 0)
+      return 0;
+    
+    int ladder = 2;
+    while (head.size() and tail.size()) {
+      if (head.size() < tail.size()) {
+        phead = &head;
+        ptail = &tail;
       }
+      else {
+        phead = &tail;
+        ptail = &head;
+      }
+      
+      tmp = {};
+      for (auto it = phead->begin(); it != phead->end(); it++) {
+        string word = *it;
+        for (int i = 0; i < word.length(); i++) {
+          char c = word[i];
+          for (char j = 'a'; j <= 'z'; j++) {
+            word[i] = j;
+            if (ptail->count(word))
+              return ladder;
+            if (wordSet.count(word)) {
+              tmp.emplace(word);
+              wordSet.erase(word);
+            }
+          }
+          word[i] = c;
+        }
+      }
+      
+      ladder++;
+      *phead = tmp;
     }
     
-    unordered_set<string> visited;
-    visited.insert(beginWord);
+    return 0;
+  }
+};
+
+class BFS {
+public:
+  int ladderLength(string& beginWord, string& endWord, vector<string>& wordList) {
+    unordered_set<string> wordSet (wordList.begin(), wordList.end());
+    if (wordSet.count(endWord) == 0)
+      return 0;
     
     queue<string> queue;
-    queue.push(beginWord);
+    queue.emplace(beginWord);
     
     int ladder = 1;
     while (queue.size()) {
@@ -42,16 +78,16 @@ public:
         if (word == endWord)
           return ladder;
         
-        string pattern = word;
-        for (int i = 0; i < pattern.length(); i++) {
-          pattern[i] = '*';
-          for (const string& neighbor : graph[pattern]) {
-            if (visited.count(neighbor) == 0) {
-              visited.insert(neighbor);
-              queue.push(neighbor);
+        for (int i = 0; i < word.length(); i++) {
+          char c = word[i];
+          for (char j = 'a'; j <= 'z'; j++) {
+            word[i] = j;
+            if (wordSet.count(word)) {
+              queue.emplace(word);
+              wordSet.erase(word);
             }
           }
-          pattern[i] = word[i];
+          word[i] = c;
         }
       }
       ladder++;
