@@ -11,7 +11,7 @@ using namespace std;
 // time: O(n * m)
 // space: O(n * m)
 
-class DoubleEndedBFS {
+class BidirectionalBFS {
 public:
   int ladderLength(string& beginWord, string& endWord, vector<string>& wordList) {
     unordered_set<string> wordSet (wordList.begin(), wordList.end());
