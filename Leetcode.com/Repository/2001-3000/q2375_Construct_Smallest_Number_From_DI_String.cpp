@@ -5,7 +5,7 @@ using namespace std;
 
 // time: O(n)
 // space: O(1)
-class Reverse {
+class Reversal {
 public:
   string smallestNumber(string& pattern) {
     string result;
