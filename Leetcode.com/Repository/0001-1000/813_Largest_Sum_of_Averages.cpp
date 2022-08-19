@@ -50,7 +50,7 @@ private:
     if (split == 0)
       return (prefixSum[n] - prefixSum[start]) / (n - start);
     
-    if (start == n or split > n)
+    if (start == n or split >= n - start)
       return 0;
     
     if (memo[start][split])
