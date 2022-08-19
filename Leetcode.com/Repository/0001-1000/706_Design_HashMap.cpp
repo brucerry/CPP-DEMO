@@ -1,6 +1,6 @@
 // https://leetcode.com/problems/design-hashmap/
 
-// time: O(1) in average
+// time: O(n), amortized O(1)
 // space: O(n)
 
 struct Node {
