@@ -10,26 +10,25 @@ using namespace std;
 class Solution {
 public:
   int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {
-    priority_queue<int> maxHeap; // fuel
     stations.push_back({ target, 0 });
+    priority_queue<int> maxHeap; // refuel
     
-    int cur = 0, remain = startFuel, stop = 0;
+    int stops = 0, curPos = 0, curFuel = startFuel;
     for (const auto& station : stations) {
       int pos = station[0];
-      int fuel = station[1];
-      int dist = pos - cur;
-      remain -= dist;
-      while (maxHeap.size() and remain < 0) {
-        remain += maxHeap.top();
+      int refuel = station[1];
+      int diff = pos - curPos;
+      while (maxHeap.size() and diff > curFuel) {
+        curFuel += maxHeap.top();
         maxHeap.pop();
-        stop++;
+        stops++;
       }
-      if (remain < 0)
+      if (diff > curFuel)
         return -1;
-      maxHeap.emplace(fuel);
-      cur = pos;
+      curFuel -= diff;
+      curPos = pos;
+      maxHeap.emplace(refuel);
     }
-    
-    return stop;
+    return stops;
   }
 };
