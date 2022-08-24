@@ -9,16 +9,13 @@ using namespace std;
 class Solution {
 public:
   int maxProfit(int k, vector<int>& prices) {
-    vector<int> costs (k, INT_MAX);
-    vector<int> profits (k);
-    
+    vector<int> profits (k + 1), costs (k + 1, INT_MAX);
     for (const int& price : prices) {
-      for (int i = 0; i < k; i++) {
-        costs[i] = min(costs[i], i ? price - profits[i-1] : price);
+      for (int i = 1; i <= k; i++) {
+        costs[i] = min(costs[i], price - profits[i-1]);
         profits[i] = max(profits[i], price - costs[i]);
       }
     }
-    
-    return k ? profits.back() : 0;
+    return profits[k];
   }
 };
