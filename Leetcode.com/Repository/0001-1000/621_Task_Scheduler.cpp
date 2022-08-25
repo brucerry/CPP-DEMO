@@ -6,9 +6,29 @@
 using namespace std;
 
 // t = size of tasks
+// time: O(t)
+// space: O(26) => O(1)
+class Greedy {
+public:
+  int leastInterval(vector<char>& tasks, int n) {
+    int counts[26] {}, maxCount = -1;
+    for (const char& c : tasks)
+      maxCount = max(maxCount, ++counts[c - 'A']);
+    
+    int result = (maxCount - 1) * (n + 1);
+    for (const int& count : counts) {
+      if (count == maxCount)
+        result++;
+    }
+    
+    return max(result, (int)tasks.size());
+  }
+};
+
+// t = size of tasks
 // time: O(t + 26 * log(26)) => O(t)
 // space: O(26) => O(1)
-class MaxHeapSolution {
+class MaxHeap {
 public:
   int leastInterval(vector<char>& tasks, int n) {
     array<int, 26> charCount { 0 };
@@ -50,7 +70,7 @@ public:
 // t = size of tasks
 // time: O(t)
 // space: O(26) => O(1)
-class MathsSolution {
+class Maths {
 public:
   int leastInterval(vector<char>& tasks, int n) {
     int maxFreq = 0, maxFreqCount = 0;
