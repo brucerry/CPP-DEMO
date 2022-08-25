@@ -9,14 +9,11 @@ using namespace std;
 class Solution {
 public:
   bool canJump(vector<int>& nums) {
-    int n = nums.size();
-    int goalIndex = n - 1;
-    
-    for (int i = n - 2; i >= 0; i--) {
-      if (i + nums[i] >= goalIndex)
-        goalIndex = i;
+    int n = nums.size(), goalIndex = n - 1;
+    for (int cur = n - 2; cur >= 0; cur--) {
+      if (cur + nums[cur] >= goalIndex)
+        goalIndex = cur;
     }
-    
     return goalIndex == 0;
   }
 };
