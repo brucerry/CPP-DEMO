@@ -35,16 +35,15 @@ class MonotonicDecreasingStack {
 public:
   vector<int> dailyTemperatures(vector<int>& temperatures) {
     int n = temperatures.size();
-    vector<pair<int, int>> buffer; // temp, index
-    
     vector<int> waitDays (n);
+    
+    vector<int> stack; // index
     for (int i = 0; i < n; i++) {
-      while (buffer.size() and buffer.back().first < temperatures[i]) {
-        int index = buffer.back().second;
-        buffer.pop_back();
-        waitDays[index] = i - index;
+      while (stack.size() and temperatures[stack.back()] < temperatures[i]) {
+        waitDays[stack.back()] = i - stack.back();
+        stack.pop_back();
       }
-      buffer.emplace_back(temperatures[i], i);
+      stack.emplace_back(i);
     }
     
     return waitDays;
