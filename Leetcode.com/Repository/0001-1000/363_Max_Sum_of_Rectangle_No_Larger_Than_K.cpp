@@ -19,22 +19,21 @@ public:
     for (int cl = 0; cl < cols; cl++) {
       fill(sums.begin(), sums.end(), 0);
       for (int cr = cl; cr < cols; cr++) {
-        int kadane = 0, maxKadane = INT_MIN;
-        for (int r = 0; r < rows; r++) {
+        int kadane = INT_MIN;
+        for (int r = 0, curSum = 0; r < rows; r++) {
           sums[r] += matrix[r][cr];
-          kadane = max(kadane + sums[r], sums[r]);
-          maxKadane = max(maxKadane, kadane);
+          curSum = max(curSum + sums[r], sums[r]);
+          kadane = max(kadane, curSum);
         }
         
-        if (maxKadane <= k) {
-          maxSum = max(maxSum, maxKadane);
+        if (kadane <= k) {
+          maxSum = max(maxSum, kadane);
           continue;
         }
         
-        int curSum = 0;
         prefixSet = { 0 };
-        for (const int& sum : sums) {
-          curSum += sum;
+        for (int i = 0, curSum = 0; i < rows; i++) {
+          curSum += sums[i];
           auto it = prefixSet.lower_bound(curSum - k);
           if (it != prefixSet.end())
             maxSum = max(maxSum, curSum - *it);
@@ -65,10 +64,9 @@ public:
         for (int r = 0; r < rows; r++) {
           sums[r] += matrix[r][cr];
         }
-        int curSum = 0;
         prefixSet = { 0 };
-        for (const int& sum : sums) {
-          curSum += sum;
+        for (int i = 0, curSum = 0; i < rows; i++) {
+          curSum += sums[i];
           auto it = prefixSet.lower_bound(curSum - k);
           if (it != prefixSet.end())
             maxSum = max(maxSum, curSum - *it);
