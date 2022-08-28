@@ -6,7 +6,7 @@ using namespace std;
 
 // n = size of nums
 // q = size of queries
-// time: O(n * log(n) + q)
+// time: O(n * log(n) + q * log(n))
 // space: O(log(n)) for sorting
 
 class Solution {
