@@ -8,7 +8,12 @@ struct Circle {
   void (*clear) (Circle* circle);
 };
 
-void CircleInit(Circle* circle, const double _radius);
+// constructor
+void CircleInit(Circle* const circle, const double _radius);
+
+// destructor
+void CircleClear(Circle* const circle);
+
+// operators
 void CircleInfo(void);
 double CircleGetArea(const Circle* const circle);
-void CircleClear(Circle* circle);

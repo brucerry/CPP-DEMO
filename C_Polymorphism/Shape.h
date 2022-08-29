@@ -5,5 +5,5 @@ struct Shape {
 
   void (*info) (void);
   double (*area) (const Shape* const shape);
-  void (*clear) (Shape* shape);
+  void (*clear) (const Shape* const shape);
 };

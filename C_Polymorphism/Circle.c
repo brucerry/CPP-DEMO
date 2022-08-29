@@ -3,7 +3,7 @@
 
 #include "Circle.h"
 
-void CircleInit(Circle* circle, const double _radius) {
+void CircleInit(Circle* const circle, const double _radius) {
   circle->radius = _radius;
   circle->info = CircleInfo;
   circle->area = CircleGetArea;
@@ -12,17 +12,17 @@ void CircleInit(Circle* circle, const double _radius) {
   printf("Initialized Circle.\n");
 }
 
+void CircleClear(Circle* const circle) {
+  if (circle) {
+    free(circle);
+    printf("Cleared Circle.\n");
+  }
+}
+
 void CircleInfo(void) {
   printf("This is Circle.\n");
 }
 
 double CircleGetArea(const Circle* const circle) {
   return circle->radius * circle->radius * 3.1415926;
-}
-
-void CircleClear(Circle* circle) {
-  if (circle) {
-    free(circle);
-    printf("Cleared Circle.\n");
-  }
 }
