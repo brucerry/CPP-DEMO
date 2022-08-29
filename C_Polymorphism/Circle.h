@@ -3,7 +3,7 @@ typedef struct Circle Circle;
 struct Circle {
   double radius;
 
-  void (*info) (void);
+  void (*info) (const Circle* const circle);
   double (*area) (const Circle* const circle);
   void (*clear) (Circle* circle);
 };
@@ -15,5 +15,5 @@ void CircleInit(Circle* const circle, const double _radius);
 void CircleClear(Circle* const circle);
 
 // operators
-void CircleInfo(void);
+void CircleInfo(const Circle* const circle);
 double CircleGetArea(const Circle* const circle);

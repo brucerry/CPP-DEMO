@@ -19,8 +19,8 @@ void CircleClear(Circle* const circle) {
   }
 }
 
-void CircleInfo(void) {
-  printf("This is Circle.\n");
+void CircleInfo(const Circle* const circle) {
+  printf("This is Circle, radius is %lf.\n", circle->radius);
 }
 
 double CircleGetArea(const Circle* const circle) {

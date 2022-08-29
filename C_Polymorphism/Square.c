@@ -19,8 +19,8 @@ void SquareClear(Square* const square) {
   }
 }
 
-void SquareInfo(void) {
-  printf("This is Square.\n");
+void SquareInfo(const Square* const square) {
+  printf("This is Square, length is %d.\n", square->length);
 }
 
 double SquareGetArea(const Square* const square) {

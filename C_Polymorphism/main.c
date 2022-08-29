@@ -18,11 +18,12 @@ int main() {
 
   for (int i = 0; i < sizeof(shape) / sizeof(&shape); i++) {
     Shape* node = shape[i];
-    node->info();
+    node->info(node);
     printf("Area is %lf\n", node->area(node));
     node->clear(node);
-    printf("OK\n");
   }
+
+  printf("Terminated.\n");
 
   return 0;
 }
