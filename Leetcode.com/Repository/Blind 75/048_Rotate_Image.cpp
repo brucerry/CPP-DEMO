@@ -1,6 +1,7 @@
 // https://leetcode.com/problems/rotate-image/
 
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 // time: O(n^2)
@@ -9,16 +10,8 @@ using namespace std;
 class Solution {
 public:
   void rotate(vector<vector<int>>& matrix) {
-    int n = matrix.size();
-    
-    int i = 0, j = n - 1;
-    while (i < j) {
-      matrix[i].swap(matrix[j]);
-      i++;
-      j--;
-    }
-    
-    for (int r = 0; r < n; r++) {
+    reverse(matrix.begin(), matrix.end());
+    for (int r = 0, n = matrix.size(); r < n; r++) {
       for (int c = r; c < n; c++) {
         swap(matrix[r][c], matrix[c][r]);
       }
