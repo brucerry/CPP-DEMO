@@ -13,23 +13,38 @@ struct TreeNode {
 // time: O(n)
 // space: O(height of tree)
 
-class Solution {
+class PassByReference {
 public:
   int goodNodes(TreeNode* root) {
-    return solve(root, INT_MIN);
+    int good = 0;
+    solve(root, good, INT_MIN);
+    return good;
   }
   
 private:
-  int solve(TreeNode* node, int curMax) {
+  void solve(TreeNode* node, int& good, int pathMax) {
     if (!node)
-      return 0;
+      return;
     
-    int good = 0;
-    if (curMax <= node->val) {
-      curMax = node->val;
-      good = 1;
+    if (node->val >= pathMax) {
+      good++;
+      pathMax = node->val;
     }
     
-    return good + solve(node->left, curMax) + solve(node->right, curMax);
+    solve(node->left, good, pathMax);
+    solve(node->right, good, pathMax);
+  }
+};
+
+class OverloadingFunction {
+public:
+  int goodNodes(TreeNode* root, int pathMax = INT_MIN) {
+    if (!root)
+      return 0;
+    
+    int good = root->val >= pathMax;
+    pathMax = max(pathMax, root->val);
+    
+    return good + goodNodes(root->left, pathMax) + goodNodes(root->right, pathMax);
   }
 };
