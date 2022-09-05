@@ -12,12 +12,12 @@ public:
   Node() {}
 
   Node(int _val) {
-      val = _val;
+    val = _val;
   }
 
   Node(int _val, vector<Node*> _children) {
-      val = _val;
-      children = _children;
+    val = _val;
+    children = _children;
   }
 };
 
@@ -32,11 +32,8 @@ public:
       queue.emplace(root);
     
     vector<vector<int>> result;
-    while (queue.size()) {
-      int size = queue.size();
-      vector<int> level;
-      
-      while (size--) {
+    for (vector<int> level; queue.size(); level = {}) {
+      for (int size = queue.size(); size; size--) {
         Node* node = queue.front();
         queue.pop();
         
@@ -46,7 +43,6 @@ public:
           queue.emplace(child);
         }
       }
-      
       result.emplace_back(level);
     }
     
