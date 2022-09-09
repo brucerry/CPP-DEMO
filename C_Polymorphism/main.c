@@ -16,7 +16,8 @@ int main() {
   shape[0] = (Shape*)circle;
   shape[1] = (Shape*)square;
 
-  for (int i = 0; i < sizeof(shape) / sizeof(&shape); i++) {
+  size_t i;
+  for (i = 0; i < sizeof(shape) / sizeof(&shape); i++) {
     Shape* node = shape[i];
     node->info(node);
     printf("Area is %lf\n", node->area(node));
