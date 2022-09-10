@@ -1,3 +1,6 @@
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
 typedef struct Circle Circle;
 
 struct Circle {
@@ -17,3 +20,5 @@ void CircleClear(Circle* const circle);
 // operators
 void CircleInfo(const Circle* const circle);
 double CircleGetArea(const Circle* const circle);
+
+#endif

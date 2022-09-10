@@ -1,3 +1,6 @@
+#ifndef SQUARE_H
+#define SQUARE_H
+
 typedef struct Square Square;
 
 struct Square {
@@ -17,3 +20,5 @@ void SquareClear(Square* const square);
 // operators
 void SquareInfo(const Square* const square);
 double SquareGetArea(const Square* const square);
+
+#endif

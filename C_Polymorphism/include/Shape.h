@@ -1,3 +1,6 @@
+#ifndef SHAPE_H
+#define SHAPE_H
+
 typedef struct Shape Shape;
 
 struct Shape {
@@ -7,3 +10,5 @@ struct Shape {
   double (*area) (const Shape* const shape);
   void (*clear) (const Shape* const shape);
 };
+
+#endif
