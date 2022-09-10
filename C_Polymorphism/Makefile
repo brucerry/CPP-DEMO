@@ -1,6 +1,6 @@
 BINARY = output
 CODEDIRS = . lib
-INCDIRS = . ./include/
+INCDIRS = . .\include
 
 CC = gcc
 OPT = -O0
@@ -21,4 +21,4 @@ $(BINARY): $(OBJFILES)
 			$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-			del $(BINARY).exe $(OBJFILES) $(DEPFILES)
+			del /f /s *.exe *.o *.d
