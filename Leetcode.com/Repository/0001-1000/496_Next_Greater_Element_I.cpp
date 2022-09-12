@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <unordered_map>
-#include <stack>
 using namespace std;
 
 // m = size of nums1
@@ -13,24 +12,22 @@ using namespace std;
 class Solution {
 public:
   vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-    int m = nums1.size();
-    int n = nums2.size();
+    int len1 = nums1.size();
     
-    unordered_map<int, int> numIndex; // num, index
-    for (int i = 0; i < m; i++)
-      numIndex[nums1[i]] = i;
+    unordered_map<int, int> n2Greater; // n2 value, next greater
+    vector<int> result (len1, -1), stack;
     
-    vector<int> result (m);
-    vector<int> buffer;
-    for (int i = n - 1; i >= 0; i--) {
-      int num = nums2[i];
-      while (buffer.size() and buffer.back() <= num)
-        buffer.pop_back();
-      if (numIndex.count(num)) {
-        int index = numIndex[num];
-        result[index] = buffer.size() ? buffer.back() : -1;
+    for (const int& n2 : nums2) {
+      while (stack.size() and stack.back() < n2) {
+        n2Greater[stack.back()] = n2;
+        stack.pop_back();
       }
-      buffer.emplace_back(num);
+      stack.emplace_back(n2);
+    }
+    
+    for (int i = 0; i < len1; i++) {
+      if (n2Greater.count(nums1[i]))
+        result[i] = n2Greater[nums1[i]];
     }
     
     return result;
