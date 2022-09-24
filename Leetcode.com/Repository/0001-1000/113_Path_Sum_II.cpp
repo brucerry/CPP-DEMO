@@ -19,24 +19,26 @@ class Solution {
 public:
   vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
     vector<vector<int>> solution;
-    vector<int> path;
-    solve(root, targetSum, solution, path);
+    vector<int> state;
+    solve(root, targetSum, solution, state);
     return solution;
   }
   
 private:
-  void solve(TreeNode* node, int targetSum, vector<vector<int>>& solution, vector<int>& path) {
+  void solve(TreeNode* node, int targetSum, vector<vector<int>>& solution, vector<int>& state) {
     if (!node)
       return;
     
-    path.emplace_back(node->val);
+    targetSum -= node->val;
+    state.emplace_back(node->val);
     
-    if (!node->left and !node->right and targetSum == node->val) {
-      solution.emplace_back(path);
+    if (!node->left and !node->right and targetSum == 0) {
+      solution.emplace_back(state);
     }
     
-    solve(node->left, targetSum - node->val, solution, path);
-    solve(node->right, targetSum - node->val, solution, path);
-    path.pop_back();
+    solve(node->left, targetSum, solution, state);
+    solve(node->right, targetSum, solution, state);
+    
+    state.pop_back();
   }
 };
