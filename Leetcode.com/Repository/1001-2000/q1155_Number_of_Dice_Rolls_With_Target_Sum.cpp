@@ -12,11 +12,11 @@ public:
     vector<int> dp (target + 1), tmp (target + 1);
     dp[0] = 1;
 
-    for (int i = 1; i <= n; i++) {
+    for (int roll = 1; roll <= n; roll++) {
       fill(tmp.begin(), tmp.end(), 0);
-      for (int j = 1; j <= k; j++) {
-        for (int t = j; t <= target; t++) {
-          tmp[t] = (tmp[t] + dp[t - j]) % 1000000007;
+      for (int face = 1; face <= k; face++) {
+        for (int t = face; t <= target; t++) {
+          tmp[t] = (tmp[t] + dp[t - face]) % 1000000007;
         }
       }
       dp = tmp;
