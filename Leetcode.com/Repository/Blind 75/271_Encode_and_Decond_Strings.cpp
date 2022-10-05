@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/encode-and-decode-strings/description/
+// https://leetcode.com/problems/encode-and-decode-strings/
 
 #include <vector>
 #include <string>
