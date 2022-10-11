@@ -9,12 +9,12 @@ using namespace std;
 class Solution {
 public:
   bool increasingTriplet(vector<int>& nums) {
-    int one = INT_MAX, two = INT_MAX;
+    int min1 = INT_MAX, min2 = INT_MAX;
     for (const int& num : nums) {
-      if (one >= num)
-        one = num;
-      else if (two >= num)
-        two = num;
+      if (num <= min1)
+        min1 = num;
+      else if (num <= min2)
+        min2 = num;
       else
         return true;
     }
