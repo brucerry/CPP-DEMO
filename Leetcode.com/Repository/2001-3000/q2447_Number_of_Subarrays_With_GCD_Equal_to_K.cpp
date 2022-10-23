@@ -4,7 +4,8 @@
 #include <numeric>
 using namespace std;
 
-// time: O(n^2)
+// gcd = time of gcd()
+// time: O(n^2 * gcd)
 // space: O(1)
 
 class Solution {
