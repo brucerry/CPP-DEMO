@@ -4,9 +4,7 @@
 #include <string>
 using namespace std;
 
-// n = len of arr
-// m = len of each string in arr
-// time: O(2^n * m)
+// time: O(2^n)
 // space: O(n)
 
 class Solution {
@@ -14,39 +12,30 @@ public:
   int maxLength(vector<string>& arr) {
     return solve(arr, 0, 0);
   }
-  
+
 private:
-  int solve(vector<string>& arr, int i, int usedMask) {
+  int solve(vector<string>& arr, int mask, int i) {
     if (i == arr.size())
-      return countingBits(usedMask);
-    
-    int skip = solve(arr, i + 1, usedMask);
-    int apply = 0;
-    
-    if (!isDuplicated(arr[i], usedMask)) {
+      return __builtin_popcount(mask);
+
+    int skip = solve(arr, mask, i + 1);
+    int use = 0;
+
+    if (isUnique(arr[i], mask)) {
       for (const char& c : arr[i])
-        usedMask |= (1 << (c - 'a'));
-      apply = solve(arr, i + 1, usedMask);
+        mask |= 1 << (c - 'a');
+      use = solve(arr, mask, i + 1);
     }
-    
-    return max(skip, apply);
+
+    return max(skip, use);
   }
-  
-  int countingBits(int n) {
-    int count = 0;
-    while (n) {
-      n &= n - 1;
-      count++;
-    }
-    return count;
-  }
-  
-  bool isDuplicated(string& s, int usedMask) {
+
+  bool isUnique(const string& s, int mask) {
     for (const char& c : s) {
-      if (usedMask & (1 << (c - 'a')))
-        return true;
-      usedMask |= (1 << (c - 'a'));
+      if ((mask & (1 << (c - 'a'))))
+        return false;
+      mask |= 1 << (c - 'a');
     }
-    return false;
+    return true;
   }
 };
