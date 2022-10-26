@@ -10,17 +10,15 @@ using namespace std;
 class Solution {
 public:
   bool checkSubarraySum(vector<int>& nums, int k) {
-    unordered_map<int, int> remainderIndex { // remainder, index
+    unordered_map<int, int> umap { // remainder, index
       { 0, -1 }
     };
-    
-    int curSum = 0;
-    for (int i = 0; i < nums.size(); i++) {
+    for (int i = 0, curSum = 0; i < nums.size(); i++) {
       curSum += nums[i];
-      int remainder = curSum % k;
-      if (remainderIndex.count(remainder) == 0)
-        remainderIndex[remainder] = i;
-      else if (i - remainderIndex[remainder] >= 2)
+      int remain = curSum % k;
+      if (umap.count(remain) == 0)
+        umap[remain] = i;
+      else if (i - umap[remain] >= 2)
         return true;
     }
     return false;
