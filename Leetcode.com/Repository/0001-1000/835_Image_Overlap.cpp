@@ -4,7 +4,7 @@
 #include <unordered_map>
 using namespace std;
 
-// time: O(n^2)
+// time: O(n^4)
 // space: O(n^2)
 
 class Solution {
