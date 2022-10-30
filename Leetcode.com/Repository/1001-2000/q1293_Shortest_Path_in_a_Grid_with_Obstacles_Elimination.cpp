@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <queue>
-#include <tuple>
+#include <array>
 using namespace std;
 
 // time: O(r * c * k)
@@ -11,42 +11,40 @@ using namespace std;
 class Solution {
 public:
   int shortestPath(vector<vector<int>>& grid, int k) {
-    int rows = grid.size();
-    int cols = grid[0].size();
+    int rows = grid.size(), cols = grid[0].size();
+
+    int counts[40][40];
+    memset(counts, -1, sizeof(counts));
+    counts[0][0] = k;
     
-    vector<vector<int>> lives (rows, vector<int>(cols, -1));
-    lives[0][0] = k;
-    
-    vector<pair<int, int>> moves { {0, 1}, {0, -1}, {1, 0}, {-1, 0} };
-    
-    queue<tuple<int, int, int>> queue; // r, c, live
-    queue.emplace(0, 0, k);
-    int step = 0;
+    char moves[] { 0, 1, 0, -1, 0 }; // 4-dir
+
+    queue<array<int, 3>> queue; // r, c, k
+    queue.push({ 0, 0, k });
+
+    int steps = 0;
     while (queue.size()) {
-      int size = queue.size();
-      
-      while (size--) {
-        auto [ r, c, live ] = queue.front();
+      for (int size = queue.size(); size; size--) {
+        auto [ r, c, cur_k ] = queue.front();
         queue.pop();
         
         if (r == rows - 1 and c == cols - 1)
-          return step;
-        
-        if (grid[r][c])
-          live--;
-        
-        for (const auto& [ dr, dc ] : moves) {
-          int newr = r + dr;
-          int newc = c + dc;
-          if (0 <= newr and newr < rows and 0 <= newc and newc < cols and lives[newr][newc] < live) {
-            lives[newr][newc] = live;
-            queue.emplace(newr, newc, live);
+          return steps;
+
+        cur_k -= (grid[r][c] == 1);
+
+        for (int i = 0; i < 4; i++) {
+          int newr = r + moves[i];
+          int newc = c + moves[i+1];
+          if (min(newr, newc) >= 0 and newr < rows and newc < cols and cur_k > counts[newr][newc]) {
+            counts[newr][newc] = cur_k;
+            queue.push({ newr, newc, cur_k });
           }
         }
       }
-      step++;
+      steps++;
     }
-    
+
     return -1;
   }
 };
