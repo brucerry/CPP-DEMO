@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include <array>
+#include <cstring>
 using namespace std;
 
 // time: O(r * c * k)
@@ -36,7 +37,7 @@ public:
         for (int i = 0; i < 4; i++) {
           int newr = r + moves[i];
           int newc = c + moves[i+1];
-          if (min(newr, newc) >= 0 and newr < rows and newc < cols and cur_k > counts[newr][newc]) {
+          if (0 <= min(newr, newc) and newr < rows and newc < cols and cur_k > counts[newr][newc]) {
             counts[newr][newc] = cur_k;
             queue.push({ newr, newc, cur_k });
           }
