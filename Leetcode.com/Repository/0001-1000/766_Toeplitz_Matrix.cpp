@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-// time: O(n)
+// time: O(r * c)
 // space: O(1)
 
 class Solution {
