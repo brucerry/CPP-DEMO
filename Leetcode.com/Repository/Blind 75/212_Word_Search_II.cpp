@@ -11,64 +11,57 @@ using namespace std;
 // time: O(r * c * 3^n)
 // space: O(26 * m * n) -> O(m * n)
 
-class Solution {  
+struct Trie {
+  Trie* children[26] = {};
+  bool isEnd = false;
+
+  void add(const string& word) {
+    Trie* cur = this;
+    for (const char& c : word) {
+      if (!cur->children[c - 'a'])
+        cur->children[c - 'a'] = new Trie();
+      cur = cur->children[c - 'a'];
+    }
+    cur->isEnd = true;
+  }
+};
+
+class Solution {
 public:
   vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
     Trie root;
-    for (const string& word : words)
-      root.addWord(word);
-    
-    unordered_set<string> used;
-    vector<string> result;
-    string word;
+    for (const string& word : words) {
+      root.add(word);
+    }
+
+    unordered_set<string> result;
+    string str;
     for (int r = 0; r < board.size(); r++) {
       for (int c = 0; c < board[0].size(); c++) {
-        dfsSearch(board, r, c, &root, word, result, used);
+        dfs(board, &root, r, c, str, result);
       }
     }
-    
-    return result;
+
+    return vector<string>(result.begin(), result.end());
   }
-  
-private:
-  struct Trie {
-    bool isEnd;
-    array<Trie*, 26> children;
 
-    Trie() : isEnd(false) {
-      fill(children.begin(), children.end(), nullptr);
-    }
-
-    void addWord(const string& word) {
-      Trie* cur = this;
-      for (const char& c : word) {
-        if (!cur->children[c - 'a'])
-          cur->children[c - 'a'] = new Trie();
-        cur = cur->children[c - 'a'];
-      }
-      cur->isEnd = true;
-    }
-  };
-  
-  void dfsSearch(vector<vector<char>>& board, int r, int c, Trie* node, string& word, vector<string>& result, unordered_set<string>& used) {
-    if (r < 0 or r >= board.size() or c < 0 or c >= board[0].size() or board[r][c] == '*' or !node->children[board[r][c] - 'a'])
+  void dfs(vector<vector<char>>& board, Trie* root, int r, int c, string& str, unordered_set<string>& result) {
+    if (r < 0 or r >= board.size() or c < 0 or c >= board[0].size() or board[r][c] == '*' or !root->children[board[r][c] - 'a'])
       return;
-    
-    node = node->children[board[r][c] - 'a'];
-    word += board[r][c];
+
+    root = root->children[board[r][c] - 'a'];
+    str += board[r][c];
     board[r][c] = '*';
-    
-    if (node->isEnd and used.count(word) == 0) {
-      used.emplace(word);
-      result.emplace_back(word);
-    }
-    
-    dfsSearch(board, r+1, c, node, word, result, used);
-    dfsSearch(board, r-1, c, node, word, result, used);
-    dfsSearch(board, r, c+1, node, word, result, used);
-    dfsSearch(board, r, c-1, node, word, result, used);
-    
-    board[r][c] = word.back();
-    word.pop_back();
+
+    if (root->isEnd)
+      result.insert(str);
+
+    dfs(board, root, r+1, c, str, result);
+    dfs(board, root, r-1, c, str, result);
+    dfs(board, root, r, c+1, str, result);
+    dfs(board, root, r, c-1, str, result);
+
+    board[r][c] = str.back();
+    str.pop_back();
   }
 };
