@@ -25,11 +25,10 @@ class InPlaceTwoPointers {
 public:
   string makeGood(string s) {
     int end = 0;
-    for (int i = 0; i < s.size(); i++) {
+    for (int i = 0; i < s.size(); i++, end++) {
+      s[end] = s[i];
       if (end and abs(s[end-1] - s[i]) == 32)
-        end--;
-      else
-        s[end++] = s[i];
+        end -= 2;
     }
     return s.substr(0, end);
   }
