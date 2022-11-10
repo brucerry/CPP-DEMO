@@ -57,25 +57,31 @@ private:
   }
 };
 
-class TwoEndedBFS {
+class BidirectionalBFS {
 public:
   int openLock(vector<string>& deadends, string& target) {
     unordered_set<string> visited (deadends.begin(), deadends.end());
     if (visited.count("0000"))
       return -1;
     
-    unordered_set<string> begin, end;
-    begin.insert("0000");
-    end.insert(target);
+    unordered_set<string> head { "0000" }, tail { target }, tmp, *phead, *ptail;
     
-    int turn = 0;
-    while (begin.size() and end.size()) {
-      unordered_set<string> tmp;
+    int turns = 0;
+    while (head.size() and tail.size()) {
+      if (head.size() < tail.size()) {
+        phead = &head;
+        ptail = &tail;
+      }
+      else {
+        phead = &tail;
+        ptail = &head;
+      }
+      tmp = {};
       
-      for (string code : begin) {
-        if (end.count(code))
-          return turn;
-        
+      for (string code : *phead) {
+        if (ptail->count(code))
+          return turns;
+
         if (visited.count(code))
           continue;
         visited.insert(code);
@@ -89,9 +95,8 @@ public:
           rotate(code, i, true);
         }
       }
-      turn++;
-      begin = end;
-      end = tmp;
+      turns++;
+      *phead = tmp;
     }
     
     return -1;
