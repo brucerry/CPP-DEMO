@@ -1,35 +1,41 @@
 // https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/
 
-#include <stack>
 #include <string>
-#include <algorithm>
+#include <vector>
 using namespace std;
 
-// time: O(s)
-// space: O(s)
+// time: O(n)
+// space: O(n)
 
 class Solution {
 public:
-  string removeDuplicates(string& s, int k) {
-    stack<pair<char, int>> stack; // char, count
+  string removeDuplicates(string s, int k) {
+    vector<pair<char, int>> stack; // char, count
     for (const char& c : s) {
-      if (stack.size() and stack.top().first == c)
-        stack.top().second++;
-      else
-        stack.emplace(c, 1);
-        
-      if (stack.top().second == k)
-        stack.pop();
+      if (stack.empty() or stack.back().first != c)
+        stack.emplace_back(c, 1);
+      else if (++stack.back().second == k)
+        stack.pop_back();
     }
-    
+
     string result;
-    while (stack.size()) {
-      auto [ c, count ] = stack.top();
-      stack.pop();
+    for (const auto& [ c, count ] : stack)
       result += string(count, c);
-    }
-    
-    reverse(result.begin(), result.end());
     return result;
+  }
+};
+
+class TwoPointers {
+public:
+  string removeDuplicates(string s, int k) {
+    int end = 0, n = s.size();
+    vector<int> counts (n);
+    for (int i = 0; i < n; i++, end++) {
+      s[end] = s[i];
+      counts[end] = end and s[end-1] == s[i] ? counts[end-1] + 1 : 1;
+      if (counts[end] == k)
+        end -= k;
+    }
+    return s.substr(0, end);
   }
 };

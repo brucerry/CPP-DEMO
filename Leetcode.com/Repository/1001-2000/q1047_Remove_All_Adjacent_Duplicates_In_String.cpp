@@ -4,19 +4,32 @@
 #include <string>
 using namespace std;
 
-// time: O(s)
-// space: O(s)
+// time: O(n)
+// space: O(n)
 
-class Solution {
+class Stack {
 public:
-  string removeDuplicates(string& s) {
-    vector<char> buffer;
+  string removeDuplicates(string s) {
+    vector<char> stack;
     for (const char& c : s) {
-      if (buffer.size() and buffer.back() == c)
-        buffer.pop_back();
+      if (stack.size() and stack.back() == c)
+        stack.pop_back();
       else
-        buffer.emplace_back(c);
+        stack.emplace_back(c);
     }
-    return string(buffer.begin(), buffer.end());
+    return string(stack.begin(), stack.end());
+  }
+};
+
+class TwoPointers {
+public:
+  string removeDuplicates(string s) {
+    int end = 0;
+    for (int i = 0; i < s.size(); i++, end++) {
+      s[end] = s[i];
+      if (end and s[end-1] == s[i])
+        end -= 2;
+    }
+    return s.substr(0, end);
   }
 };
