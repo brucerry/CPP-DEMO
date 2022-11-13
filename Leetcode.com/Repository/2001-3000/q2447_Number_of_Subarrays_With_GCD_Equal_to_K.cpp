@@ -4,7 +4,7 @@
 #include <numeric>
 using namespace std;
 
-// gcd = time of gcd()
+// gcd = time for gcd()
 // time: O(n^2 * gcd)
 // space: O(1)
 
