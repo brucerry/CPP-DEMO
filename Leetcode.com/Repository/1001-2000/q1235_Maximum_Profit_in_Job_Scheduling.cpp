@@ -20,7 +20,7 @@ public:
 
     int dp[50001] {};
     for (int i = n - 1; i >= 0; i--) {
-      int s = jobs[i][0], e = jobs[i][1], p = jobs[i][2];
+      int e = jobs[i][1], p = jobs[i][2];
       int j = lower_bound(jobs.begin(), jobs.end(), vector<int>{e}) - jobs.begin();
       dp[i] = max(dp[i+1], dp[j] + p);
     }
