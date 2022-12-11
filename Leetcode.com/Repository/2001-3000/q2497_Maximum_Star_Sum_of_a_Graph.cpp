@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-// time: Amortized O(e + n * log(n))
+// time: O(e + n * log(n))
 // space: O(e)
 
 class Solution {
