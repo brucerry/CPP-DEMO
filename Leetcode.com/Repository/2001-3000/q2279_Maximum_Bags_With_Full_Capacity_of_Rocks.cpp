@@ -5,23 +5,22 @@
 using namespace std;
 
 // time: O(n * log(n))
-// space: O(n)
+// space: O(log(n)) for sorting
 
 class Solution {
 public:
   int maximumBags(vector<int>& capacity, vector<int>& rocks, int additionalRocks) {
     int n = rocks.size();
     
-    vector<int> diffs (n);
     for (int i = 0; i < n; i++) {
-      diffs[i] = capacity[i] - rocks[i];
+      capacity[i] -= rocks[i];
     }
-    sort(diffs.begin(), diffs.end());
+    sort(capacity.begin(), capacity.end());
     
     int full = 0;
-    for (const int& diff : diffs) {
-      if (additionalRocks >= diff) {
-        additionalRocks -= diff;
+    for (const int& empty : capacity) {
+      if (additionalRocks >= empty) {
+        additionalRocks -= empty;
         full++;
       }
     }
