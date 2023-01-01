@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/distinct-prime-factors-of-product-of-array/
 
 #include <vector>
-#include <unordered_set>
 using namespace std;
 
 // time: O(n)
@@ -10,17 +9,19 @@ using namespace std;
 class Solution {
 public:
     int distinctPrimeFactors(vector<int>& nums) {
-        unordered_set<int> uset;
+        bool isFactor[1001] {};
         for (int& num : nums) {
-            for (int f = 2; f <= sqrt(num); f++) {
+            for (int f = 2; f <= 1000; f++) {
                 while (num % f == 0) {
-                    uset.emplace(f);
+                    isFactor[f] = true;
                     num /= f;
                 }
             }
-            if (num > 1)
-                uset.emplace(num);
         }
-        return uset.size();
+        int res = 0;
+        for (const bool& isfactor : isFactor) {
+            res += isfactor;
+        }
+        return res;
     }
 };
