@@ -15,9 +15,9 @@ public:
         }
         int res = 0;
         for (int cost = 1; cost <= 100000; cost++) {
-            int canBuy = min(coins / cost, counts[cost]);
-            res += canBuy;
-            coins -= canBuy * cost;
+            int buy = min(coins / cost, counts[cost]);
+            res += buy;
+            coins -= buy * cost;
         }
         return res;
     }
