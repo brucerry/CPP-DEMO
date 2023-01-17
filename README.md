@@ -8,4 +8,4 @@
 ![5986024](https://user-images.githubusercontent.com/88369201/152857966-676dc147-b380-4cac-87d6-d752c3f19fcc.png)
 
 ## Status
-  - Join and upload code from Leetcode (Bi)Weekly Contest
+  - Join and upload code from Leetcode Weekly Contest
