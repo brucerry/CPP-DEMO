@@ -10,9 +10,6 @@ using namespace std;
 class Solution {
 public:
   vector<vector<int>> threeSum(vector<int>& nums) {
-    if (nums.size() < 3)
-      return {};
-    
     sort(nums.begin(), nums.end());
     int n = nums.size();
     
