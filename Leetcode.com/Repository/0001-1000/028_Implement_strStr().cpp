@@ -27,50 +27,48 @@ public:
   }
 };
 
+// KnuthMorrisPratt
 // n = len of haystack
 // m = len of needle
 // time: O(n + m)
 // space: O(m)
-class KnuthMorrisPratt {
+class KMP {
 public:
-  int strStr(string& haystack, string& needle) {
-    int n = haystack.length();
-    int m = needle.length();
-    
-    vector<int> lps (m); // longest prefix suffix
-    int prevLPS = 0, i = 1;
-    while (i < m) {
-      if (needle[i] == needle[prevLPS]) {
-        lps[i] = prevLPS + 1;
-        prevLPS++;
-        i++;
-      }
-      else if (prevLPS == 0) {
-        lps[i] = 0;
-        i++;
-      }
-      else {
-        prevLPS = lps[prevLPS - 1];
-      }
+    int strStr(string haystack, string needle) {
+        int m = haystack.size();
+        int n = needle.size();
+        vector<int> preproc (n);
+        kmpPreprocess(needle, preproc);
+
+        int i = 0, j = 0;
+        while (i < m and j < n) {
+            if (haystack[i] == needle[j]) {
+                i++, j++;
+            }
+            else if (j) {
+                j = preproc[j-1];
+            }
+            else {
+                i++;
+            }
+        }
+        return j == n ? i - j : -1;
     }
-    
-    int j = 0, k = 0;
-    while (j < n) {
-      if (haystack[j] == needle[k]) {
-        j++;
-        k++;
-      }
-      else if (k == 0) {
-        j++;
-      }
-      else {
-        k = lps[k - 1];
-      }
-      
-      if (k == m)
-        return j - m;
+
+private:
+    void kmpPreprocess(string& needle, vector<int>& preproc) {
+        int l = 0, r = 1;
+        while (r < needle.size()) {
+            if (needle[l] == needle[r]) {
+                preproc[r] = l + 1;
+                l++, r++;
+            }
+            else if (l) {
+                l = preproc[l-1];
+            }
+            else {
+                r++;
+            }
+        }
     }
-    
-    return -1;
-  }
 };
