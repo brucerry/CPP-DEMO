@@ -3,21 +3,20 @@
 #include <vector>
 using namespace std;
 
-// time: O(a * n)
-// space: O(a)
+// time: O(amount * n)
+// space: O(amount)
 
 class Solution {
 public:
   int coinChange(vector<int>& coins, int amount) {
-    vector<int> dp (amount + 1, amount + 1);
-    dp[0] = 0;
+    int dp[10001] = {};
+    fill(begin(dp) + 1, end(dp), amount + 1);
     
-    for (int a = 0; a <= amount; a++) {
-      for (const int& coin : coins) {
-        if (a >= coin) {
-          dp[a] = min(dp[a], dp[a - coin] + 1);
+    for (const int& coin : coins) {
+        for (int a = 1; a <= amount; a++) {
+            if (a >= coin)
+                dp[a] = min(dp[a], dp[a - coin] + 1);
         }
-      }
     }
     
     return dp[amount] == amount + 1 ? -1 : dp[amount];
