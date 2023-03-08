@@ -8,16 +8,16 @@ using namespace std;
 
 class Solution {
 public:
-  int findKthPositive(vector<int>& arr, int k) {
-    int l = 0, r = arr.size();
-    while (l < r) {
-      int m = l + ((r - l) >> 1);
-      int missCount = arr[m] - (m + 1);
-      if (missCount >= k)
-        r = m;
-      else
-        l = m + 1;
+    int findKthPositive(vector<int>& arr, int k) {
+        int l = 0, r = arr.size();
+        while (l < r) {
+            int m = (l + r) / 2;
+            int miss = arr[m] - (m + 1);
+            if (miss >= k)
+                r = m;
+            else
+                l = m + 1;
+        }
+        return r + k;
     }
-    return r + k;
-  }
 };

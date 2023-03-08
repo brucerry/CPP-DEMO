@@ -3,33 +3,29 @@
 #include <vector>
 using namespace std;
 
-// time: O(n * log(min(time) * totalTrips))
+// time: O(n * log(1e14))
 // space: O(1)
 
 class Solution {
 public:
-  long long minimumTime(vector<int>& time, int totalTrips) {
-    long long l = 1, r = INT_MAX;
-    for (const long long& t : time)
-      r = min(r, t);
-    r *= totalTrips;
-    
-    while (l < r) {
-      long long m = l + ((r - l) >> 1);
-      if (canComplete(time, totalTrips, m))
-        r = m;
-      else
-        l = m + 1;
+    long long minimumTime(vector<int>& time, int totalTrips) {
+        long l = 1, r = 1e14;
+        while (l < r) {
+            long m = (l + r) / 2;
+            if (canComplete(time, totalTrips, m))
+                r = m;
+            else
+                l = m + 1;
+        }
+        return r;
     }
-    return r;
-  }
-  
+
 private:
-  bool canComplete(vector<int>& time, int totalTrips, long long minTime) {
-    long long trip = 0;
-    for (const int& t : time) {
-      trip += minTime / t;
+    bool canComplete(vector<int>& time, int totalTrips, long testTime) {
+        long trips = 0;
+        for (const int& t : time) {
+            trips += testTime / t;
+        }
+        return trips >= totalTrips;
     }
-    return trip >= totalTrips;
-  }
 };
