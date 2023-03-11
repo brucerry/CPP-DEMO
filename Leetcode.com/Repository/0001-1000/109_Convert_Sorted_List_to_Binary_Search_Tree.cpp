@@ -23,35 +23,31 @@ struct TreeNode {
 // space: O(log(n))
 class Solution {
 public:
-  ListNode* cur;
-  
-  TreeNode* sortedListToBST(ListNode* head) {
-    cur = head;
-    
-    int size = 0;
-    while (head) {
-      head = head->next;
-      size++;
+    TreeNode* sortedListToBST(ListNode* head) {
+        this->cur = head;
+        int len = 0;
+        while (head) {
+            head = head->next;
+            len++;
+        }
+        return solve(0, len - 1);
     }
-    
-    return solve(0, size - 1);
-  }
-  
+
 private:
-  TreeNode* solve(int l, int r) {
-    if (l > r)
-      return nullptr;
-    
-    int m = l + ((r - l) >> 1);
-    
-    TreeNode* node = new TreeNode();
-    node->left = solve(l, m - 1);
-    node->val = cur->val;
-    cur = cur->next;
-    node->right = solve(m + 1, r);
-    
-    return node;
-  }
+    ListNode* cur;
+
+    TreeNode* solve(int l, int r) {
+        TreeNode* node = nullptr;
+        if (l <= r) {
+            int m = (l + r) / 2;
+            node = new TreeNode();
+            node->left = solve(l, m - 1);
+            node->val = cur->val;
+            cur = cur->next;
+            node->right = solve(m + 1, r);
+        }
+        return node;
+    }
 };
 
 // time: O(n * log(n))
