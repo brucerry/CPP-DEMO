@@ -8,16 +8,14 @@ using namespace std;
 
 class Solution {
 public:
-  long long zeroFilledSubarray(vector<int>& nums) {
-    long long subarray = 0;
-    int count = 0;
-    for (const int& num : nums) {
-      if (num)
-        count = 0;
-      else
-        count++;
-      subarray += count;
+    long long zeroFilledSubarray(vector<int>& nums) {
+        long res = 0;
+        for (int l = 0, r = 0; r < nums.size(); r++) {
+            if (nums[r]) {
+                l = r + 1;
+            }
+            res += r - l + 1;
+        }
+        return res;
     }
-    return subarray;
-  }
 };
