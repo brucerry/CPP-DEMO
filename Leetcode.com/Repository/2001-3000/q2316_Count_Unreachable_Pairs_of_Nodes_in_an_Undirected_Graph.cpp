@@ -8,40 +8,31 @@ using namespace std;
 
 class Solution {
 public:
-  long long countPairs(int n, vector<vector<int>>& edges) {
-    vector<vector<int>> graph (n);
-    for (const auto& edge : edges) {
-      int node1 = edge[0];
-      int node2 = edge[1];
-      graph[node1].emplace_back(node2);
-      graph[node2].emplace_back(node1);
+    long long countPairs(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> graph (n);
+        for (const auto& edge : edges) {
+            int u = edge[0], v = edge[1];
+            graph[u].emplace_back(v);
+            graph[v].emplace_back(u);
+        }
+        vector<int> visited (n);
+        long res = 1L * n * (n - 1) / 2;
+        for (int node = 0; node < n; node++) {
+            long count = dfs(graph, visited, node);
+            res -= count * (count - 1) / 2;
+        }
+        return res;
     }
-    
-    vector<char> visited (n);
-    long long result = (long long)n * (n - 1) >> 1;
-    for (int node = 0; node < n; node++) {
-      if (visited[node] == 0) {
-        int count = exploreMember(graph, node, visited);
-        result -= (long long)count * (count - 1) >> 1;
-      }
-    }
-    
-    return result;
-  }
-  
+
 private:
-  int exploreMember(vector<vector<int>>& graph, int node, vector<char>& visited) {
-    if (visited[node])
-      return 0;
-    
-    visited[node] = 1;
-    
-    int count = 1;
-    for (const int& neighbor : graph[node]) {
-      if (visited[neighbor] == 0)
-        count += exploreMember(graph, neighbor, visited);
+    long dfs(vector<vector<int>>& graph, vector<int>& visited, int node) {
+        if (visited[node])
+            return 0;
+        visited[node] = 1;
+        long count = 1;
+        for (const int& neighbor : graph[node]) {
+            count += dfs(graph, visited, neighbor);
+        }
+        return count;
     }
-    
-    return count;
-  }
 };
