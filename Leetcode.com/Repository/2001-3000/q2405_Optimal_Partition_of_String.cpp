@@ -8,15 +8,15 @@ using namespace std;
 
 class Solution {
 public:
-  int partitionString(string& s) {
-    int usedMask = 0, result = 1;
-    for (const char& c : s) {
-      if (usedMask & (1 << c - 'a')) {
-        usedMask = 0;
-        result++;
-      }
-      usedMask |= 1 << c - 'a';
+    int partitionString(string s) {
+        int res = 1, mask = 0;
+        for (char c : s) {
+            if (mask & (1 << (c - 'a'))) {
+                mask = 0;
+                res++;
+            }
+            mask |= 1 << (c - 'a');
+        }
+        return res;
     }
-    return result;
-  }
 };
