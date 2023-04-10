@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 using namespace std;
 
 // time: O(n)
@@ -10,24 +9,21 @@ using namespace std;
 
 class Solution {
 public:
-  bool isValid(string& s) {
-    unordered_map<char, char> map {
-      { ')', '(' },
-      { ']', '[' },
-      { '}', '{' },
-    };
-    
-    vector<char> buffer;
-    for (const char& c : s) {
-      if (map.count(c)) {
-        if (buffer.size() == 0 or buffer.back() != map[c])
-          return false;
-        buffer.pop_back();
-      }
-      else
-        buffer.emplace_back(c);
+    bool isValid(string s) {
+        vector<char> vec;
+        for (char c : s) {
+            if (c == '(')
+                vec.emplace_back(')');
+            else if (c == '[')
+                vec.emplace_back(']');
+            else if (c == '{')
+                vec.emplace_back('}');
+            else {
+                if (vec.empty() or vec.back() != c)
+                    return false;
+                vec.pop_back();
+            }
+        }
+        return vec.empty();
     }
-    
-    return buffer.size() == 0;
-  }
 };
