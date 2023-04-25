@@ -8,27 +8,27 @@ using namespace std;
 
 class SmallestInfiniteSet {
 public:
-  SmallestInfiniteSet() : largest(1) {
-    curSet.insert(1);
-  }
-  
-  int popSmallest() {
-    int val = *curSet.begin();
-    curSet.erase(val);
+    set<int> set;
+    int largest;
+
+    SmallestInfiniteSet() {
+        set = { 1 };
+        largest = 1;
+    }
     
-    if (val == largest)
-      curSet.insert(++largest);
+    int popSmallest() {
+        int val = *set.begin();
+        set.erase(val);
+        
+        if (val == largest)
+            set.emplace(++largest);
+        
+        return val;
+    }
     
-    return val;
-  }
-  
-  void addBack(int num) {
-    curSet.insert(num);
-  }
-  
-private:
-  set<int> curSet;
-  int largest;
+    void addBack(int num) {
+        set.emplace(num);
+    }
 };
 
 /**
