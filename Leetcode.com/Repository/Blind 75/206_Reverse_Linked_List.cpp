@@ -14,36 +14,33 @@ struct ListNode {
 // space: O(n)
 class Recursive {
 public:
-  ListNode* reverseList(ListNode* head) {
-    if (!head)
-      return head;
+    ListNode* reverseList(ListNode* head) {
+        if (!head)
+            return nullptr;
+        
+        ListNode* newhead = head;
+        if (head->next) {
+            newhead = reverseList(head->next);
+            head->next->next = head;
+            head->next = nullptr;
+        }
 
-    ListNode* newHead = head;
-
-    if (head->next) {
-      newHead = reverseList(head->next);
-      head->next->next = head;
-      head->next = nullptr;
+        return newhead;
     }
-
-    return newHead;
-  }
 };
 
 // time: O(n)
 // space: O(1)
 class Iterative {
 public:
-  ListNode* reverseList(ListNode* head) {
-    ListNode* cur = head, *prev = nullptr;
-
-    while (cur) {
-      ListNode* next = cur->next;
-      cur->next = prev;
-      prev = cur;
-      cur = next;
+    ListNode* reverseList(ListNode* head) {
+        ListNode* cur = head, *prev = nullptr;
+        while (cur) {
+            ListNode* tmpnext = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = tmpnext;
+        }
+        return prev;
     }
-
-    return prev;
-  }
 };

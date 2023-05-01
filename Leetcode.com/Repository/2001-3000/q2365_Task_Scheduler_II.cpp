@@ -9,13 +9,13 @@ using namespace std;
 
 class Solution {
 public:
-  long long taskSchedulerII(vector<int>& tasks, int space) {
-    unordered_map<int, long long> next; // task, available day
-    long long curDay = 0;
-    for (const int& task : tasks) {
-      curDay = max(curDay + 1, next[task]);
-      next[task] = curDay + space + 1;
+    long long taskSchedulerII(vector<int>& tasks, int space) {
+        unordered_map<int, long long> next; // task, next available day
+        long long curday = 0;
+        for (int& task : tasks) {
+            curday = max(curday + 1, next[task]);
+            next[task] = curday + 1 + space;
+        }
+        return curday;
     }
-    return curDay;
-  }
 };
