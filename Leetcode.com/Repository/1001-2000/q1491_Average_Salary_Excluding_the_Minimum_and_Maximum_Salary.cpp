@@ -8,14 +8,14 @@ using namespace std;
 
 class Solution {
 public:
-  double average(vector<int>& salary) {
-    int minNum = 1e9, maxNum = 0;
-    double sum = 0;
-    for (const int& s : salary) {
-      sum += s;
-      minNum = min(minNum, s);
-      maxNum = max(maxNum, s);
+    double average(vector<int>& salary) {
+        int mins = INT_MAX, maxs = 0;
+        double sum = 0;
+        for (int& s : salary) {
+            sum += s;
+            mins = min(mins, s);
+            maxs = max(maxs, s);
+        }
+        return (sum - mins - maxs) / (salary.size() - 2);
     }
-    return (sum - minNum - maxNum) / (salary.size() - 2);
-  }
 };
