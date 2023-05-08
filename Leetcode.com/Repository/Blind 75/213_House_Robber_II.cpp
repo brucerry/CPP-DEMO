@@ -8,22 +8,20 @@ using namespace std;
 
 class Solution {
 public:
-  int rob(vector<int>& nums) {
-    int result1 = houseRobber1(nums, 0, nums.size() - 2);
-    int result2 = houseRobber1(nums, 1, nums.size() - 1);
-    return max({ result1, result2, nums[0] });
-  }
-  
-private:
-  int houseRobber1(vector<int>& nums, int l, int r) {
-    int one = 0, two = 0;
-    
-    for (int i = l; i <= r; i++) {
-      int tmp = max(nums[i] + one, two);
-      one = two;
-      two = tmp;
+    int rob(vector<int>& nums) {
+        int res1 = houseRobber(nums, 0, nums.size() - 2);
+        int res2 = houseRobber(nums, 1, nums.size() - 1);
+        return max({ res1, res2, nums[0] });
     }
-    
-    return two;
-  }
+
+private:
+    int houseRobber(vector<int>& nums, int l, int r) {
+        int rob1 = 0, rob2 = 0;
+        for (int i = l; i <= r; i++) {
+            int tmp = max(rob1 + nums[i], rob2);
+            rob1 = rob2;
+            rob2 = tmp;
+        }
+        return rob2;
+    }
 };
