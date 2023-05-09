@@ -9,12 +9,13 @@ using namespace std;
 
 class Solution {
 public:
-  void rotate(vector<vector<int>>& matrix) {
-    reverse(matrix.begin(), matrix.end());
-    for (int r = 0, n = matrix.size(); r < n; r++) {
-      for (int c = r; c < n; c++) {
-        swap(matrix[r][c], matrix[c][r]);
-      }
+    void rotate(vector<vector<int>>& matrix) {
+        reverse(matrix.begin(), matrix.end());
+        int n = matrix.size();
+        for (int r = 0; r < n; r++) {
+            for (int c = r; c < n; c++) {
+                swap(matrix[r][c], matrix[c][r]);
+            }
+        }
     }
-  }
 };

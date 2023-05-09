@@ -9,15 +9,13 @@ using namespace std;
 
 class Solution {
 public:
-  bool containsDuplicate(vector<int>& nums) {
-    unordered_set<int> set;
-    
-    for (const int& num : nums) {
-      if (set.contains(num))
-        return true;
-      set.emplace(num);
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_set<int> num_uset;
+        for (int num : nums) {
+            if (num_uset.count(num))
+                return true;
+            num_uset.emplace(num);
+        }
+        return false;
     }
-    
-    return false;
-  }
 };
