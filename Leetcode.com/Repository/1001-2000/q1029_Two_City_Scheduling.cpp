@@ -5,31 +5,24 @@
 using namespace std;
 
 // time: O(n * log(n))
-// space: O(n)
+// space: O(log(n)) for sorting
 
 class Solution {
 public:
-  int twoCitySchedCost(vector<vector<int>>& costs) {
-    int n = costs.size();
-    
-    vector<pair<int, int>> diffs (n); // cost A - cost B, index
-    for (int i = 0; i < n; i++) {
-      int a = costs[i][0];
-      int b = costs[i][1];
-      diffs[i] = { a - b, i };
+    int twoCitySchedCost(vector<vector<int>>& costs) {
+        sort(costs.begin(), costs.end(), [](auto& v1, auto& v2) {
+            int a1 = v1[0], b1 = v1[1];
+            int a2 = v2[0], b2 = v2[1];
+            return a1 - b1 < a2 - b2;
+        });
+        int n = costs.size();
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if (i < n / 2)
+                res += costs[i][0];
+            else
+                res += costs[i][1];
+        }
+        return res;
     }
-    sort(diffs.begin(), diffs.end());
-    
-    int half = n >> 1;
-    int totalCost = 0;
-    for (int i = 0; i < n; i++) {
-      auto& [ _, idx ] = diffs[i];
-      if (i < half)
-        totalCost += costs[idx][0];
-      else
-        totalCost += costs[idx][1];
-    }
-    
-    return totalCost;
-  }
 };
