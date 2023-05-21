@@ -9,68 +9,60 @@ using namespace std;
 
 class Solution {
 public:
-  int shortestBridge(vector<vector<int>>& grid) {
-    int n = grid.size();
-    
-    vector<vector<char>> visited (n, vector<char>(n));
-    for (int r = 0; r < n; r++) {
-      for (int c = 0; c < n; c++) {
-        if (grid[r][c]) {
-          exploreIsland(grid, n, r, c, visited); // dfs
-          return exploreBridge(grid, n, visited); // bfs
+    int shortestBridge(vector<vector<int>>& grid) {
+        int n = grid.size();
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c]) {
+                    dfs(grid, n, r, c);
+                    return bfs(grid, n);
+                }
+            }
         }
-      }
+        return -1;
     }
-    
-    return -1;
-  }
-  
-private:
-  void exploreIsland(vector<vector<int>>& grid, int n, int r, int c, vector<vector<char>>& visited) {
-    if (r < 0 or r >= n or c < 0 or c >= n or grid[r][c] == 0 or visited[r][c])
-      return;
-    
-    visited[r][c] = 1;
-    
-    exploreIsland(grid, n, r+1, c, visited);
-    exploreIsland(grid, n, r-1, c, visited);
-    exploreIsland(grid, n, r, c+1, visited);
-    exploreIsland(grid, n, r, c-1, visited);
-  }
-  
-  int exploreBridge(vector<vector<int>>& grid, int n, vector<vector<char>>& visited) {
-    queue<pair<int, int>> queue; // r, c
-    for (int r = 0; r < n; r++) {
-      for (int c = 0; c < n; c++) {
-        if (visited[r][c])
-          queue.emplace(r, c);
-      }
-    }
-    
-    vector<pair<int, int>> moves { {0, 1}, {0, -1}, {-1, 0}, {1, 0} };
-    
-    int len = 0;
-    while (queue.size()) {
-      int size = queue.size();
-      
-      while (size--) {
-        auto [ r, c ] = queue.front();
-        queue.pop();
 
-        for (const auto& [ dr, dc ] : moves) {
-          int newr = dr + r;
-          int newc = dc + c;
-          if (0 <= newr and newr < n and 0 <= newc and newc < n and visited[newr][newc] == 0) {
-            if (grid[newr][newc])
-              return len;
-            visited[newr][newc] = 1;
-            queue.emplace(newr, newc);
-          }
-        }
-      }
-      len++;
+private:
+    void dfs(vector<vector<int>>& grid, int n, int r, int c) {
+        if (min(r, c) < 0 or max(r, c) >= n or grid[r][c] <= 0)
+            return;
+        grid[r][c] = -1;
+        dfs(grid, n, r+1, c);
+        dfs(grid, n, r-1, c);
+        dfs(grid, n, r, c+1);
+        dfs(grid, n, r, c-1);
     }
-    
-    return len;
-  }
+
+    int bfs(vector<vector<int>>& grid, int n) {
+        queue<pair<int, int>> que;
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                if (grid[r][c] == -1)
+                    que.emplace(r, c);
+            }
+        }
+
+        int moves[] = { 0, 1, 0, -1, 0 }; // 4-dir
+
+        int res = 0;
+        while (que.size()) {
+            for (int size = que.size(); size; size--) {
+                auto [ r, c ] = que.front();
+                que.pop();
+                for (int i = 0; i < 4; i++) {
+                    int newr = r + moves[i];
+                    int newc = c + moves[i+1];
+                    if (min(newr, newc) >= 0 and max(newr, newc) < n and grid[newr][newc] != -1) {
+                        if (grid[newr][newc] == 1)
+                            return res;
+                        grid[newr][newc] = -1;
+                        que.emplace(newr, newc);
+                    }
+                }
+            }
+            res++;
+        }
+
+        return -1;
+    }
 };
