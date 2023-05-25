@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/divide-array-into-equal-pairs/
 
 #include <vector>
-#include <algorithm>
 using namespace std;
 
 // time: O(n)
@@ -9,12 +8,15 @@ using namespace std;
 
 class Solution {
 public:
-  bool divideArray(vector<int>& nums) {
-    int counts[501] {};
-    for (const int& num : nums)
-      counts[num]++;
-    return all_of(begin(counts), end(counts), [](const int& count) -> bool {
-      return count % 2 == 0;
-    });
-  }
+    bool divideArray(vector<int>& nums) {
+        int count[501] {};
+        for (int num : nums) {
+            count[num]++;
+        }
+        for (int cnt : count) {
+            if (cnt & 1)
+                return false;
+        }
+        return true;
+    }
 };
