@@ -8,19 +8,15 @@ using namespace std;
 
 class Solution {
 public:
-  int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-    if (k <= 1)
-      return 0;
-    
-    int curProduct = 1, subarray = 0;
-    int l = 0;
-    for (int r = 0; r < nums.size(); r++) {
-      curProduct *= nums[r];
-      while (curProduct >= k) {
-        curProduct /= nums[l++];
-      }
-      subarray += r - l + 1;
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        int curproduct = 1, subarray = 0;
+        for (int l = 0, r = 0; r < nums.size(); r++) {
+            curproduct *= nums[r];
+            while (curproduct >= k and l <= r) {
+                curproduct /= nums[l++];
+            }
+            subarray += r - l + 1;
+        }
+        return subarray;
     }
-    return subarray;
-  }
 };
