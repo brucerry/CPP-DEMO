@@ -4,34 +4,23 @@
 #include <queue>
 using namespace std;
 
-// time: O(n * log(n))
+// time: O(n * log(n) + k * log(n))
 // space: O(n)
 
 class Solution {
 public:
-  int maximumProduct(vector<int>& nums, int k) {
-    if (nums.size() == 1)
-      return nums[0] + k;
-    
-    priority_queue<int, vector<int>, greater<>> minHeap;
-    for (const int& num : nums)
-      minHeap.emplace(num);
-    
-    while (k) {
-      int smallest = minHeap.top();
-      minHeap.pop();
-      int diff = min(k, minHeap.top() - smallest + 1);
-      smallest += diff;
-      k -= diff;
-      minHeap.emplace(smallest);
+    int maximumProduct(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<>> minheap (nums.begin(), nums.end());
+        while (k--) {
+            int num = minheap.top();
+            minheap.pop();
+            minheap.emplace(num + 1);
+        }
+        long long res = 1, mod = 1e9 + 7;
+        while (minheap.size()) {
+            res = res * minheap.top() % mod;
+            minheap.pop();
+        }
+        return res;
     }
-    
-    int product = 1;
-    while (minHeap.size()) {
-      product = (long)product * minHeap.top() % 1000000007;
-      minHeap.pop();
-    }
-    
-    return product;
-  }
 };
