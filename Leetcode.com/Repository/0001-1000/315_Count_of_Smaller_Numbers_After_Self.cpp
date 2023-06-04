@@ -6,57 +6,57 @@ using namespace std;
 // time: O(n * log(n))
 // space: O(n)
 
+struct Info {
+    int val, index;
+    Info() {}
+    Info(int v, int i) : val(v), index(i) {}
+};
+
 class Solution {
 public:
-  vector<int> countSmaller(vector<int>& nums) {
-    int n = nums.size();
-    vector<int> counts (n);
-    vector<Info> info (n), tmp (n);
-    
-    for (int i = 0; i < n; i++)
-      info[i] = Info(nums[i], i);
-    
-    solve(info, tmp, counts, 0, n);
-    return counts;
-  }
-  
-private:
-  struct Info {
-    int val, index;
-    Info() {};
-    Info(int val, int index) : val(val), index(index) {}
-  };
-  
-  void solve(vector<Info>& info, vector<Info>& tmp, vector<int>& counts, int l, int r) {
-    if (r - l == 1)
-      return;
-    
-    int m = l + ((r - l) >> 1);
-    solve(info, tmp, counts, l, m);
-    solve(info, tmp, counts, m, r);
-    
-    int count = 0;
-    int leftptr = l, rightptr = m, tmpptr = l;
-    while (leftptr < m or rightptr < r) {
-      if (leftptr == m) {
-        tmp[tmpptr] = info[rightptr++];
-      }
-      else if (rightptr == r) {
-        tmp[tmpptr] = info[leftptr++];
-        counts[tmp[tmpptr].index] += count;
-      }
-      else if (info[leftptr].val <= info[rightptr].val) {
-        tmp[tmpptr] = info[leftptr++];
-        counts[tmp[tmpptr].index] += count;
-      }
-      else {
-        tmp[tmpptr] = info[rightptr++];
-        count++;
-      }
-      tmpptr++;
+    vector<int> countSmaller(vector<int>& nums) {
+        int n = nums.size();
+        vector<Info> info (n), tmp(n);
+        for (int i = 0; i < n; i++) {
+            info[i] = { nums[i], i };
+        }
+        vector<int> res (n);
+        solve(info, tmp, res, 0, n - 1);
+        return res;
     }
-    
-    for (int i = l; i < r; i++)
-      info[i] = tmp[i];
-  }
+
+private:
+    void solve(vector<Info>& info, vector<Info>& tmp, vector<int>& res, int left, int right) {
+        if (right - left + 1 <= 1)
+            return;
+        
+        int mid = (left + right) / 2;
+        solve(info, tmp, res, left, mid);
+        solve(info, tmp, res, mid + 1, right);
+
+        int l = left, r = mid + 1, ptr = left;
+        int count = 0;
+        while (l <= mid or r <= right) {
+            if (l > mid) {
+                tmp[ptr] = info[r++];
+            }
+            else if (r > right) {
+                tmp[ptr] = info[l++];
+                res[tmp[ptr].index] += count;
+            }
+            else if (info[l].val <= info[r].val) {
+                tmp[ptr] = info[l++];
+                res[tmp[ptr].index] += count;
+            }
+            else {
+                tmp[ptr] = info[r++];
+                count++;
+            }
+            ptr++;
+        }
+
+        for (int i = left; i <= right; i++) {
+            info[i] = tmp[i];
+        }
+    }
 };
