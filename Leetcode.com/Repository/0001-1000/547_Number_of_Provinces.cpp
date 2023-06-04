@@ -11,16 +11,15 @@ public:
   int findCircleNum(vector<vector<int>>& isConnected) {
     int n = isConnected.size();
     
-    vector<int> ranks (n, 1);
     vector<int> parents (n);
     for (int node = 0; node < n; node++)
       parents[node] = node;
     
     int province = n;
     for (int node1 = 0; node1 < n; node1++) {
-      for (int node2 = 0; node2 < n; node2++) {
-        if (node1 != node2 and isConnected[node1][node2]) {
-          province -= unionNodes(parents, ranks, node1, node2);
+      for (int node2 = node1 + 1; node2 < n; node2++) {
+        if (isConnected[node1][node2]) {
+          province -= unionNodes(parents, node1, node2);
         }
       }
     }
@@ -29,22 +28,14 @@ public:
   }
   
 private:
-  int unionNodes(vector<int>& parents, vector<int>& ranks, int node1, int node2) {
+  int unionNodes(vector<int>& parents, int node1, int node2) {
     int parent1 = findParent(parents, node1);
     int parent2 = findParent(parents, node2);
     
     if (parent1 == parent2)
       return 0;
     
-    if (ranks[parent1] > ranks[parent2]) {
-      ranks[parent1] += ranks[parent2];
-      parents[parent2] = parent1;
-    }
-    else {
-      ranks[parent2] += ranks[parent1];
-      parents[parent1] = parent2;
-    }
-    
+    parents[parent1] = parent2;
     return 1;
   }
   
