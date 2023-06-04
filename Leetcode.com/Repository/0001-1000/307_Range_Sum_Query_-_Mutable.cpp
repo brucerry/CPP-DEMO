@@ -8,45 +8,52 @@ using namespace std;
 
 class NumArray {
 public:
-  NumArray(vector<int>& nums) : n(nums.size()) {
-    segmentTree.resize(n);
-    segmentTree.insert(segmentTree.end(), nums.begin(), nums.end());
-    for (int i = n - 1; i; i--)
-      segmentTree[i] = segmentTree[i << 1] + segmentTree[(i << 1) + 1];
-  }
-  
-  void update(int index, int val) {
-    index += n;
-    segmentTree[index] = val;
-    while (index) {
-      int l = index, r = index;
-      if (index & 1)
-        l = index - 1;
-      else
-        r = index + 1;
-      segmentTree[index >> 1] = segmentTree[l] + segmentTree[r];
-      index >>= 1;
+    NumArray(vector<int>& nums) {
+        int n = nums.size();
+        this->nums = nums;
+        fenwick.resize(n + 1);
+        for (int i = 0; i < n; i++) {
+            init_fenwick(i + 1);
+        }
     }
-  }
-  
-  int sumRange(int left, int right) {
-    left += n;
-    right += n;
-    int sum = 0;
-    while (left <= right) {
-      if (left & 1)
-        sum += segmentTree[left++];
-      if ((right & 1) == 0)
-        sum += segmentTree[right--];
-      left >>= 1;
-      right >>= 1;
+    
+    void update(int index, int val) {
+        int diff = val - nums[index];
+        nums[index] = val;
+        index++;
+        while (index < fenwick.size()) {
+            fenwick[index] += diff;
+            index += lowbit(index);
+        }
     }
-    return sum;
-  }
-  
+    
+    int sumRange(int left, int right) {
+        return sum(right + 1) - sum(left);
+    }
+
 private:
-  int n;
-  vector<int> segmentTree;
+    vector<int> nums, fenwick;
+
+    int lowbit(int x) {
+        return x & (-x);
+    }
+
+    void init_fenwick(int f) {
+        int val = nums[f-1];
+        while (f < fenwick.size()) {
+            fenwick[f] += val;
+            f += lowbit(f);
+        }
+    }
+
+    int sum(int f) {
+        int res = 0;
+        while (f > 0) {
+            res += fenwick[f];
+            f -= lowbit(f);
+        }
+        return res;
+    }
 };
 
 /**
