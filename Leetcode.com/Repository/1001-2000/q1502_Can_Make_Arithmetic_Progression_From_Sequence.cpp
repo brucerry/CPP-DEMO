@@ -2,58 +2,37 @@
 
 #include <vector>
 #include <unordered_set>
-#include <algorithm>
 using namespace std;
-
-// time: O(n * log(n))
-// space: O(log(n)) for sorting
-class Sort {
-public:
-  bool canMakeArithmeticProgression(vector<int>& arr) {
-    sort(arr.begin(), arr.end());
-    for (int i = 2; i < arr.size(); i++) {
-      if (arr[i-2] - arr[i-1] != arr[i-1] - arr[i])
-        return false;
-    }
-    return true;
-  }
-};
 
 // time: O(n)
 // space: O(n)
-class Set {
+
+class Solution {
 public:
-  bool canMakeArithmeticProgression(vector<int>& arr) {
-    unordered_set<int> numSet;
-    int first_min = INT_MAX, second_min = INT_MAX;
-    bool hasSame = false;
-    
-    for (const int& num : arr) {
-      if (numSet.count(num))
-        hasSame = true;
-      numSet.insert(num);
-      
-      if (num <= first_min) {
-        second_min = first_min;
-        first_min = num;
-      }
-      else if (num <= second_min)
-        second_min = num;
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        int min1 = INT_MAX, min2 = INT_MAX;
+        for (int num : arr) {
+            if (num < min1) {
+                min2 = min1;
+                min1 = num;
+            }
+            else if (num < min2) {
+                min2 = num;
+            }
+        }
+
+        int diff = min2 - min1;
+        unordered_set<int> numset (arr.begin(), arr.end());
+
+        if (numset.size() < arr.size())
+            return diff == 0 and numset.size() == 1;
+
+        int match = 1;
+        while (numset.count(min1 + diff)) {
+            match++;
+            min1 += diff;
+        }
+
+        return match == arr.size();
     }
-    
-    int diff = second_min - first_min;
-    if (diff == 0 and numSet.size() == 1)
-      return true;
-    
-    if (hasSame)
-      return false;
-    
-    for (int cur = first_min, i = 0; i < arr.size() - 1; i++) {
-      if (numSet.count(cur + diff) == 0)
-        return false;
-      cur += diff;
-    }
-    
-    return true;
-  }
 };
