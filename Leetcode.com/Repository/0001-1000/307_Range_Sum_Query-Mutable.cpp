@@ -3,7 +3,7 @@
 #include <vector>
 using namespace std;
 
-// time: O(n) for constructor, O(log(n)) for update() and sumRange()
+// time: O(n * log(n)) for constructor, O(log(n)) for update() and sumRange()
 // space: O(n)
 
 class NumArray {
