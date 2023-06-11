@@ -1,35 +1,33 @@
 // https://leetcode.com/problems/snapshot-array/
 
 #include <unordered_map>
+#include <map>
 using namespace std;
 
-// time: O(n) for snap(), O(1) for set() & get()
+// time: set & get - O(log(n)), snap - O(1)
 // space: O(n)
 
 class SnapshotArray {
 public:
-  SnapshotArray(int length) : snapCount(0) {
+    unordered_map<int, map<int, int>> cache; // index, { id, val }
+    int id = 0;
+
+    SnapshotArray(int length) {
+        
+    }
     
-  }
-  
-  void set(int index, int val) {
-    m_IndexRecord[index] = val;
-  }
-  
-  int snap() {
-    m_SnapRecord[snapCount] = m_IndexRecord;
-    snapCount++;
-    return snapCount - 1;
-  }
-  
-  int get(int index, int snap_id) {
-    return m_SnapRecord[snap_id][index];
-  }
-  
-private:  
-  int snapCount;
-  unordered_map<int, int> m_IndexRecord; // index, value
-  unordered_map<int, unordered_map<int, int>> m_SnapRecord; // snap_id, m_IndexRecord
+    void set(int index, int val) {
+        cache[index][id] = val;
+    }
+    
+    int snap() {
+        return id++;
+    }
+    
+    int get(int index, int snap_id) {
+        auto it = cache[index].upper_bound(snap_id);
+        return it == cache[index].begin() ? 0 : prev(it)->second;
+    }
 };
 
 /**
