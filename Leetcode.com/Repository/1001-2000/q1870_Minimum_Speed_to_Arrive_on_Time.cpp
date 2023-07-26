@@ -3,37 +3,32 @@
 #include <vector>
 using namespace std;
 
-// time: O(n * log(max(dist) * 100))
+// time: O(n * log(1e7))
 // space: O(1)
 
 class Solution {
 public:
-  int minSpeedOnTime(vector<int>& dist, double hour) {
-    int l = 1, r = 0;
-    for (int i = 0; i < dist.size(); i++) {
-      if (i >= hour)
-        return -1;
-      r = max(r, dist[i] * 100);
+    int minSpeedOnTime(vector<int>& dist, double hour) {
+        if (dist.size() - 1 >= hour)
+            return -1;
+
+        int l = 1, r = 1e7;
+        while (l < r) {
+            int m = (l + r) / 2;
+            if (solve(dist, hour, m))
+                r = m;
+            else
+                l = m + 1;
+        }
+        return r;
     }
-    
-    while (l < r) {
-      int m = l + ((r - l) >> 1);
-      if (isOnTime(dist, hour, m))
-        r = m;
-      else
-        l = m + 1;
-    }
-    return r;
-  }
-  
+
 private:
-  bool isOnTime(vector<int>& dist, double hour, int speed) {
-    double need = 0;
-    int n = dist.size();
-    for (int i = 0; i < n; i++) {
-      double h = (double)dist[i] / speed;
-      need += i == n - 1 ? h : ceil(h);
+    bool solve(vector<int>& dist, double hour, int test_speed) {
+        double need = 0;
+        for (int i = 0; i < dist.size() - 1; i++) {
+            need += (dist[i] + test_speed - 1) / test_speed;
+        }
+        return need + (double)dist.back() / test_speed <= hour;
     }
-    return need <= hour;
-  }
 };
