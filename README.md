@@ -1,12 +1,8 @@
-# CPP-DEMO
-
-<p>:pencil2: Welcome to my C++ study room
-  
-<p>:partying_face: It's pleasure to have your advice on any of my coding style, program design, algorithms and technical skills for better behaviour :rocket::rocket:
+# C/C++
 
 <!-- ![image](https://user-images.githubusercontent.com/88369201/151703000-87c9ad11-f48f-4c3a-a571-fd696d432ef1.png) -->
 ![5986024](https://user-images.githubusercontent.com/88369201/152857966-676dc147-b380-4cac-87d6-d752c3f19fcc.png)
 
-## Repo Status
-  - Updated from Leetcode Weekly Contest
-  - Updated from Leetcode Daily Challenge
+## Status
+  - Updates from Leetcode Weekly Contest
+  - Updates from Leetcode Daily Challenge
