@@ -2,7 +2,6 @@
 
 #include <vector>
 #include <string>
-#include <unordered_map>
 using namespace std;
 
 // time: O(4^n)
@@ -10,38 +9,27 @@ using namespace std;
 
 class Solution {
 public:
-  vector<string> letterCombinations(string& digits) {
-    unordered_map<char, string> numMap {
-      { '2', "abc"  },
-      { '3', "def"  },
-      { '4', "ghi"  },
-      { '5', "jkl"  },
-      { '6', "mno"  },
-      { '7', "pqrs" },
-      { '8', "tuv"  },
-      { '9', "wxyz" },
-    };
-    
-    vector<string> solution;
-    string comb;
-    solve(digits, solution, comb, numMap, 0);
-    return solution;
-  }
-  
+    vector<string> letterCombinations(string digits) {
+        if (digits.size() == 0)
+            return {};
+        string strings[] = { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+        vector<string> res;
+        string state;
+        solve(digits, strings, res, state, 0);
+        return res;
+    }
+
 private:
-  void solve(string& digits, vector<string>& solution, string& comb, unordered_map<char, string>& numMap, int i) {
-    if (digits.length() == 0)
-      return;
-    
-    if (i == digits.length()) {
-      solution.emplace_back(comb);
-      return;
+    void solve(string& digits, string* strings, vector<string>& res, string& state, int i) {
+        if (state.size() == digits.size()) {
+            res.emplace_back(state);
+            return;
+        }
+
+        for (char c : strings[digits[i] - '0']) {
+            state += c;
+            solve(digits, strings, res, state, i + 1);
+            state.pop_back();
+        }
     }
-    
-    for (const char& letter : numMap[digits[i]]) {
-      comb += letter;
-      solve(digits, solution, comb, numMap, i + 1);
-      comb.pop_back();
-    }
-  }
 };
