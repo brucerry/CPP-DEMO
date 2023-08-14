@@ -2,25 +2,22 @@
 
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 // time: O(n * log(k))
 // space: O(k)
-class kCapacityMinHeap {
+class Solution {
 public:
-  int findKthLargest(vector<int>& nums, int k) {
-    priority_queue<int, vector<int>, greater<>> minHeap;
-    for (const int& num : nums) {
-      if (minHeap.size() < k) {
-        minHeap.emplace(num);
-      }
-      else if (num > minHeap.top()) {
-        minHeap.pop();
-        minHeap.emplace(num);
-      }
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int, vector<int>, greater<>> minheap;
+        for (int num : nums) {
+            minheap.emplace(num);
+            if (minheap.size() > k)
+                minheap.pop();
+        }
+        return minheap.top();
     }
-    return minHeap.top();
-  }
 };
 
 // time: average = O(n), worst = O(n^2)
@@ -51,4 +48,13 @@ private:
     
     return nums[p];
   }
+};
+
+// Quick select with STL
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        nth_element(nums.begin(), nums.begin() + k - 1, nums.end(), greater<>());
+        return nums[k-1];
+    }
 };
