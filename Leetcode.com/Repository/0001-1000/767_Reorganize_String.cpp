@@ -2,46 +2,44 @@
 
 #include <string>
 #include <array>
-#include <queue>
 using namespace std;
 
-// time: O(26 * log(26)) -> O(1)
-// space: O(26) -> O(1)
+// time: O(n)
+// space: O(1)
 
 class Solution {
 public:
-  string reorganizeString(string& s) {    
-    array<int, 26> charCount { 0 };
-    for (const char& c : s)
-      charCount[c - 'a']++;
-    
-    priority_queue<pair<int, char>> maxHeap; // count, char
-    for (int i = 0; i < 26; i++) {
-      if (charCount[i])
-        maxHeap.emplace(charCount[i], i + 'a');
+    string reorganizeString(string s) {
+        int n = s.size();
+        int count[26] {}, max_count = 0, max_ch = 0;
+        for (char c : s) {
+            if (max_count < ++count[c - 'a']) {
+                max_count = count[c - 'a'];
+                max_ch = c;
+            }
+        }
+
+        if (max_count > (n + 1) / 2)
+            return "";
+
+        string res (n, '.');
+        int i = 0;
+        while (count[max_ch - 'a']) {
+            res[i] = max_ch;
+            count[max_ch - 'a']--;
+            i += 2;
+        }
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            while (count[c - 'a']) {
+                if (i >= n)
+                    i = 1;
+                res[i] = c;
+                i += 2;
+                count[c - 'a']--;
+            }
+        }
+
+        return res;
     }
-    
-    string result;
-    pair<int, char> prev { 0, 0 }; // count, char
-    while (maxHeap.size() or prev.first) {
-      if (maxHeap.size() == 0)
-        return "";
-      
-      auto [ count, c ] = maxHeap.top();
-      maxHeap.pop();
-      
-      result += c;
-      count--;
-      
-      if (prev.first) {
-        maxHeap.emplace(prev);
-        prev = { 0, 0 };
-      }
-      
-      if (count)
-        prev = { count, c };
-    }
-    
-    return result;
-  }
 };
