@@ -25,7 +25,7 @@ private:
         bool& res = memo[cur][jump] = false;
         for (int next = cur + 1; next < stones.size(); next++) {
             int diff = stones[next] - stones[cur];
-            if (jump - 1 == diff or jump == diff or jump + 1 == diff)
+            if (abs(jump - diff) <= 1)
                 res = res or solve(stones, memo, next, diff);
         }
         return res;
