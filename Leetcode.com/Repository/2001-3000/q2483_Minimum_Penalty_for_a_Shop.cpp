@@ -1,37 +1,25 @@
 // https://leetcode.com/problems/minimum-penalty-for-a-shop/
 
 #include <string>
+#include <algorithm>
 using namespace std;
 
 // time: O(n)
-// space: O(n)
+// space: O(1)
 
 class Solution {
 public:
-  int bestClosingTime(string customers) {
-    int n = customers.size();
-
-    int dp[100001] {};
-    for (int i = 0; i < n; i++) {
-      if (customers[i] == 'N')
-        dp[n]++;
+    int bestClosingTime(string cust) {
+        int n = cust.size();
+        int cur = count(cust.begin(), cust.end(), 'N');
+        int res = n, cost = cur;
+        for (int i = n - 1; i >= 0; i--) {
+            cur += cust[i] == 'Y' ? 1 : -1;
+            if (cur <= cost) {
+                cost = cur;
+                res = i;
+            }
+        }
+        return res;
     }
-
-    for (int i = n - 1; i >= 0; i--) {
-      if (customers[i] == 'Y')
-        dp[i] = dp[i+1] + 1;
-      else
-        dp[i] = dp[i+1] - 1;
-    }
-    
-    int res = n, cost = n;
-    for (int i = 0; i <= n; i++) {
-      if (dp[i] < cost) {
-        cost = dp[i];
-        res = i;
-      }
-    }
-    
-    return res;
-  }
 };
