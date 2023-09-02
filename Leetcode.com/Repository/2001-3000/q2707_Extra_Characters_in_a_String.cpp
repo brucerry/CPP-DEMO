@@ -7,35 +7,22 @@ using namespace std;
 // s = size of s
 // d = size of dict
 // w = size of dict[i]
-// time: O(s * s * d * w)
+// time: O(s * d * w)
 // space: O(s)
 
 class Solution {
 public:
-    int minExtraChar(string s, vector<string>& dict) {
+    int minExtraChar(string s, vector<string>& dictionary) {
         int n = s.size();
-        vector<int> memo (n);
-        int max_match = solve(s, dict, memo, 0);
-        return n - max_match;
-    }
-
-private:
-    int solve(string& s, vector<string>& dict, vector<int>& memo, int start) {
-        if (start >= s.size())
-            return 0;
-        
-        int& res = memo[start];
-        if (res)
-            return res;
-        
-        for (int i = start; i < s.size(); i++) {
-            for (string& word : dict) {
+        vector<int> dp (n + 1);
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i] = dp[i+1] + 1;
+            for (string& word : dictionary) {
                 if (s.compare(i, word.size(), word) == 0) {
-                    res = max(res, (int)word.size() + solve(s, dict, memo, i + word.size()));
+                    dp[i] = min(dp[i], dp[i + word.size()]);
                 }
             }
         }
-        
-        return res;
+        return dp[0];
     }
 };
