@@ -24,13 +24,12 @@ public:
     }
 
 private:
-    array<int, 2> solve(TreeNode* node, int& res) {
-        if (!node)
+    array<int, 2> solve(TreeNode* cur, int& res) {
+        if (!cur)
             return { -1, -1 };
-        auto [ a, left_right ] = solve(node->left, res);
-        auto [ right_left, b ] = solve(node->right, res);
-        int maxpath = max(left_right, right_left) + 1;
-        res = max(res, maxpath);
+        auto [ a, left_right ] = solve(cur->left, res);
+        auto [ right_left, b ] = solve(cur->right, res);
+        res = max(res, max(left_right, right_left) + 1);
         return { left_right + 1, right_left + 1 };
     }
 };

@@ -8,12 +8,12 @@ using namespace std;
 
 class Solution {
 public:
-  bool isMonotonic(vector<int>& nums) {
-    bool inc = true, dec = true;
-    for (int i = 1; i < nums.size(); i++) {
-      inc &= nums[i-1] <= nums[i];
-      dec &= dec and nums[i-1] >= nums[i];
+    bool isMonotonic(vector<int>& nums) {
+        int inc = 1, dec = 1;
+        for (int i = 1; i < nums.size(); i++) {
+            inc &= nums[i-1] <= nums[i];
+            dec &= nums[i-1] >= nums[i];
+        }
+        return inc or dec;
     }
-    return inc or dec;
-  }
 };

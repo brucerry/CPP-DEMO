@@ -9,18 +9,13 @@ using namespace std;
 
 class Solution {
 public:
-  string reverseWords(string& s) {
-    for (int i = 0; i < s.length(); i++) {
-      int end = s.find(' ', i);
-      if (end != string::npos) {
-        reverse(s.begin() + i, s.begin() + end);
-        i = end;
-      }
-      else {
-        reverse(s.begin() + i, s.end());
-        break;
-      }
+    string reverseWords(string s) {
+        for (int l = 0, r = 0; r <= s.size(); r++) {
+            if (s[r] == ' ' or s[r] == 0) {
+                reverse(s.begin() + l, s.begin() + r);
+                l = r + 1;
+            }
+        }
+        return s;
     }
-    return s;
-  }
 };
