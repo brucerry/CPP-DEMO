@@ -10,7 +10,7 @@ class Solution {
 public:
     int paintWalls(vector<int>& cost, vector<int>& time) {
         int n = cost.size();
-        vector<vector<int>> memo (n, vector<int>(n + 1, INT_MAX));
+        vector<vector<int>> memo (n + 1, vector<int>(n + 1, INT_MAX));
         return solve(cost, time, memo, 0, n);
     }
 
@@ -26,8 +26,8 @@ private:
         if (res != INT_MAX)
             return res;
 
-        res = min(res, solve(cost, time, memo, i + 1, walls));
-        res = min(res, cost[i] + solve(cost, time, memo, i + 1, walls - 1 - time[i]));
-        return res;
+        int skip = solve(cost, time, memo, i + 1, walls);
+        int paid = cost[i] + solve(cost, time, memo, i + 1, walls - 1 - time[i]);
+        return res = min(skip, paid);
     }
 };
