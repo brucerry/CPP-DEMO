@@ -9,17 +9,17 @@ using namespace std;
 class Solution {
 public:
     int getWinner(vector<int>& arr, int k) {
-        int n = arr.size(), win = 0, next = 1, count = 0;
-        while (win != next and count < k) {
-            if (arr[win] > arr[next]) {
-                next = (next + 1) % n;
-                count++;
-            }
-            else {
+        int n = arr.size();
+        int win = 0;
+        int next = 1;
+        int cnt = 0;
+        while (win != next and cnt < k) {
+            if (arr[win] < arr[next]) {
                 win = next;
-                next = (next + 1) % n;
-                count = 1;
+                cnt = 0;
             }
+            cnt++;
+            next = (next + 1) % n;
         }
         return arr[win];
     }
