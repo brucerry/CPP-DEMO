@@ -11,39 +11,40 @@ using namespace std;
 
 class Solution {
 public:
-  int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
-    unordered_map<int, vector<int>> umap; // stop id, { bus ids }
-    for (int busID = 0; busID < routes.size(); busID++) {
-      for (const int& stopID : routes[busID]) {
-        umap[stopID].emplace_back(busID);
-      }
-    }
-
-    queue<int> queue; // stop id
-    queue.emplace(source);
-
-    unordered_set<int> visited { source };
-
-    int buses = 0;
-    while (queue.size()) {
-      for (int size = queue.size(); size; size--) {
-        int stopID = queue.front();
-        queue.pop();
-        if (stopID == target)
-          return buses;
-        for (const int& busID : umap[stopID]) {
-          for (const int& stop : routes[busID]) {
-            if (visited.count(stop) == 0) {
-              visited.emplace(stop);
-              queue.emplace(stop);
+    int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
+        unordered_map<int, vector<int>> busID;
+        for (int busid = 0; busid < routes.size(); busid++) {
+            for (int stop : routes[busid]) {
+                busID[stop].emplace_back(busid);
             }
-          }
-          routes[busID].clear();
         }
-      }
-      buses++;
-    }
 
-    return -1;
-  }
+        queue<int> que;
+        que.emplace(source);
+
+        unordered_set<int> seen_stop { source }, seen_bus;
+
+        int res = 0;
+        while (que.size()) {
+            for (int size = que.size(); size; size--) {
+                int cur_stop = que.front();
+                que.pop();
+                if (cur_stop == target)
+                    return res;
+                for (int busid : busID[cur_stop]) {
+                    if (seen_bus.count(busid) == 0) {
+                        seen_bus.emplace(busid);
+                        for (int next_stop : routes[busid]) {
+                            if (seen_stop.count(next_stop) == 0) {
+                                seen_stop.emplace(next_stop);
+                                que.emplace(next_stop);
+                            }
+                        }
+                    }
+                }
+            }
+            res++;
+        }
+        return -1;
+    }
 };
