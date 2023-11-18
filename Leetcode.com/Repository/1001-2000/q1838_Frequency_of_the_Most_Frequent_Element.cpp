@@ -9,21 +9,17 @@ using namespace std;
 
 class Solution {
 public:
-  int maxFrequency(vector<int>& nums, int k) {
-    sort(nums.begin(), nums.end());
-    
-    unsigned long curSum = 0;
-    int maxFreq = 0;
-    int l = 0;
-    for (int r = 0; r < nums.size(); r++) {
-      curSum += nums[r];
-      while ((unsigned long)nums[r] * (r - l + 1) > curSum + k) {
-        curSum -= nums[l];
-        l++;
-      }
-      maxFreq = max(maxFreq, r - l + 1);
+    int maxFrequency(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int res = 0;
+        long cur = 0;
+        for (int l = 0, r = 0; r < nums.size(); r++) {
+            cur += nums[r];
+            while (1L * (r - l + 1) * nums[r] > cur + k) {
+                cur -= nums[l++];
+            }
+            res = max(res, r - l + 1);
+        }
+        return res;
     }
-    
-    return maxFreq;
-  }
 };
