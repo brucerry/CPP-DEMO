@@ -11,24 +11,20 @@ using namespace std;
 
 class Solution {
 public:
-  int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
-    int n = heights.size();
-    priority_queue<int, vector<int>, greater<>> minHeap; // bricks needed
-    
-    for (int i = 0; i < n - 1; i++) {
-      int cur = heights[i], next = heights[i+1];
-      int need = next - cur;
-      if (need > 0) {
-        minHeap.emplace(need);
-        if (minHeap.size() > ladders) {
-          bricks -= minHeap.top();
-          minHeap.pop();
-          if (bricks < 0)
-            return i;
+    int furthestBuilding(vector<int>& heights, int bricks, int ladders) {
+        int n = heights.size();
+        priority_queue<int, vector<int>, greater<>> minheap;
+        for (int i = 0; i < n - 1; i++) {
+            if (heights[i] < heights[i+1]) {
+                minheap.emplace(heights[i+1] - heights[i]);
+                if (minheap.size() > ladders) {
+                    bricks -= minheap.top();
+                    minheap.pop();
+                    if (bricks < 0)
+                        return i;
+                }
+            }
         }
-      }
+        return n - 1;
     }
-    
-    return n - 1;
-  }
 };
