@@ -2,57 +2,68 @@
 
 #include <vector>
 #include <unordered_map>
+#include <numeric>
 using namespace std;
 
 // time: O(n * sqrt(nums[i]))
 // space: O(n)
 
+struct UnionFind {
+    int group;
+    vector<int> parent;
+    vector<int> rank;
+
+    UnionFind(int n) : group (n), parent (n), rank (n, 1) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    bool unions(int node1, int node2) {
+        int par1 = find(node1);
+        int par2 = find(node2);
+        if (par1 == par2)
+            return false;
+        if (rank[par1] > rank[par2]) {
+            rank[par1] += rank[par2];
+            parent[par2] = par1;
+        }
+        else {
+            rank[par2] += rank[par1];
+            parent[par1] = par2;
+        }
+        group--;
+        return true;
+    }
+
+    int find(int node) {
+        return parent[node] == node ? node : parent[node] = find(parent[node]);
+    }
+};
+
 class Solution {
 public:
     bool canTraverseAllPairs(vector<int>& nums) {
         int n = nums.size();
-
-        vector<int> parent (n);
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
-
-        int groups = n;
-        unordered_map<int, int> umap; // prime factor, index
+        UnionFind uf (n);
+        unordered_map<int, int> index;
         for (int i = 0; i < n; i++) {
             int num = nums[i];
             for (int f = 2; f * f <= num; f++) {
                 if (num % f == 0) {
-                    if (umap.count(f))
-                        groups -= unionfind(parent, i, umap[f]);
+                    if (index.contains(f))
+                        uf.unions(i, index[f]);
                     else
-                        umap[f] = i;
+                        index[f] = i;
                     while (num % f == 0)
                         num /= f;
                 }
             }
             if (num > 1) {
-                if (umap.count(num))
-                    groups -= unionfind(parent, i, umap[num]);
+                if (index.contains(num))
+                    uf.unions(i, index[num]);
                 else
-                    umap[num] = i;
+                    index[num] = i;
             }
         }
-
-        return groups == 1;
-    }
-
-private:
-    int unionfind(vector<int>& parent, int n1, int n2) {
-        int p1 = find(parent, n1);
-        int p2 = find(parent, n2);
-        if (p1 == p2)
-            return 0;
-        parent[p1] = p2;
-        return 1;
-    }
-
-    int find(vector<int>& parent, int node) {
-        return parent[node] == node ? node : parent[node] = find(parent, parent[node]);
+        return uf.group == 1;
     }
 };
