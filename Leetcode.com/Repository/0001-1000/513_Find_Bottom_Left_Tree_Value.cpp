@@ -17,23 +17,18 @@ struct TreeNode {
 
 class Solution {
 public:
-  int findBottomLeftValue(TreeNode* root) {
-    queue<TreeNode*> queue;
-    queue.emplace(root);
-
-    int val = root->val;
-    while (queue.size()) {
-      TreeNode* node = queue.front();
-      queue.pop();
-
-      val = node->val;
-
-      if (node->right)
-        queue.emplace(node->right);
-      if (node->left)
-        queue.emplace(node->left);
+    int findBottomLeftValue(TreeNode* root) {
+        queue<TreeNode*> que;
+        que.emplace(root);
+        while (que.size()) {
+            TreeNode* cur = que.front();
+            que.pop();
+            root = cur;
+            if (cur->right)
+                que.emplace(cur->right);
+            if (cur->left)
+                que.emplace(cur->left);
+        }
+        return root->val;
     }
-
-    return val;
-  }
 };
