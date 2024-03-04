@@ -9,23 +9,22 @@ using namespace std;
 
 class Solution {
 public:
-  int bagOfTokensScore(vector<int>& tokens, int power) {
-    sort(tokens.begin(), tokens.end());
-    
-    int result = 0;
-    for (int n = tokens.size(), score = 0, l = 0, r = n - 1; l <= r; ) {
-      if (power >= tokens[l]) {
-        result = max(result, ++score);
-        power -= tokens[l++];
-      }
-      else if (score) {
-        score--;
-        power += tokens[r--];
-      }
-      else
-        break;
+    int bagOfTokensScore(vector<int>& tokens, int power) {
+        sort(tokens.begin(), tokens.end());
+        int res = 0;
+        int score = 0;
+        for (int l = 0, r = tokens.size() - 1; l <= r; ) {
+            if (power >= tokens[l]) {
+                power -= tokens[l++];
+                res = max(res, ++score);
+            }
+            else if (score) {
+                power += tokens[r--];
+                score--;
+            }
+            else
+                break;
+        }
+        return res;
     }
-    
-    return result;
-  }
 };
