@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/count-elements-with-maximum-frequency/
 
 #include <vector>
-#include <unordered_map>
 using namespace std;
 
 // time: O(n)
@@ -10,19 +9,14 @@ using namespace std;
 class Solution {
 public:
     int maxFrequencyElements(vector<int>& nums) {
-        unordered_map<int, int> cnt;
+        int res = 0, maxf = 0;
+        int cnt[101] {};
         for (int num : nums) {
-            cnt[num]++;
-        }
-        int maxf = 0, res = 0;
-        for (auto& [ _, f ] : cnt) {
-            if (f > maxf) {
-                res = f;
-                maxf = f;
-            }
-            else if (f == maxf) {
-                res += f;
-            }
+            ++cnt[num];
+            if (cnt[num] > maxf)
+                res = maxf = cnt[num];
+            else if (cnt[num] == maxf)
+                res += maxf;
         }
         return res;
     }
