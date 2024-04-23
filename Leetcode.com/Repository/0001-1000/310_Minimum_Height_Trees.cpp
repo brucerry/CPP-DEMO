@@ -8,37 +8,34 @@ using namespace std;
 
 class Solution {
 public:
-  vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
-    vector<int> parentCount (n);
-    vector<vector<int>> graph (n);
-    for (const auto& edge : edges) {
-      int node1 = edge[0];
-      int node2 = edge[1];
-      graph[node1].emplace_back(node2);
-      graph[node2].emplace_back(node1);
-      parentCount[node1]++;
-      parentCount[node2]++;
-    }
-    
-    vector<int> leaves;
-    for (int node = 0; node < n; node++) {
-      if (parentCount[node] == 0 or parentCount[node] == 1)
-        leaves.emplace_back(node);
-    }
-    
-    int remainNodes = n;
-    while (remainNodes > 2) {
-      vector<int> newLeaves;
-      for (const int& leave : leaves) {
-        for (const int& neighbor : graph[leave]) {
-          if (--parentCount[neighbor] == 1)
-            newLeaves.emplace_back(neighbor);
+    vector<int> findMinHeightTrees(int n, vector<vector<int>>& edges) {
+        vector<int> pcnt (n);
+        vector<vector<int>> graph (n);
+        for (auto& e : edges) {
+            graph[e[0]].emplace_back(e[1]);
+            graph[e[1]].emplace_back(e[0]);
+            ++pcnt[e[0]];
+            ++pcnt[e[1]];
         }
-      }
-      remainNodes -= leaves.size();
-      leaves = newLeaves;
+        vector<int> leaves;
+        for (int i = 0; i < n; i++) {
+            if (graph[i].size() <= 1)
+                leaves.emplace_back(i);
+        }
+        int remain = n;
+        vector<int> tmp;
+        while (remain > 2) {
+            tmp = {};
+            for (int l : leaves) {
+                for (int nei : graph[l]) {
+                    if (--pcnt[nei] == 1) {
+                        tmp.emplace_back(nei);
+                    }
+                }
+            }
+            remain -= leaves.size();
+            leaves = tmp;
+        }
+        return leaves;
     }
-    
-    return leaves;
-  }
 };
