@@ -3,36 +3,18 @@
 #include <string>
 using namespace std;
 
-// time: O(n * k)
-// space: O(26) => O(1)
-class SpaceOptimized {
+class Solution {
 public:
-  int longestIdealString(string& s, int k) {
-    int dp[26] {}, longest = 0;
-    for (const char& c : s) {
-      int len = 0;
-      for (int x = c - k; x <= c + k; x++) {
-        if (x - 'a' >= 0 and x - 'a' <= 25)
-          len = max(len, dp[x - 'a'] + 1);
-      }
-      longest = max(longest, dp[c - 'a'] = len);
+    int longestIdealString(string s, int k) {
+        int cnt[26] {};
+        int res = 0;
+        for (char c : s) {
+            for (int i = c - k; i <= c + k; i++) {
+                if ('a' <= i and i <= 'z')
+                    cnt[c-'a'] = max(cnt[c-'a'], cnt[i-'a']);
+            }
+            res = max(res, ++cnt[c-'a']);
+        }
+        return res;
     }
-    return longest;
-  }
-};
-
-// time: O(n * k)
-// space: O(150) => O(1)
-class UselessSpace {
-public:
-  int longestIdealString(string& s, int k) {
-    int dp[150] {}, longest = 0;
-    for (const char& c : s) {
-      int len = 0;
-      for (int x = c - k; x <= c + k; x++)
-        len = max(len, dp[x] + 1);
-      longest = max(longest, dp[c] = len);
-    }
-    return longest;
-  }
 };
