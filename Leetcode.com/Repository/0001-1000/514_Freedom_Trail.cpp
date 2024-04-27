@@ -11,33 +11,23 @@ using namespace std;
 
 class Solution {
 public:
-  int findRotateSteps(string& ring, string& key) {
-    vector<vector<int>> memo (ring.length(), vector<int>(key.length()));
-    return solve(ring, key, 0, 0, memo);
-  }
-  
-private:
-  int solve(string& ring, string& key, int r, int k, vector<vector<int>>& memo) {
-    if (k == key.length())
-      return 0;
-    
-    if (memo[r][k])
-      return memo[r][k];
-    
-    int ringLen = ring.length();
-    
-    int moveLeft = 0, moveRight = 0, i, j;
-    for (i = r; ring[i] != key[k]; i = (i - 1 + ringLen) % ringLen, moveLeft++);
-    for (j = r; ring[j] != key[k]; j = (j + 1) % ringLen, moveRight++);
-    
-    if (i == j)
-      memo[r][k] = 1 + min(moveLeft, moveRight) + solve(ring, key, i, k + 1, memo);
-    else {
-      int result1 = 1 + moveLeft + solve(ring, key, i, k + 1, memo);
-      int result2 = 1 + moveRight + solve(ring, key, j, k + 1, memo);
-      memo[r][k] = min(result1, result2);
+    int findRotateSteps(string ring, string key) {
+        vector<vector<int>> memo (ring.size(), vector<int>(key.size(), INT_MAX));
+        return solve(ring, key, 0, 0, memo);
     }
-    
-    return memo[r][k];
-  }
+
+    int solve(string& ring, string& key, int r, int k, vector<vector<int>>& memo) {
+        if (k == key.size())
+            return 0;
+        int& res = memo[r][k];
+        if (res != INT_MAX)
+            return res;
+        int lmove = 0, i;
+        for (i = r; ring[i] != key[k]; lmove++, i = (i - 1 + ring.size()) % ring.size());
+        int rmove = 0, j;
+        for (j = r; ring[j] != key[k]; rmove++, j = (j + 1 + ring.size()) % ring.size());
+        res = min(res, 1 + lmove + solve(ring, key, i, k + 1, memo));
+        res = min(res, 1 + rmove + solve(ring, key, j, k + 1, memo));
+        return res;
+    }
 };
