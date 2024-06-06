@@ -10,33 +10,26 @@ using namespace std;
 
 class Solution {
 public:
-  bool isPossibleDivide(vector<int>& nums, int k) {
-    if (nums.size() % k)
-      return false;
-    
-    unordered_map<int, int> numCount;
-    for (const int& num : nums)
-      numCount[num]++;
-    
-    priority_queue<int, vector<int>, greater<>> minHeap; // num
-    for (const auto& [ num, _ ] : numCount)
-      minHeap.emplace(num);
-    
-    while (minHeap.size()) {
-      int num = minHeap.top();
-      
-      for (int val = num; val < num + k; val++) {
-        if (numCount.count(val) == 0)
-          return false;
-        
-        if (--numCount[val] == 0) {
-          if (val != minHeap.top())
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        if (nums.size() % k)
             return false;
-          minHeap.pop();
+        unordered_map<int, int> cnt;
+        priority_queue<int, vector<int>, greater<>> minheap;
+        for (int num : nums) {
+            if (++cnt[num] == 1)
+                minheap.emplace(num);
         }
-      }
+        while (minheap.size()) {
+            for (int num = minheap.top(), last = num + k; num < last; ++num) {
+                if (!cnt.contains(num))
+                    return false;
+                if (--cnt[num] == 0) {
+                    if (minheap.top() != num)
+                        return false;
+                    minheap.pop();
+                }
+            }
+        }
+        return true;
     }
-    
-    return true;
-  }
 };
