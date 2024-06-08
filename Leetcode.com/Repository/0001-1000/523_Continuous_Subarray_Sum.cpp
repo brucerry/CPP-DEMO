@@ -9,18 +9,17 @@ using namespace std;
 
 class Solution {
 public:
-  bool checkSubarraySum(vector<int>& nums, int k) {
-    unordered_map<int, int> umap { // remainder, index
-      { 0, -1 }
-    };
-    for (int i = 0, curSum = 0; i < nums.size(); i++) {
-      curSum += nums[i];
-      int remain = curSum % k;
-      if (umap.count(remain) == 0)
-        umap[remain] = i;
-      else if (i - umap[remain] >= 2)
-        return true;
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> idx;
+        idx[0] = -1;
+        int cur = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            cur += nums[i];
+            if (idx.contains(cur % k) == 0)
+                idx[cur % k] = i;
+            else if (i - idx[cur % k] >= 2)
+                return true;
+        }
+        return false;
     }
-    return false;
-  }
 };
