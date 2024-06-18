@@ -11,22 +11,19 @@ using namespace std;
 
 class Solution {
 public:
-  int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-    map<int, int> map; // difficulty[i], profit[i]
-    for (int i = 0; i < difficulty.size(); i++) {
-      map[difficulty[i]] = max(map[difficulty[i]], profit[i]);
+    int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+        map<int, int> pt;
+        for (int i = 0; i < profit.size(); i++) {
+            pt[difficulty[i]] = max(pt[difficulty[i]], profit[i]);
+        }
+        int prev = 0;
+        for (auto& [ _, p ] : pt) {
+            prev = p = max(prev, p);
+        }
+        int res = 0;
+        for (int w : worker) {
+            res += (--pt.upper_bound(w))->second;
+        }
+        return res;
     }
-
-    for (auto it = ++map.begin(); it != map.end(); it++) {
-      it->second = max(it->second, prev(it)->second);
-    }
-
-    int result = 0;
-    for (const int& ability : worker) {
-      auto it = map.upper_bound(ability);
-      result += it == map.begin() ? 0 : prev(it)->second;
-    }
-
-    return result;
-  }
 };
