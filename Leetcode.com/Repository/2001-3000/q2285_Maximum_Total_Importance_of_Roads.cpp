@@ -9,21 +9,17 @@ using namespace std;
 
 class Solution {
 public:
-  long long maximumImportance(int n, vector<vector<int>>& roads) {
-    vector<int> numberOfNeighbors (n);
-    for (const auto& road : roads) {
-      int u = road[0], v = road[1];
-      numberOfNeighbors[u]++;
-      numberOfNeighbors[v]++;
+    long long maximumImportance(int n, vector<vector<int>>& roads) {
+        vector<int> cnt (n);
+        for (auto& r : roads) {
+            ++cnt[r[0]];
+            ++cnt[r[1]];
+        }
+        sort(cnt.begin(), cnt.end());
+        long res = 0;
+        for (int i = 0; i < n; i++) {
+            res += 1L * (i + 1) * cnt[i];
+        }
+        return res;
     }
-    sort(numberOfNeighbors.begin(), numberOfNeighbors.end());
-
-    long result = 0;
-    while (n) {
-      result += (long)n * numberOfNeighbors[n-1];
-      n--;
-    }
-
-    return result;
-  }
 };
